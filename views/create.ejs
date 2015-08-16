@@ -1,0 +1,212 @@
+<html>
+<head>
+    <meta charset="utf-8">
+
+    <title>Mockbin by Mashape</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/css/bootstrap.min.css" media="all">
+    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600|Source+Code+Pro:200,300,400,500,600,700,900" media="all">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" media="all">
+    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css" media="all">
+    <link rel="stylesheet" type="text/css" href="/css/main.css" media="all">
+
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
+    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.2.0/ZeroClipboard.min.js"></script>
+
+</head>
+
+<body>
+
+<nav class="navbar navbar-default">
+    <div class="container">
+        <div class="navbar-header">
+            <button type="button" data-toggle="collapse" data-target="#navbar" class="navbar-toggle collapsed">
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+                <span class="icon-bar"></span>
+            </button>
+            <div class="navbar-brand"><a href="/">Mocklr</a>
+            </div>
+        </div>
+        <div id="navbar" class="collapse navbar-collapse">
+            <ul class="nav navbar-nav navbar-right">
+                <li><a href="/mock/create">Create Mocklr</a>
+                </li>
+                <li><a href="https://github.com/Mashape/mockbin/tree/master/docs">Docs</a>
+                </li>
+                <li><a href="https://github.com/Mashape/mockbin">Github</a>
+                </li>
+            </ul>
+        </div>
+    </div>
+</nav>
+
+<div data-page="bin/create" class="container">
+    <div class="panel panel-default">
+        <div class="panel-heading">
+            <h4>Http Request Builder</h4>
+        </div>
+        <div class="panel-body">
+            <div class="row">
+
+                <div class="col-sm-6">
+
+
+                    <form name="method">
+                        <h4>Method</h4>
+                        <div class="form-group">
+                            <div class="input-group multi">
+                                <select name="method" class="form-control" style="width:200px;">
+                                    <option value="GET" selected>GET</option>
+                                    <option value="POST">POST</option>
+                                </select>
+                            </div>
+                        </div>
+                    </form>
+
+                    <form name="url">
+                        <h4>URL</h4>
+                        <div class="form-group">
+                            <div class="multi">
+                                <input name="url" value="" placeholder="http://localhost:8080/" required="true" class="form-control" style="width:439px;">
+                            </div>
+                        </div>
+                    </form>
+
+                    <form name="queryString" class="form-inline">
+                        <h4>QueryString</h4>
+                        <div class="form-group pair">
+                            <div class="input-group multi">
+                                <span class="input-group-addon">Query &nbsp;</span>
+                                <input type="text" name="name" placeholder="name" required="" class="form-control">
+                                <input type="text" name="value" placeholder="value" class="form-control">
+                                <span class="input-group-btn">
+                                    <button type="button" tabindex="-1" class="btn btn-success">
+                                        <i class="glyphicon glyphicon-plus"></i>
+                                    </button>
+                                    <button type="button" tabindex="-1" class="btn btn-danger">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+
+                    <form name="headers" class="form-inline">
+                        <h4>Headers</h4>
+                        <div class="form-group pair">
+                            <div class="input-group multi">
+                                <span class="input-group-addon">Header</span>
+                                <input type="text" name="name" value="Content-Type" placeholder="name" required="" class="form-control">
+                                <input type="text" name="value" value="application/json" placeholder="value" class="form-control">
+                                    <span class="input-group-btn">
+                                        <button type="button" tabindex="-1" class="btn btn-success">
+                                            <i class="glyphicon glyphicon-plus"></i>
+                                        </button>
+                                        <button type="button" tabindex="-1" class="btn btn-danger">
+                                            <i class="glyphicon glyphicon-remove"></i>
+                                        </button>
+                                    </span>
+                            </div>
+                        </div>
+                        <div class="form-group pair">
+                            <div class="input-group multi">
+                                <span class="input-group-addon">Header</span>
+                                <input type="text" name="name" placeholder="name" required="" class="form-control">
+                                <input type="text" name="value" placeholder="value" class="form-control">
+                                <span class="input-group-btn">
+                                    <button type="button" tabindex="-1" class="btn btn-success">
+                                        <i class="glyphicon glyphicon-plus"></i>
+                                    </button>
+                                    <button type="button" tabindex="-1" class="btn btn-danger">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+
+
+                    <form name="cookies" class="form-inline">
+                        <h4>Cookies</h4>
+                        <div class="form-group pair">
+                            <div class="input-group multi">
+                                <span class="input-group-addon">Cookie</span>
+                                <input type="text" name="name" placeholder="name" required="" class="form-control">
+                                <input type="text" name="value" placeholder="value" class="form-control">
+                                <span class="input-group-btn">
+                                    <button type="button" tabindex="-1" class="btn btn-success">
+                                        <i class="glyphicon glyphicon-plus"></i>
+                                    </button>
+                                    <button type="button" tabindex="-1" class="btn btn-danger">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+
+                    <form name="postData-params" class="form-inline">
+                        <h4>PostData params</h4>
+                        <div class="form-group">
+                            <select name="mimeType" class="form-control" style="width:200px;">
+                                <option value="application/x-www-form-urlencoded">x-www-form-urlencoded</option>
+                                <option value="multipart//form-data">form-data</option>
+                                <option value="application/json">application/json</option>
+                            </select>
+                        </div>
+                        <div class="form-group pair">
+                            <div class="input-group multi">
+                                <span class="input-group-addon">Param</span>
+                                <input type="text" name="name" placeholder="name" required="" class="form-control">
+                                <input type="text" name="value" placeholder="value" class="form-control">
+                                <span class="input-group-btn">
+                                    <button type="button" tabindex="-1" class="btn btn-success">
+                                        <i class="glyphicon glyphicon-plus"></i>
+                                    </button>
+                                    <button type="button" tabindex="-1" class="btn btn-danger">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+
+
+                </div>
+                <div class="col-sm-6">
+                    <h4>Preview</h4>
+                    <div id="preview"><pre><code class="hljs json"></code></pre>
+                    </div>
+                </div>
+            </div>
+
+
+
+        </div>
+        <div class="panel-footer">
+            <div class="row">
+
+
+                <div class="col-sm-3">
+
+                    <input type="hidden" name="response" value="">
+                    <a id="submitBtn" type="submit" class="btn btn-primary btn-block" href="javascript:void(0)">Create Http Request</a>
+
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+
+<div id="codeArea" class="container">
+
+</div>
+
+<script type="text/javascript" src="/js/create.js"></script>
+
+</body>
+
+</html>
