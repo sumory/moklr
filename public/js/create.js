@@ -31,9 +31,30 @@
             $('select[name="method"]').on('change',function(e) {
                 if($(this).val()=='GET'){
                     $("form[name=postData-params]").hide();
+                    $('div[id=for-post-header]').remove();
                 }else if($(this).val()=='POST'){
                     $("form[name=postData-params]").show();
+
+                    var toAddForPost ='<div class="form-group pair" id="for-post-header">';
+                    toAddForPost +='<div class="input-group multi">';
+                    toAddForPost +='<span class="input-group-addon">Header</span>';
+                    toAddForPost +='<input type="text" name="name" value="Content-type" placeholder="name" required="" class="form-control">';
+                    toAddForPost +='<input type="text" name="value" value="application/x-www-form-urlencoded" placeholder="value" class="form-control">';
+                    toAddForPost +=' <span class="input-group-btn">';
+                    toAddForPost +='<button type="button" tabindex="-1" class="btn btn-success">';
+                    toAddForPost +='<i class="glyphicon glyphicon-plus"></i>';
+                    toAddForPost +='</button>';
+                    toAddForPost +=' <button type="button" tabindex="-1" class="btn btn-danger">';
+                    toAddForPost +='<i class="glyphicon glyphicon-remove"></i>';
+                    toAddForPost +='</button>';
+                    toAddForPost +='</span>';
+                    toAddForPost +='</div>';
+                    toAddForPost +='</div>';
+                    $('form[name=headers] h4').after( toAddForPost);
                 }
+
+
+
 
                 _this.processFormData();
             });
