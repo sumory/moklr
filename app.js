@@ -17,8 +17,8 @@ app.use(express.static(config.staticPath));
 app.use(log4js.connectLogger(logger, {
     level: "auto"
 }));
-
-app.use(bodyParser());
+app.use(bodyParser.urlencoded({extended: true}));
+app.use(bodyParser.json());
 app.use(methodOverride());
 
 route(app); //加载routes
@@ -44,29 +44,6 @@ app.use(function (err, req, res, next) {
         msg: "服务端发生异常"
     });
 });
-
-
-///~+=========
-var HTTPSnippet = require('httpsnippet')
-// useful to get info in the view
-var namedTargets = HTTPSnippet.availableTargets().reduce(function (targets, target) {
-    if (target.clients) {
-        targets[target.key] = target
-
-        targets[target.key].clients = target.clients.reduce(function (clients, client) {
-            clients[client.key] = client
-            return clients
-        }, {})
-    } else {
-        targets[target.key] = target
-    }
-
-    return targets
-}, {})
-app.locals.HTTPSnippet = HTTPSnippet
-app.locals.namedTargets = namedTargets
-app.locals.ObjectKeys = Object.keys;
-///~----------
 
 
 var server = require('http').Server(app);

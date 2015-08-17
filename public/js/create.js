@@ -1,187 +1,419 @@
-$(function() {
+(function(L) {
+    var _this = null;
+    L.Common = L.Common || {};
+    _this = L.Common = {
+        data : {
+            codes:{},
+            selectedL:'python',
+            selectedLL:'requests'
+        },
+        init : function() {
+            //点击“加号“添加新的输入行
+            $('form').on('click', '.form-group.pair:last-of-type .btn-success', _this.addKeyPair);
 
-    $('select[name="method"]').on('change', function(e) {
+            //点击最后一个输入行时添加一个新的输入行
+            $('form').on('focus', '.form-group.pair:last-child input', _this.addKeyPair);
 
-        if($(this).val()=='GET'){
-            console.log('GET');
-            $("form[name=postData-params]").hide()
-        }else if($(this).val()=='POST'){
-            console.log('POST');
-            $("form[name=postData-params]").show()
-        }
+            //删除输入行
+            $('form').on('click', '.form-group.pair .btn-danger', function(event) {
+                $(this).parents('.form-group').remove();//删除本行输入
+                _this.rebuildUrl();//重新构建url
+                _this.processFormData();
+            });
 
-        processFormData()
-    });
+            //所有输入框事件
+            $('form[name!=url]').on('keyup keypress change blur', '.form-control', function(event){
+                _this.rebuildUrl();
+                _this.processFormData();
+            });
 
-    var addKeyPair = function(event) {
-        var self = $(this);
+            //方法下拉框事件
+            $('select[name="method"]').on('change',function(e) {
+                if($(this).val()=='GET'){
+                    $("form[name=postData-params]").hide();
+                }else if($(this).val()=='POST'){
+                    $("form[name=postData-params]").show();
+                }
 
-        var group = self.parents('.form-group');
-        var form = self.parents('form');
+                _this.processFormData();
+            });
 
-        group.clone().appendTo(form)
-    };
+            //QueryString的各个输入框的监控事件
+            $('form[name=queryString]').on('keyup keypress change blur', '.form-control', function(e){
+                _this.rebuildUrl();
+                _this.processFormData();
+            });
 
-    var processFormData = function(isSubmit) {
-        var isGet =true;
-        if($('select[name="method"]').val()=='GET'){
-            isGet =true;
-            $("form[name=postData-params]").hide()
-        }else if($('select[name="method"]').val()=='POST'){
-            isGet =false;
-            $("form[name=postData-params]").show();
-        }
-
-
-        var url =$("input[name=url]").val();
-        if(isSubmit&&(url=='' || url.indexOf('http')==-1 )){
-            alert("url不能为空");
-            return;
-        }
+            //url输入框的监控事件
+            $("body").on('keyup keypress change blur', 'input[name=url]', function(){
+                _this.rebuildQueryString();//重新构建QueryString的一坨输入框
+                _this.processFormData();
+            });
 
 
-        var response = {//初始化
-            method: 'GET',
-            url: '',
-            httpVersion: 'HTTP/1.1',
-            queryString: [],
-            headers: [],
-            cookies: [],
-            postData: {
-                mimeType: 'application/x-www-form-urlencoded',
-                params: []
+            $("#submitBtn").click(function(){
+                _this.processFormData(true);
+                return false;
+            });
+
+            $("#downloadCodeBtn").click(function(){
+                _this.downloadCode();
+            });
+
+            $("body").on("click",".code-select-li", function(){
+                var k1 = $(this).attr('data-k1');
+                var k2 = $(this).attr('data-k2');
+                _this.selectCode(k1,k2);
+            });
+
+
+            //var myURL = parseURL('http://sumory.com:80/test/index.xyz?name=s&age=18#abc');
+            //console.dir(myURL)
+
+        },
+
+        addKeyPair : function(event) {
+            var self = $(this);
+            var group = self.parents('.form-group');
+            var newGroup = group.clone();
+            newGroup.find('input[name=name]').val('');
+            newGroup.find('input[name=value]').val('');
+            var form = self.parents('form');
+            newGroup.appendTo(form);
+        },
+
+        processFormData : function(isSubmit) {
+            var isGet = true;
+            var methodInput = $('select[name="method"]').val();
+            if (methodInput == 'GET') {
+                isGet = true;
+                $("form[name=postData-params]").hide();
+            } else if (methodInput == 'POST') {
+                isGet = false;
+                $("form[name=postData-params]").show();
             }
-        };
 
 
-        var forms = [{
-            form: 'method',
-            parent: response
-        }, {
-            form: 'url',
-            parent: response
-        }];
+            var url = $("input[name=url]").val();
+            if (isSubmit && (url == '' || url.indexOf('http') == -1 )) {
+                alert("url不能为空");
+                return;
+            }
 
-        forms.forEach(function(item) {
-            $('form[name="' + item.form + '"] div.form-group:not(.pair) .form-control').each(function() {
-                var self = $(this);
-
-                item.parent[self.attr('name')] = self.val();
-            })
-        });
-
-        var groups = ['queryString', 'headers', 'cookies'];
-
-        groups.forEach(function(pair) {
-            var params = [];
-
-            $('form[name="' + pair + '"] .pair input[name="name"]').slice(0, -1).each(function(index, header) {
-                var value = $(header).val();
-
-                if (value.trim() !== '') {
-                    params.push({
-                        name: value
-                    })
+            var response = {//初始化
+                method: 'GET',
+                url: '',
+                httpVersion: 'HTTP/1.1',
+                queryString: [],
+                headers: [],
+                cookies: [],
+                postData: {
+                    mimeType: 'application/x-www-form-urlencoded',
+                    params: []
                 }
+            };
+
+            var forms = [{
+                form: 'method',
+                parent: response
+            }, {
+                form: 'url',
+                parent: response
+            }];
+
+            forms.forEach(function (item) {
+                $('form[name="' + item.form + '"] div.form-group:not(.pair) .form-control').each(function () {
+                    var self = $(this);
+                    item.parent[self.attr('name')] = self.val();
+                })
             });
 
-            $('form[name="' + pair + '"] .pair input[name="value"]').slice(0, -1).each(function(index, header) {
-                if (params[index]) {
-                    params[index].value = $(header).val()
-                }
-            });
+            var groups = ['queryString', 'headers', 'cookies'];
+            groups.forEach(function (pair) {
+                var params = [];
+                $('form[name="' + pair + '"] .pair input[name="name"]').slice(0, -1).each(function (index, header) {
+                    var value = $(header).val();
 
-            response[pair] = params
-        });
+                    if (value.trim() !== '') {
+                        var v = $(this).next().val();//获取兄弟节点即value节点
 
-
-        if(isGet){
-            delete response.postData;
-        }else{
-            var postData = 'postData-params';
-            var postDataParams = [];
-
-            $('form[name="' + postData + '"] .pair input[name="name"]').slice(0, -1).each(function(index, header) {
-                var value = $(header).val();
-
-                if (value.trim() !== '') {
-                    postDataParams.push({
-                        name: value
-                    })
-                }
-            });
-
-            $('form[name="' + postData + '"] .pair input[name="value"]').slice(0, -1).each(function(index, header) {
-                if (postDataParams[index]) {
-                    postDataParams[index].value = $(header).val()
-                }
-            })
-
-            response['postData'].mimeType =$("select[name=mimeType]").val();
-            response['postData'].params = postDataParams;
-        }
-
-        $('input[name="response"]').val(JSON.stringify(response));
-        $('pre code').text(JSON.stringify(response, null, 2));
-
-        hljs.highlightBlock($('pre code')[0]);
-
-        if(isSubmit){
-            $.ajax({
-                type : "POST",  //提交方式
-                url : "/mock/create",//路径
-                data : {
-                    "response" : $('input[name="response"]').val()
-                },
-                success : function(result) {//返回数据根据结果进行相应的处理
-                    if ( result.success ) {
-                        //window.location.href="/mock/"+result.data.id+"/view"
-
-                        $.ajax({
-                            type : "GET",  //提交方式
-                            url : "/mock/gen",//路径
-                            data : {
-                                "uuid" : result.data.id
-                            },
-                            success : function(result) {//返回数据根据结果进行相应的处理
-                                console.dir(result)
-
-                                $('pre code').append('\n')
-                                $('pre code').append(JSON.stringify(result.output, null, 2));
-
-                                hljs.highlightBlock($('pre code')[0]);
-                            }
+                        params.push({
+                            name: value,
+                            value: v
                         });
-
-                    } else {
-                        alert("提交失败");
                     }
+                });
+                response[pair] = params;
+            });
+
+
+            if (isGet) {
+                delete response.postData;
+            } else {
+                var postData = 'postData-params';
+                var postDataParams = [];
+
+                $('form[name="' + postData + '"] .pair input[name="name"]').slice(0, -1).each(function (index, header) {
+                    var value = $(header).val();
+
+                    if (value.trim() !== '') {
+                        postDataParams.push({
+                            name: value
+                        });
+                    }
+                });
+
+                $('form[name="' + postData + '"] .pair input[name="value"]').slice(0, -1).each(function (index, header) {
+                    if (postDataParams[index]) {
+                        postDataParams[index].value = $(header).val()
+                    }
+                });
+
+                response['postData'].mimeType = $("select[name=mimeType]").val();
+                response['postData'].params = postDataParams;
+            }
+
+            $('#preview pre code').text(JSON.stringify(response, null, 2));
+            _this.highlightCode();
+
+            if (isSubmit) {
+                $("#codeArea").hide();
+                $("#preview_code pre code").empty();
+                $("#selectedLanguage").text("");
+
+                $.ajax({
+                    type: "POST",  //提交方式
+                    url: "/mock/create",//路径
+                    dataType: "json",
+                    data: {
+                        "response": JSON.stringify(response, null, 2)
+                    },
+                    success: function (result) {//返回数据根据结果进行相应的处理
+                        if (result.success) {
+                            $("#codeArea").show();
+                            $.ajax({
+                                type: "GET",  //提交方式
+                                url: "/mock/gen",//路径
+                                data: {
+                                    "uuid": result.data.id
+                                },
+                                success: function (result) {//返回数据根据结果进行相应的处理
+                                    _this.data.codes = result.output;
+                                    _this.initCodes(result.output);
+                                }
+                            });
+
+                        } else {
+                            $("#codeArea").hide();
+                            alert("提交失败");
+                        }
+                    }
+                });
+            }
+        },
+
+
+        initCodes : function(codes){
+            $("#lDropdownList").html("");
+            Object.keys(codes).forEach(function(k){
+                var l = k;
+                var ll = codes[k];
+                Object.keys(ll).forEach(function(kk){
+                    var name = k+"-"+kk;
+                    $("#lDropdownList").append('<li id="li_' +name+ '"><a href="javascript:void(0)" class="code-select-li" data-k1="' + k+ '" data-k2="' +kk+ '">' + name+ '</a></li>')
+                });
+            });
+
+            try{
+               _this.selectCode("python","requests");
+            }catch(e){
+                console.error(e);
+            }
+        },
+
+        selectCode: function(k1,k2){
+            console.log("show code:", k1, k2);
+            _this.data.selectedL=k1;
+            _this.data.selectedLL=k2;
+            $("#selectedLanguage").text("【" + k1 +"】 "+k2);
+            $("#preview_code pre code").html(_this.data.codes[k1][k2]);
+            _this.highlightCode();
+
+        },
+
+        highlightCode : function (){
+            $('pre code').each(function(){
+                hljs.highlightBlock($(this)[0]);
+            });
+        },
+
+        downloadCode: function(){
+            var l = _this.data.selectedL;
+            var ll = _this.data.selectedLL;
+            if(!l || !ll ){
+                alert("请选择具体语言");
+                return;
+            }
+            var suffix = '.txt';
+
+            switch (l){
+                case "python":
+                    suffix = '.py';
+                    break;
+                case "java":
+                    suffix = ".java";
+                    break;
+                case "go":
+                    suffix = ".go";
+                    break;
+                case "php":
+                    suffix=".php";
+                    break;
+                case "shell":
+                    suffix = ".sh";
+                    break;
+                case "ruby":
+                    suffix = ".rb";
+                    break;
+                case "node":
+                    suffix = ".js";
+                    break;
+                case "javascript":
+                    suffix = ".js";
+                    break;
+                case "csharp":
+                    suffix = ".cs";
+                    break;
+            }
+
+            if(_this.data.codes && _this.data.codes[l] && _this.data.codes[l][ll]){
+                var code = _this.data.codes[l][ll];
+                var blob = new Blob([code], {type: "text/plain;charset=utf-8"});
+                saveAs(blob, l+suffix);
+            }else{
+                alert("没有任何代码可供下载");
+                return;
+            }
+
+        },
+
+        parseURL : function (url) {
+            var a = document.createElement('a');
+            a.href = url;
+            return {
+                source: url,
+                protocol: a.protocol.replace(':', ''),
+                host: a.hostname,
+                port: a.port,
+                query: a.search,
+                params: (function () {
+                    var ret = {},
+                        seg = a.search.replace(/^\?/, '').split('&'),
+                        len = seg.length,
+                        i = 0,
+                        s;
+                    for (; i < len; i++) {
+                        if (!seg[i]) {
+                            continue;
+                        }
+                        s = seg[i].split('=');
+                        ret[s[0]] = s[1];
+                    }
+                    return ret;
+                })(),
+                file: (a.pathname.match(/\/([^\/?#]+)$/i) || [, ''])[1],
+                hash: a.hash.replace('#', ''),
+                path: a.pathname.replace(/^([^\/])/, '/$1'),
+                relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [, ''])[1],
+                segments: a.pathname.replace(/^\//, '').split('/')
+            };
+        },
+
+        rebuildUrl : function (){
+            var url = $("input[name=url]").val();
+
+            var query="";
+            $('form[name=queryString] .pair input[name="name"]').slice(0, -1).each(function(index, header) {
+                var name = $(header).val();
+
+                if (name.trim() !== '') {
+                    var value = $(this).next().val();//获取兄弟节点即value节点
+                    query+=""+name+"="+value+"&";
                 }
             });
+
+            if(query && query.lastIndexOf("&")==query.length-1){
+                query = query.substring(0, query.length-1);
+            }
+
+            var left ='';
+            if(url.indexOf("?")!=-1)
+                left = url.substring(0, url.indexOf("?"));
+            else
+                left=url;
+
+            var r='';
+            if(query)
+                r= left+"?"+query;
+            else
+                r= left;
+            $("input[name=url]").val(r);
+        },
+
+        //重新构建QueryString的多个输入框
+        rebuildQueryString: function (){
+            var url = $("input[name=url]").val();
+            var params = _this.parseURL(url).params;
+            $("form[name=queryString]").html('<h4>QueryString</h4>');
+
+            if(Object.keys(params).length==0){//没有参数，则初始化一个空行
+                var node="";
+                node += '<div class="form-group pair">';
+                node += '<div class="input-group multi">';
+                node += '<span class="input-group-addon">Query &nbsp;</span>';
+                node += '<input type="text" name="name" value="" placeholder="name" required="" class="form-control">';
+                node += '<input type="text" name="value" value="" placeholder="value" class="form-control">';
+                node += '<span class="input-group-btn">';
+                node += '<button type="button" tabindex="-1" class="btn btn-success">';
+                node += '<i class="glyphicon glyphicon-plus"></i>';
+                node += '</button>';
+                node += '<button type="button" tabindex="-1" class="btn btn-danger">';
+                node += '<i class="glyphicon glyphicon-remove"></i>';
+                node += '</button>';
+                node += '</span>';
+                node += '</div>';
+                node += '</div>';
+
+                $("form[name=queryString]").append(node);
+            }
+            else{
+                Object.keys(params).forEach(function(k){
+                    var node ="";
+
+                    if(k && params[k]) {
+                        node += '<div class="form-group pair">';
+                        node += '<div class="input-group multi">';
+                        node += '<span class="input-group-addon">Query &nbsp;</span>';
+                        node += '<input type="text" name="name" value="' + k + '" placeholder="name" required="" class="form-control">';
+                        node += '<input type="text" name="value" value="' + (params[k] ? params[k] : "") + '" placeholder="value" class="form-control">';
+                        node += '<span class="input-group-btn">';
+                        node += '<button type="button" tabindex="-1" class="btn btn-success">';
+                        node += '<i class="glyphicon glyphicon-plus"></i>';
+                        node += '</button>';
+                        node += '<button type="button" tabindex="-1" class="btn btn-danger">';
+                        node += '<i class="glyphicon glyphicon-remove"></i>';
+                        node += '</button>';
+                        node += '</span>';
+                        node += '</div>';
+                        node += '</div>';
+
+                        $("form[name=queryString]").append(node);
+                    }
+                });
+
+                //点击最后一行，触发产生一个新的空输入行
+                $('form[name=queryString] .form-group.pair:last-of-type .btn-success').click();
+            }
         }
     };
-
-
-
-    $('form').on('click', '.form-group.pair:last-of-type .btn-success', addKeyPair);
-
-    $('form').on('focus', '.form-group.pair:last-child input', addKeyPair);
-
-    $('form').on('click', '.form-group.pair .btn-danger', function(event) {
-        $(this).parents('.form-group').remove()
-    });
-
-    $('form').on('keyup keypress change blur', '.form-control', function(){
-        processFormData();
-    });
-
-
-    $("#submitBtn").click(function(){
-        processFormData(true);
-        return false;
-    });
-
-    $(document).ready(function() {
-        processFormData()
-    })
-});
+}(Moklr));

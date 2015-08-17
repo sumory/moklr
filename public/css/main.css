@@ -139,61 +139,36 @@ code, kbd, pre, samp {
     background-color: #FFFFFF;
 }
 
-div[data-page="bin/create"] .form-inline .form-group {
+div[data-page="moklr"] .form-inline .form-group {
     margin-bottom: 15px;
 }
 
-div[data-page="bin/create"] .input-group.multi > .form-control {
+div[data-page="moklr"] .input-group.multi > .form-control {
     width: 50%;
 }
 
-div[data-page="bin/create"] .input-group.multi > .form-control:last-of-type {
+div[data-page="moklr"] .input-group.multi > .form-control:last-of-type {
     margin-left: -1px;
 }
 
-div[data-page="bin/create"] .pair:last-of-type .btn-danger {
+div[data-page="moklr"] .pair:last-of-type .btn-danger {
     display: none;
 }
 
-div[data-page="bin/create"] .pair .btn-success {
+div[data-page="moklr"] .pair .btn-success {
     border-top-right-radius: 4px !important;
     border-bottom-right-radius: 4px !important;
 }
 
-div[data-page="bin/create"] .pair:not(:last-of-type) .btn-success {
+div[data-page="moklr"] .pair:not(:last-of-type) .btn-success {
     display: none;
 }
 
-div[data-page="bin/create"] code {
+div[data-page="moklr"] code {
     min-height: 400px;
 }
 
-div[data-page="bin/view"] .btn-block {
-    text-align: left;
-}
 
-div[data-page="bin/log"] h3 {
-    margin-top: 0;
-}
-
-div[data-page="bin/log"] pre {
-    height: 500px;
-
-    overflow: auto;
-}
-
-div[data-page="bin/log"] tr[data-id] td {
-    cursor: pointer;
-    font-family: 'Source Code Pro', Menlo, Monaco, Consolas, 'Courier New', monospace;
-}
-
-div[data-page="bin/log"] tr.data td {
-    display: none;
-}
-
-div[data-page="bin/log"] tr.data:target td {
-    display: table-cell;
-}
 
 .table {
     table-layout: fixed;
@@ -212,4 +187,17 @@ div[data-page="bin/log"] tr.data:target td {
 
 span.input-group-btn button.btn{
     height:34px;
+}
+
+
+#preview_code{
+    margin-top:20px;
+}
+
+#codeArea{
+    display:none;
+}
+
+form[name=postData-params]{
+    display:none;
 }

@@ -2,18 +2,16 @@
 <head>
     <meta charset="utf-8">
 
-    <title>Mockbin by Mashape</title>
+    <title>Moklr - Mock http request for several languages</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/css/bootstrap.min.css" media="all">
-    <link rel="stylesheet" type="text/css" href="https://fonts.googleapis.com/css?family=Open+Sans:400,600|Source+Code+Pro:200,300,400,500,600,700,900" media="all">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/font-awesome/4.3.0/css/font-awesome.css" media="all">
-    <link rel="stylesheet" type="text/css" href="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/styles/github.min.css" media="all">
+    <link rel="stylesheet" type="text/css" href="/css/bootstrap-3.3.5.min.css" media="all">
+    <link rel="stylesheet" type="text/css" href="/css/highlight-8.4-github.min.css" media="all">
     <link rel="stylesheet" type="text/css" href="/css/main.css" media="all">
 
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/jquery/2.1.3/jquery.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/twitter-bootstrap/3.3.4/js/bootstrap.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/highlight.js/8.4/highlight.min.js"></script>
-    <script type="text/javascript" src="https://cdnjs.cloudflare.com/ajax/libs/zeroclipboard/2.2.0/ZeroClipboard.min.js"></script>
+    <script type="text/javascript" src="/js/jquery-2.1.4.min.js"></script>
+    <script type="text/javascript" src="/js/bootstrap-3.3.5.min.js"></script>
+    <script type="text/javascript" src="/js/highlight-8.4.min.js"></script>
+    <script type="text/javascript" src="/js/FileSaver.min.js"></script>
 
 </head>
 
@@ -34,16 +32,16 @@
             <ul class="nav navbar-nav navbar-right">
                 <li><a href="/mock/create">Create Mocklr</a>
                 </li>
-                <li><a href="https://github.com/Mashape/mockbin/tree/master/docs">Docs</a>
+                <li><a href="/help">help</a>
                 </li>
-                <li><a href="https://github.com/Mashape/mockbin">Github</a>
+                <li><a href="https://github.com/sumory/moklr">Github</a>
                 </li>
             </ul>
         </div>
     </div>
 </nav>
 
-<div data-page="bin/create" class="container">
+<div data-page="moklr" class="container">
     <div class="panel panel-default">
         <div class="panel-heading">
             <h4>Http Request Builder</h4>
@@ -70,7 +68,7 @@
                         <h4>URL</h4>
                         <div class="form-group">
                             <div class="multi">
-                                <input name="url" value="" placeholder="http://localhost:8080/" required="true" class="form-control" style="width:439px;">
+                                <input name="url" value="http://sumory.com" placeholder="http://sumory.com/" required="true" class="form-control" style="width:100%;">
                             </div>
                         </div>
                     </form>
@@ -94,13 +92,40 @@
                         </div>
                     </form>
 
+                    <form name="postData-params" class="form-inline">
+                        <h4>PostData</h4>
+                        <div class="form-group">
+                            <select name="mimeType" class="form-control" style="width:200px;">
+                                <option value="application/x-www-form-urlencoded">x-www-form-urlencoded</option>
+                                <option value="multipart//form-data">form-data</option>
+                                <option value="application/json">application/json</option>
+                            </select>
+                        </div>
+                        <div class="form-group pair">
+                            <div class="input-group multi">
+                                <span class="input-group-addon">Param</span>
+                                <input type="text" name="name" placeholder="name" required="" class="form-control">
+                                <input type="text" name="value" placeholder="value" class="form-control">
+                                <span class="input-group-btn">
+                                    <button type="button" tabindex="-1" class="btn btn-success">
+                                        <i class="glyphicon glyphicon-plus"></i>
+                                    </button>
+                                    <button type="button" tabindex="-1" class="btn btn-danger">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </button>
+                                </span>
+                            </div>
+                        </div>
+                    </form>
+
+
                     <form name="headers" class="form-inline">
                         <h4>Headers</h4>
                         <div class="form-group pair">
                             <div class="input-group multi">
                                 <span class="input-group-addon">Header</span>
                                 <input type="text" name="name" value="Content-Type" placeholder="name" required="" class="form-control">
-                                <input type="text" name="value" value="application/json" placeholder="value" class="form-control">
+                                <input type="text" name="value" value="application/json;charset=utf-8" placeholder="value" class="form-control">
                                     <span class="input-group-btn">
                                         <button type="button" tabindex="-1" class="btn btn-success">
                                             <i class="glyphicon glyphicon-plus"></i>
@@ -148,31 +173,6 @@
                         </div>
                     </form>
 
-                    <form name="postData-params" class="form-inline">
-                        <h4>PostData params</h4>
-                        <div class="form-group">
-                            <select name="mimeType" class="form-control" style="width:200px;">
-                                <option value="application/x-www-form-urlencoded">x-www-form-urlencoded</option>
-                                <option value="multipart//form-data">form-data</option>
-                                <option value="application/json">application/json</option>
-                            </select>
-                        </div>
-                        <div class="form-group pair">
-                            <div class="input-group multi">
-                                <span class="input-group-addon">Param</span>
-                                <input type="text" name="name" placeholder="name" required="" class="form-control">
-                                <input type="text" name="value" placeholder="value" class="form-control">
-                                <span class="input-group-btn">
-                                    <button type="button" tabindex="-1" class="btn btn-success">
-                                        <i class="glyphicon glyphicon-plus"></i>
-                                    </button>
-                                    <button type="button" tabindex="-1" class="btn btn-danger">
-                                        <i class="glyphicon glyphicon-remove"></i>
-                                    </button>
-                                </span>
-                            </div>
-                        </div>
-                    </form>
 
 
                 </div>
@@ -183,18 +183,17 @@
                 </div>
             </div>
 
-
-
         </div>
         <div class="panel-footer">
             <div class="row">
-
-
                 <div class="col-sm-3">
-
-                    <input type="hidden" name="response" value="">
-                    <a id="submitBtn" type="submit" class="btn btn-primary btn-block" href="javascript:void(0)">Create Http Request</a>
-
+                    <a id="submitBtn" type="submit" class="btn btn-primary btn-block" href="javascript:void(0)">Create Moklr</a>
+                </div>
+                <!--<div class="col-sm-3">-->
+                    <!--<a id="sendRequestBtn" type="submit" class="btn btn-primary btn-block" href="javascript:void(0)">Send Request</a>-->
+                <!--</div>-->
+                <div class="col-sm-3">
+                    <a id="downloadCodeBtn" type="submit" class="btn btn-primary btn-block" href="javascript:void(0)">Download Code</a>
                 </div>
             </div>
         </div>
@@ -202,11 +201,31 @@
 </div>
 
 <div id="codeArea" class="container">
+    <p>
+        <div class="dropdown" style="display: inline-block">
+            <button class="btn btn-default dropdown-toggle" type="button" id="lDropdownMenu" data-toggle="dropdown" aria-haspopup="true" aria-expanded="true">
+                Language
+                <span class="caret"></span>
+            </button>
+            <ul class="dropdown-menu" id="lDropdownList">
+            </ul>
+        </div>
+        <span id="selectedLanguage"></span>
+    </p>
 
+    <div id="preview_code"><pre><code></code></pre></div>
 </div>
 
+<script type="text/javascript" src="/js/common.js"></script>
 <script type="text/javascript" src="/js/create.js"></script>
 
-</body>
+<script>
+    $(document).ready(function() {
+        Moklr.Common.init();
+        Moklr.Common.processFormData();
+    });
 
+</script>
+
+</body>
 </html>

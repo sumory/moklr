@@ -3,8 +3,21 @@ var router = express.Router();
 var redis = require("../lib/redisUtils.js");
 var uuid = require('node-uuid');
 var HTTPSnippet = require('httpsnippet');
-var unirest = require('unirest');
 var util = require("util");
+var logger = require('../lib/log.js').logger('mock');
+
+var availableTargets = HTTPSnippet.availableTargets().reduce(function (targets, target) {
+    if (target.clients) {
+        targets[target.key] = target.clients.reduce(function (clients, client) {
+            clients[client.key] = false;
+            return clients
+        }, {})
+    } else {
+        targets[target.key] = false;
+    }
+
+    return targets
+}, {});
 
 router.get('/create', function (req, res, next) {
     res.render('create');
@@ -15,7 +28,7 @@ router.post('/create', function (req, res, next) {
 
     var id = uuid.v4();
     redis.set('bin:' + id, mock, function (err, reply) {
-        console.log(err, reply)
+        console.log("save moklr", err, reply)
     });
 
     return res.json({
@@ -30,10 +43,10 @@ router.get('/:uuid/view', function (req, res, next) {
     redis.get('bin:' + req.params.uuid, function (err, value) {
         if (err) {
             return res.render('error', {
-                msg: "找不到bin"
+                msg: "找不到moklr"
             });
         }
-        console.log(value)
+
         if (value) {
             console.log("view:");
             console.log(JSON.parse(value));
@@ -42,7 +55,6 @@ router.get('/:uuid/view', function (req, res, next) {
                 body: JSON.parse(value)
             });
         }
-
     })
 });
 
@@ -100,23 +112,10 @@ router.get('/:uuid/sample', function (req, res, next) {
     });
 });
 
+
 router.get('/', function (req, res, next) {
-    res.send('mock');
+    res.send('hello, this is moklr...');
 });
-
-
-var availableTargets = HTTPSnippet.availableTargets().reduce(function (targets, target) {
-    if (target.clients) {
-        targets[target.key] = target.clients.reduce(function (clients, client) {
-            clients[client.key] = false;
-            return clients
-        }, {})
-    } else {
-        targets[target.key] = false;
-    }
-
-    return targets
-}, {});
 
 router.get('/gen', function (req, res, next) {
     var uuid = decodeURIComponent(req.query.uuid);
@@ -186,7 +185,6 @@ router.get('/gen', function (req, res, next) {
                 return next(new Error('JSON.parse error'));
             }
         }
-        console.log(tmp)
         //response = { method: 'GET',
         //    url: 'http://sumory.com',
         //    httpVersion: 'HTTP/1.1',
@@ -200,19 +198,14 @@ router.get('/gen', function (req, res, next) {
             return next(new Error('HTTPSnippet constructor error'));
         }
 
-        console.log("snippet", snippet);
-
         Object.keys(requestedTargets).map(function (target) {
             if (typeof requestedTargets[target] === 'object') {
-
-                console.log("target:", target);
                 output[target] = {};
-
                 return Object.keys(requestedTargets[target]).map(function (client) {
                     try {
                         output[target][client] = snippet.convert(target, client);
                     } catch (e) {
-                        console.error(target, client, e)
+                        console.error(target, client, e);
                     }
                 });
             }
@@ -221,16 +214,13 @@ router.get('/gen', function (req, res, next) {
         });
 
         if (Object.keys(output).length === 0) {
-            return next(new Error('Invalid Targets'))
+            return next(new Error('Invalid Targets'));
         }
 
        // console.log(output);
         return res.json({
             output: output
         });
-        //return res.render("code",{
-        //    output:output
-        //})
     });
 });
 
