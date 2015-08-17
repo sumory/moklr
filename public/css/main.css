@@ -6,8 +6,6 @@
 body {
     color: #36434C;
     font-family: 'Open Sans', helvetica, sans-serif;
-
-    padding-bottom: 40px;
 }
 
 code, kbd, pre, samp {
@@ -200,4 +198,9 @@ span.input-group-btn button.btn{
 
 form[name=postData-params]{
     display:none;
+}
+
+.navbar{
+    margin-bottom:0px;
+    margin-top:40px;
 }
