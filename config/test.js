@@ -8,8 +8,8 @@ module.exports = {
     staticPath: 'public',//静态资源目录
     uploadDir:'public/uploads',//"/data/tmp/moka/",注意：要首先建立该文件夹，并做好权限
 
-    env: 'dev',
-    logfile: path.join(__dirname, '/dmdata/logs/moklr.log'),
+    env: 'test',
+    logfile:'/dmdata/logs/moklr.log',
 
 
     //mysql config
