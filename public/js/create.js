@@ -53,9 +53,22 @@
                     $('form[name=headers] h4').after( toAddForPost);
                 }
 
+                _this.processFormData();
+            });
 
+            //post类型下拉框事件
+            $("select[name=postData-mimeType]").on('change', function(e){
+                var thisValue = $(this).val();
+                if(thisValue === 'application/x-www-form-urlencoded' || thisValue === "multipart/form-data"){
+                    $("#postData-params").show();
+                    $("#postData-text").hide();
+                }else if(thisValue === 'application/json'){
+                    $("#postData-params").hide();
+                    $("#postData-text").show();
+                }
 
-
+                //将header头的content-type设为变化后的值
+                $("#for-post-header input[name=value]").val(thisValue);
                 _this.processFormData();
             });
 
@@ -69,6 +82,11 @@
             $("body").on('keyup keypress change blur', 'input[name=url]', function(){
                 _this.rebuildQueryString();//重新构建QueryString的一坨输入框
                 _this.processFormData();
+            });
+
+            //textarea监控事件
+            $("body").on("keyup keypress change blur", 'textarea', function(){
+               _this.processFormData();
             });
 
 
@@ -130,7 +148,8 @@
                 cookies: [],
                 postData: {
                     mimeType: 'application/x-www-form-urlencoded',
-                    params: []
+                    params: [],//application/x-www-form-urlencoded或form-data时使用
+                    text:''//application/json时使用
                 }
             };
 
@@ -167,31 +186,53 @@
                 response[pair] = params;
             });
 
-
+            //组装postData
             if (isGet) {
                 delete response.postData;
             } else {
-                var postData = 'postData-params';
-                var postDataParams = [];
+                var mimeType=$("select[name=postData-mimeType]").val();
 
-                $('form[name="' + postData + '"] .pair input[name="name"]').slice(0, -1).each(function (index, header) {
-                    var value = $(header).val();
+                if(mimeType === 'application/x-www-form-urlencoded' || mimeType === "multipart/form-data"){
+                    var postData = 'postData-params';
+                    var postDataParams = [];
+                    delete response.postData.text;
 
-                    if (value.trim() !== '') {
-                        postDataParams.push({
-                            name: value
-                        });
+                    $('form[name="' + postData + '"] .pair input[name="name"]').slice(0, -1).each(function (index, header) {
+                        var value = $(header).val();
+
+                        if (value.trim() !== '') {
+                            postDataParams.push({
+                                name: value
+                            });
+                        }
+                    });
+
+                    $('form[name="' + postData + '"] .pair input[name="value"]').slice(0, -1).each(function (index, header) {
+                        if (postDataParams[index]) {
+                            postDataParams[index].value = $(header).val()
+                        }
+                    });
+
+                    if(postDataParams.length==0){
+                        delete response.postData;
+                    }else{
+                        response['postData'].mimeType = mimeType;
+                        response['postData'].params = postDataParams;
                     }
-                });
-
-                $('form[name="' + postData + '"] .pair input[name="value"]').slice(0, -1).each(function (index, header) {
-                    if (postDataParams[index]) {
-                        postDataParams[index].value = $(header).val()
+                }else if(mimeType === 'application/json'){
+                    delete response.postData.params;
+                    response['postData'].mimeType = mimeType;
+                    try{
+                        var tmp =$("#postData-text textarea").val().replace(/\n/g,"");
+                        var postDataText = JSON.parse( JSON.stringify(tmp));
+                        response['postData'].text =postDataText;
                     }
-                });
-
-                response['postData'].mimeType = $("select[name=mimeType]").val();
-                response['postData'].params = postDataParams;
+                    catch(e){
+                        console.error(e);
+                        $("#postData-text span").text("输入的数据须为json类型");
+                        response['postData'].text ={};
+                    }
+                }
             }
 
             $('#preview pre code').text(JSON.stringify(response, null, 2));

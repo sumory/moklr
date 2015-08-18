@@ -1,6 +1,6 @@
 <html>
 <head>
-    <meta charset="utf-8">
+    <meta http-equiv="content-type" content="text/html;charset=utf-8">
 
     <title>Moklr - Mock http request for several languages</title>
     <meta name="viewport" content="width=device-width, initial-scale=1, maximum-scale=1, user-scalable=no">
@@ -95,13 +95,17 @@
                     <form name="postData-params" class="form-inline">
                         <h4>PostData</h4>
                         <div class="form-group">
-                            <select name="mimeType" class="form-control" style="width:200px;">
+                            <select name="postData-mimeType" class="form-control" style="width:200px;">
                                 <option value="application/x-www-form-urlencoded">x-www-form-urlencoded</option>
-                                <option value="multipart//form-data">form-data</option>
+                                <option value="multipart/form-data">multipart/form-data</option>
                                 <option value="application/json">application/json</option>
                             </select>
                         </div>
-                        <div class="form-group pair">
+                        <div class="form-group" id="postData-text" style="width:100%; display:none;">
+                            <textarea class="form-control" rows="5" style="width:100%;"></textarea>
+                            <span>必须为严格的json格式，key需用双引号包裹</span>
+                        </div>
+                        <div class="form-group pair" id="postData-params" style="display:block;">
                             <div class="input-group multi">
                                 <span class="input-group-addon">Param</span>
                                 <input type="text" name="name" placeholder="name" required="" class="form-control">
@@ -116,6 +120,7 @@
                                 </span>
                             </div>
                         </div>
+
                     </form>
 
 
@@ -226,7 +231,7 @@
                     <a href="/">
                         <strong>Moklr</strong>
                     </a>
-                    <small class="text-muted">is written by <a href="https://www.sumory.com">sumory</a> with ❤️</small>
+                    <small class="text-muted">is written by <a href="https://www.sumory.com">sumory</a> with <span class="glyphicon glyphicon-heart"></span>️</small>
                 </div>
             </div>
 
