@@ -261,8 +261,8 @@
                     delete response.postData.params;
                     response['postData'].mimeType = mimeType;
                     try{
-                        var tmp =$("#postData-text textarea").val().replace(/\n/g,"");
-                        var postDataText = JSON.parse( JSON.stringify(tmp));
+                        var tmp =$("#postData-text textarea").val().replace(/\n/g,"").replace(/\t/g,"").replace(/\r\n/g,"");
+                        var postDataText = tmp;
                         response['postData'].text =postDataText;
                     }
                     catch(e){
