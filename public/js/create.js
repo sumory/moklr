@@ -123,7 +123,7 @@
                             }catch(e){
 
                             }
-                            $("#execArea pre code").text("//Http StatusCode:"+result.data.responseStatus+"\n\n"+body);
+                            $("#execArea pre code").text("//Http StatusCode:"+result.data.responseStatus + " @" +_this.formatDate(new Date())+"\n\n"+body);
                             _this.highlightCode();
                             delete result.data.body
                         } else {
@@ -525,6 +525,17 @@
                 //点击最后一行，触发产生一个新的空输入行
                 $('form[name=queryString] .form-group.pair:last-of-type .btn-success').click();
             }
+        },
+
+        formatDate : function(now) {
+            var year=now.getFullYear();
+            var month=now.getMonth()+1;
+            var date=now.getDate();
+            var hour=now.getHours();
+            var minute=now.getMinutes();
+            var second=now.getSeconds();
+            if(second<10) second="0"+second;
+            return year+"-"+month+"-"+date+" "+hour+":"+minute+":"+second;
         }
-    };
+};
 }(Moklr));
