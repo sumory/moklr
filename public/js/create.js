@@ -24,7 +24,7 @@
             //所有输入框事件
             $('form[name!=url]').on('keyup keypress change blur', '.form-control', function(event){
                 _this.rebuildUrl();
-                _this.processFormData();
+                //_this.processFormData();
             });
 
             //方法下拉框事件
@@ -75,25 +75,63 @@
             //QueryString的各个输入框的监控事件
             $('form[name=queryString]').on('keyup keypress change blur', '.form-control', function(e){
                 _this.rebuildUrl();
-                _this.processFormData();
+                //_this.processFormData();
             });
 
             //url输入框的监控事件
             $("body").on('keyup keypress change blur', 'input[name=url]', function(){
                 _this.rebuildQueryString();//重新构建QueryString的一坨输入框
-                _this.processFormData();
+                //_this.processFormData();
             });
 
             //textarea监控事件
             $("body").on("keyup keypress change blur", 'textarea', function(){
-               _this.processFormData();
+               //_this.processFormData();
             });
 
 
-            $("#submitBtn").click(function(){
+            $("#createBtn").click(function(){
                 $("#codeArea").show();
                 $("#execArea").hide();
-                _this.processFormData(true);
+
+                var url = $("input[name=url]").val();
+                if (url == '' || url.indexOf('http') == -1 ) {
+                    alert("url不能为空");
+                    return;
+                }
+                $("#codeArea").hide();
+                $("#preview_code pre code").empty();
+                $("#selectedLanguage").text("");
+
+                var har = _this.getHar();
+                $.ajax({
+                    type: "POST",  //提交方式
+                    url: "/mock/create",//路径
+                    dataType: "json",
+                    data: {
+                        "response": JSON.stringify(har)
+                    },
+                    success: function (result) {//返回数据根据结果进行相应的处理
+                        if (result.success) {
+                            $("#codeArea").show();
+                            $.ajax({
+                                type: "GET",  //提交方式
+                                url: "/mock/gen",//路径
+                                data: {
+                                    "uuid": result.data.id
+                                },
+                                success: function (result) {//返回数据根据结果进行相应的处理
+                                    _this.data.codes = result.output;
+                                    _this.initCodes(result.output);
+                                }
+                            });
+
+                        } else {
+                            $("#codeArea").hide();
+                            alert("提交失败");
+                        }
+                    }
+                });
                 return false;
             });
 
@@ -145,6 +183,11 @@
                 var k2 = $(this).attr('data-k2');
                 _this.selectCode(k1,k2);
             });
+
+
+            setInterval(function(){
+                _this.processFormData();
+            },1000);
 
 
             //var myURL = parseURL('http://sumory.com:80/test/index.xyz?name=s&age=18#abc');
@@ -276,51 +319,14 @@
             return response;
         },
 
-        processFormData : function(isSubmit) {
-            var url = $("input[name=url]").val();
-            if (isSubmit && (url == '' || url.indexOf('http') == -1 )) {
-                alert("url不能为空");
-                return;
-            }
+        processFormData : function() {
+
 
             var response = _this.getHar();
             $('#preview pre code').text(JSON.stringify(response, null, 2));
             _this.highlightCode();
 
-            if (isSubmit) {
-                $("#codeArea").hide();
-                $("#preview_code pre code").empty();
-                $("#selectedLanguage").text("");
 
-                $.ajax({
-                    type: "POST",  //提交方式
-                    url: "/mock/create",//路径
-                    dataType: "json",
-                    data: {
-                        "response": JSON.stringify(response, null, 2)
-                    },
-                    success: function (result) {//返回数据根据结果进行相应的处理
-                        if (result.success) {
-                            $("#codeArea").show();
-                            $.ajax({
-                                type: "GET",  //提交方式
-                                url: "/mock/gen",//路径
-                                data: {
-                                    "uuid": result.data.id
-                                },
-                                success: function (result) {//返回数据根据结果进行相应的处理
-                                    _this.data.codes = result.output;
-                                    _this.initCodes(result.output);
-                                }
-                            });
-
-                        } else {
-                            $("#codeArea").hide();
-                            alert("提交失败");
-                        }
-                    }
-                });
-            }
         },
 
 
