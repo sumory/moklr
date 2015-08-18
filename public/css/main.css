@@ -196,6 +196,10 @@ span.input-group-btn button.btn{
     display:none;
 }
 
+#execArea{
+    display:none;
+}
+
 form[name=postData-params]{
     display:none;
 }

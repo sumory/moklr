@@ -91,12 +91,53 @@
 
 
             $("#submitBtn").click(function(){
+                $("#codeArea").show();
+                $("#execArea").hide();
                 _this.processFormData(true);
                 return false;
             });
 
             $("#downloadCodeBtn").click(function(){
                 _this.downloadCode();
+            });
+
+            //大网页极易卡住CPU，待排查
+            $("#runCodeBtn").click(function(){
+                var har = _this.getHar();
+               // har = JSON.( JSON.stringify(har));
+                //console.log("运行har:", har);
+                $.ajax({
+                    type: "get",  //提交方式
+                    url: "/run/exec",//路径
+                    data: {
+                        r: har
+                    },
+                    success: function (result) {//返回数据根据结果进行相应的处理
+                        if (result.success) {
+                            $("#codeArea").hide();
+                            $("#execArea").show();
+                            var body = result.data.body;
+                            try{
+                                //if(typeof body === 'object')
+                                    body = JSON.stringify(JSON.parse(body), null, 2);
+                            }catch(e){
+
+                            }
+                            $("#execArea pre code").text("//Http StatusCode:"+result.data.responseStatus+"\n\n"+body);
+                            _this.highlightCode();
+                            delete result.data.body
+                        } else {
+                            $("#codeArea").hide();
+                            $("#execArea").show();
+                            if(result.errorCode==1)
+                                $("#execArea pre code").html("【构建的请求格式有误，请检查输入项】"+result.msg);
+                            else if(result.errorCode ==2)
+                                $("#execArea pre code").html("【执行代码发送http请求失败】"+result.msg);
+                            else
+                                $("#execArea pre code").html("【其它错误】"+result.msg);
+                        }
+                    }
+                });
             });
 
             $("body").on("click",".code-select-li", function(){
@@ -121,7 +162,7 @@
             newGroup.appendTo(form);
         },
 
-        processFormData : function(isSubmit) {
+        getHar : function(){
             var isGet = true;
             var methodInput = $('select[name="method"]').val();
             if (methodInput == 'GET') {
@@ -134,10 +175,7 @@
 
 
             var url = $("input[name=url]").val();
-            if (isSubmit && (url == '' || url.indexOf('http') == -1 )) {
-                alert("url不能为空");
-                return;
-            }
+
 
             var response = {//初始化
                 method: 'GET',
@@ -235,6 +273,17 @@
                 }
             }
 
+            return response;
+        },
+
+        processFormData : function(isSubmit) {
+            var url = $("input[name=url]").val();
+            if (isSubmit && (url == '' || url.indexOf('http') == -1 )) {
+                alert("url不能为空");
+                return;
+            }
+
+            var response = _this.getHar();
             $('#preview pre code').text(JSON.stringify(response, null, 2));
             _this.highlightCode();
 
