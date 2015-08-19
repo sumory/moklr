@@ -1,0 +1,29 @@
+<!DOCTYPE html>
+<html>
+<head>
+    <title>登录</title>
+
+    <%include meta.ejs%>
+
+</head>
+<body>
+
+
+<%include header.ejs%>
+
+
+<div class="container" id="main-content">
+<h1>登录</h1>
+
+<form action="/auth/login" method="post">
+    用户名: <input type="text" name="username">
+    &nbsp;密码: <input type="text" name="password">
+    <input  name="type" value="1" type="hidden"><!--普通用户登录-->
+    <button type="submit">登录</button>
+</form>
+
+</div>
+<%include footer.ejs%>
+
+</body>
+</html>

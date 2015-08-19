@@ -3,6 +3,7 @@ var path = require('path');
 module.exports = {
     port: 8001,
     viewEngine: 'ejs',
+    sessionSecret: 'session_secret_random_seed_for_test',
 
     views: 'views',
     staticPath: 'public',//静态资源目录
@@ -21,6 +22,10 @@ module.exports = {
     },
 
     //redis config
-    "redis": {"address": "192.168.100.185", "port": "6379", "passwd": ""}
+    "redis": {"address": "192.168.100.185", "port": "6379", "passwd": ""},
+
+    "mongodb": {
+        "address":"mongodb://192.168.100.186:20301/moklr"
+    }
 
 };

@@ -1,6 +1,7 @@
 var express = require('express');
 var methodOverride = require('method-override');
 var bodyParser = require('body-parser');
+var expressSession = require('express-session');
 var multiparty = require('multiparty');
 var log4js = require('log4js');
 
@@ -13,6 +14,13 @@ app.set('env', config.env);
 app.set('port', config.port);
 app.set('views', config.views);
 app.set('view engine', config.viewEngine);
+app.use(expressSession({
+    secret: config.sessionSecret,
+    name: 'expressId', //种到cookies里的标识
+    resave: false,
+    saveUninitialized: true
+
+}));
 app.use(express.static(config.staticPath));
 app.use(log4js.connectLogger(logger, {
     level: "auto"
@@ -20,6 +28,17 @@ app.use(log4js.connectLogger(logger, {
 app.use(bodyParser.urlencoded({extended: true}));
 app.use(bodyParser.json());
 app.use(methodOverride());
+
+app.use(function (req, res, next) {
+    if(req && req.session && req.session.user){
+        res.locals.isLogin = true;
+        res.locals.loginUserId = req.session.user.userId;
+        res.locals.loginUsername = req.session.user.username;
+    }
+
+    next();
+});
+
 
 route(app); //加载routes
 

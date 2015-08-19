@@ -179,7 +179,12 @@ div[data-page="moklr"] code {
     text-overflow: ellipsis;
 }
 
-
+.badge {
+    padding-bottom: 2px;
+    padding-top: 4px;
+     vertical-align: 2px;
+    font-size: 10px;
+}
 
 /**/
 

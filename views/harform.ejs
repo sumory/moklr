@@ -1,0 +1,126 @@
+<script id="harform-tpl" type="text/template">
+    <div class="row">
+        <div class="col-md-2">
+            <select name="method" class="form-control">
+                <option value="GET" selected>GET</option>
+                <option value="POST">POST</option>
+            </select>
+
+        </div>
+        <div class="col-md-6" style="padding-left:0px;">
+            <input name="url" value="http://baidu.com" placeholder="输入url" class="form-control">
+        </div>
+        <div class="col-md-2" style="padding-left:0px;">
+            <a id="queryBtn"  class="btn btn-primary btn-block" href="javascript:void(0);">URL Params</a>
+        </div>
+        <div class="col-md-2" style="padding-left:0px;">
+            <a id="headerBtn" class="btn btn-primary btn-block" href="javascript:void(0);">Headers</a>
+        </div>
+    </div>
+
+
+    <form name="queryString" class="form-inline">
+        <h4>QueryString</h4>
+
+        <div class="form-group pair">
+            <div class="input-group multi">
+                <input type="text" name="name" placeholder="name" required="" class="form-control">
+                <input type="text" name="value" placeholder="value" class="form-control">
+                                <span class="input-group-btn">
+                                    <button type="button" tabindex="-1" class="btn btn-success">
+                                        <i class="glyphicon glyphicon-plus"></i>
+                                    </button>
+                                    <button type="button" tabindex="-1" class="btn btn-danger">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </button>
+                                </span>
+            </div>
+        </div>
+    </form>
+
+    <form name="postData-params" class="form-inline">
+        <h4>PostData</h4>
+
+        <div class="form-group">
+            <select name="postData-mimeType" class="form-control" style="width:200px;">
+                <option value="application/x-www-form-urlencoded">x-www-form-urlencoded</option>
+                <option value="multipart/form-data">multipart/form-data</option>
+                <option value="application/json">application/json</option>
+            </select>
+        </div>
+        <div class="form-group" id="postData-text" style="width:100%; display:none;">
+            <textarea class="form-control" rows="5" style="width:100%;"></textarea>
+            <span>必须为严格的json格式，key需用双引号包裹</span>
+        </div>
+        <div class="form-group pair" id="postData-params" style="display:block;">
+            <div class="input-group multi">
+                <input type="text" name="name" placeholder="name" required="" class="form-control">
+                <input type="text" name="value" placeholder="value" class="form-control">
+                                <span class="input-group-btn">
+                                    <button type="button" tabindex="-1" class="btn btn-success">
+                                        <i class="glyphicon glyphicon-plus"></i>
+                                    </button>
+                                    <button type="button" tabindex="-1" class="btn btn-danger">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </button>
+                                </span>
+            </div>
+        </div>
+
+    </form>
+
+
+    <form name="headers" class="form-inline">
+        <h4>Headers</h4>
+
+        <div class="form-group pair">
+            <div class="input-group multi">
+                <input type="text" name="name" value="Accept" placeholder="name" required="" class="form-control">
+                <input type="text" name="value" value="*/*" placeholder="value" class="form-control">
+                                    <span class="input-group-btn">
+                                        <button type="button" tabindex="-1" class="btn btn-success">
+                                            <i class="glyphicon glyphicon-plus"></i>
+                                        </button>
+                                        <button type="button" tabindex="-1" class="btn btn-danger">
+                                            <i class="glyphicon glyphicon-remove"></i>
+                                        </button>
+                                    </span>
+            </div>
+        </div>
+
+        <div class="form-group pair">
+            <div class="input-group multi">
+                <input type="text" name="name" placeholder="name" required="" class="form-control">
+                <input type="text" name="value" placeholder="value" class="form-control">
+                                <span class="input-group-btn">
+                                    <button type="button" tabindex="-1" class="btn btn-success">
+                                        <i class="glyphicon glyphicon-plus"></i>
+                                    </button>
+                                    <button type="button" tabindex="-1" class="btn btn-danger">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </button>
+                                </span>
+            </div>
+        </div>
+    </form>
+
+
+    <form name="cookies" class="form-inline">
+        <h4>Cookies</h4>
+
+        <div class="form-group pair">
+            <div class="input-group multi">
+                <input type="text" name="name" placeholder="name" required="" class="form-control">
+                <input type="text" name="value" placeholder="value" class="form-control">
+                                <span class="input-group-btn">
+                                    <button type="button" tabindex="-1" class="btn btn-success">
+                                        <i class="glyphicon glyphicon-plus"></i>
+                                    </button>
+                                    <button type="button" tabindex="-1" class="btn btn-danger">
+                                        <i class="glyphicon glyphicon-remove"></i>
+                                    </button>
+                                </span>
+            </div>
+        </div>
+    </form>
+</script>

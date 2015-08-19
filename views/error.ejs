@@ -1,3 +1,34 @@
-<h1><%= message %></h1>
-<h2><%= error.status %></h2>
-<pre><%= error.stack %></pre>
+<!DOCTYPE html>
+<html>
+<head>
+    <title>Moklr - 出错啦!</title>
+
+    <% include meta.ejs %>
+
+</head>
+<body>
+
+<% include header.ejs %>
+
+<div class="container" id="main-content">
+    <h1><%= msg %></h1>
+
+    <h2>
+        <% if(locals.error && error.status){ %>
+        <%= error.status %>
+        <% } %>
+    </h2>
+
+    <pre>
+        <% if(locals.error && error.status){ %>
+        <%= error.stack %>
+        <% } %>
+    </pre>
+
+
+</div>
+
+
+<% include footer.ejs %>
+</body>
+</html>

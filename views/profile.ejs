@@ -1,0 +1,102 @@
+<html>
+<head>
+    <%include meta.ejs%>
+
+    <style>
+        #main-content{
+            min-height:500px;
+        }
+        #left-row{
+            border-right:1px #dddddd dotted;
+        }
+        #my-collections{
+            margin: 10px 0 0 0;
+            padding: 0;
+            list-style: none;
+        }
+        #my-collections li {
+            position: relative;
+            padding-bottom: 0px;
+        }
+        #my-collections li label{
+            position: relative;
+            margin-bottom:5px;
+            padding-top:2px;
+        }
+
+        #harform .form-control{
+            height:30px;
+        }
+
+        #harform a{
+            line-height: 30px;
+            height: 30px;
+            padding:0px;
+        }
+    </style>
+</head>
+
+<body>
+
+<%include header.ejs%>
+
+
+
+<div class="container" id="main-content">
+    <div class="row">
+        <div class="col-md-2" id="left-row">
+            Collections: <span class="badge"><%=collections.length%></span>
+
+            <ul class="list" id="my-collections">
+                <% for(var k in collections){
+                    var c = collections[k];
+                %>
+
+                <li id="my-collection-li-<%=c.collectionId%>">
+                    <a data-id="<%=c.collectionId%>" href="javascript:void(0);" class="my-collection-a"><%=c.name %></a>
+                </li>
+
+                <%}%>
+            </ul>
+
+
+
+
+        </div>
+        <div class="col-md-10" id="right-row">
+            <div id="harform" data-page="moklr"></div>
+            <pre><code id="selected_har_code"></code></pre>
+
+        </div>
+    </div>
+</div>
+
+
+
+
+<%include footer.ejs%>
+<%include harform.ejs%>
+
+<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript" src="/js/profile.js"></script>
+
+<script>
+    $(document).ready(function() {
+        Moklr.Profile.init();
+    });
+
+</script>
+
+
+<script>
+    $(document).ready(function(){
+//        $('input').iCheck({
+//            checkboxClass: 'icheckbox_minimal',
+//            radioClass: 'iradio_minimal',
+//            increaseArea: '20%' // optional
+//        });
+    });
+</script>
+
+</body>
+</html>
