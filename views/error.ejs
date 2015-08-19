@@ -11,19 +11,21 @@
 <% include header.ejs %>
 
 <div class="container" id="main-content">
-    <h1><%= msg %></h1>
+    <h4><%= msg %></h4>
 
-    <h2>
+    <h5>
         <% if(locals.error && error.status){ %>
         <%= error.status %>
         <% } %>
-    </h2>
+    </h5>
 
-    <pre>
+
         <% if(locals.error && error.status){ %>
+    <pre>
         <%= error.stack %>
+         </pre>
         <% } %>
-    </pre>
+
 
 
 </div>

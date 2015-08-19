@@ -1,126 +1,355 @@
 <script id="harform-tpl" type="text/template">
-    <div class="row">
-        <div class="col-md-2">
-            <select name="method" class="form-control">
-                <option value="GET" selected>GET</option>
-                <option value="POST">POST</option>
+
+
+    <div id="top-ops" class="row">
+            <select name="method" style="width:100px;display: inline-block" class="form-control">
+                <option value="GET" {@if method==="GET"} selected {@/if}>GET</option>
+                <option value="POST" {@if method==="POST"} selected {@/if}>POST</option>
             </select>
 
+            <input style="width:400px;max-width:500px;display: inline-block" name="url" value="${url}" placeholder="输入url" class="form-control">
+            <a id="queryBtn"  style="width:140px;display: inline-block" class="btn btn-info" href="javascript:void(0);">
+                <i class="glyphicon glyphicon-link"></i>
+                &nbsp;<span>URL Params{@if queryString.length!=0}(${queryString.length}){@/if}</span>
+            </a>
+            <a id="headerBtn" style="width:120px;display: inline-block" class="btn btn-info" href="javascript:void(0);">
+                <i class="glyphicon glyphicon-menu-hamburger"></i>
+                &nbsp;<span>Headers{@if headers.length!=0}(${headers.length}){@/if}</span>
+            </a>
+            <a id="cookieBtn" style="width:120px;display: inline-block" class="btn btn-info" href="javascript:void(0);">
+                <i class="glyphicon glyphicon-menu-hamburger"></i>
+                &nbsp;<span>Cookies{@if cookies.length!=0}(${cookies.length}){@/if}</span>
+            </a>
+    </div>
+
+
+    <div class="row">
+        <div class="col-md-6">
+            <form id="query-form" name="queryString" class="form-inline">
+                <h5>QueryString</h5>
+                {@each queryString as q}
+                <div class="form-group pair">
+                    <div class="input-group multi">
+                        <input type="text" name="name" value="${q.name}" class="form-control no-border-input">
+                        <input type="text" name="value" value="${q.value}"  class="form-control no-border-input">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-success">
+                            <i class="glyphicon glyphicon-plus-sign"></i>
+                        </button>
+                        <button type="button" class="btn btn-danger">
+                            <i class="glyphicon glyphicon-remove-sign"></i>
+                        </button>
+                    </span>
+                    </div>
+                </div>
+                {@/each}
+                <div class="form-group pair">
+                    <div class="input-group multi">
+                        <input type="text" name="name" placeholder="name"  class="form-control no-border-input">
+                        <input type="text" name="value" placeholder="value" class="form-control no-border-input">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-success">
+                        <i class="glyphicon glyphicon-plus-sign"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger">
+                        <i class="glyphicon glyphicon-remove-sign"></i>
+                    </button>
+                </span>
+                    </div>
+                </div>
+            </form>
+
+
+
+
+            <form id="header-form" name="headers" class="form-inline">
+                <h5>Headers</h5>
+
+                {@each headers as h}
+                <div class="form-group pair" {@if h.name==="Content-Type"|| h.name==="Content-type" || h.name==="content-type" }  id="for-post-header" {@/if}>
+                    <div class="input-group multi">
+                        <input type="text" name="name" value="${h.name}" class="form-control no-border-input">
+                        <input type="text" name="value" value="${h.value}" class="form-control no-border-input">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-success">
+                                <i class="glyphicon glyphicon-plus-sign"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger">
+                                <i class="glyphicon glyphicon-remove-sign"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                {@/each}
+
+                {@if headers==undefined || headers.length===0}
+                <div class="form-group pair">
+                    <div class="input-group multi">
+                        <input type="text" name="name" value="Accept" placeholder="name" class="form-control no-border-input">
+                        <input type="text" name="value" value="*/*" placeholder="value" class="form-control no-border-input">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-success">
+                                    <i class="glyphicon glyphicon-plus"></i>
+                                </button>
+                                <button type="button" class="btn btn-danger">
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                </button>
+                            </span>
+                    </div>
+                </div>
+                {@/if}
+
+                <div class="form-group pair">
+                    <div class="input-group multi">
+                        <input type="text" name="name" placeholder="name" class="form-control no-border-input">
+                        <input type="text" name="value" placeholder="value" class="form-control no-border-input">
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-success">
+                                <i class="glyphicon glyphicon-plus-sign"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger">
+                                <i class="glyphicon glyphicon-remove-sign"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+
+            </form>
+
+
+            <form id="cookie-form" name="cookies" class="form-inline">
+                <h5>Cookies</h5>
+
+                {@each cookies as c}
+                <div class="form-group pair">
+                    <div class="input-group multi">
+                        <input type="text" name="name" value="${c.name}" required="" class="form-control no-border-input">
+                        <input type="text" name="value" value="${c.value}" class="form-control no-border-input">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-success">
+                            <i class="glyphicon glyphicon-plus-sign"></i>
+                        </button>
+                        <button type="button" class="btn btn-danger">
+                            <i class="glyphicon glyphicon-remove-sign"></i>
+                        </button>
+                    </span>
+                    </div>
+                </div>
+                {@/each}
+                <div class="form-group pair">
+                    <div class="input-group multi">
+                        <input type="text" name="name" placeholder="name" required="" class="form-control no-border-input">
+                        <input type="text" name="value" placeholder="value" class="form-control no-border-input">
+                    <span class="input-group-btn">
+                        <button type="button" class="btn btn-success">
+                            <i class="glyphicon glyphicon-plus-sign"></i>
+                        </button>
+                        <button type="button" class="btn btn-danger">
+                            <i class="glyphicon glyphicon-remove-sign"></i>
+                        </button>
+                    </span>
+                    </div>
+                </div>
+            </form>
+
+
+            <form id="postData-form" name="postData-params" class="form-inline">
+                <h5>PostData</h5>
+                <div class="form-group">
+                    <select name="postData-mimeType" class="form-control" style="width:200px;">
+                        <option value="application/x-www-form-urlencoded" {@if postData!=undefined && postData.mimeType==="application/x-www-form-urlencoded"} selected {@/if}>x-www-form-urlencoded</option>
+                        <option value="multipart/form-data" {@if postData!=undefined && postData.mimeType==="multipart/form-data"} selected {@/if}>multipart/form-data</option>
+                        <option value="application/json" {@if postData!=undefined && postData.mimeType==="application/json"} selected {@/if}>application/json</option>
+                    </select>
+                </div>
+
+                <!--没数据-->
+                {@if postData==undefined}
+                <div class="form-group" name="postData-text" style="width:100%; display:none;">
+                    <textarea rows="5" class="form-control" style="width:100%;height:auto;"></textarea>
+                    <p style="width:100%;font-size:12px;">必须为严格的json格式，key需用双引号包裹</p>
+                </div>
+                <div class="form-group pair" name="postData-params" style="display:block;">
+                    <div class="input-group multi">
+                        <input type="text" name="name" placeholder="name" required="" class="form-control no-border-input">
+                        <input type="text" name="value" placeholder="value" class="form-control no-border-input">
+                        <span class="input-group-btn">
+                            <button type="button" tabindex="-1" class="btn btn-success">
+                                <i class="glyphicon glyphicon-plus"></i>
+                            </button>
+                            <button type="button" tabindex="-1" class="btn btn-danger">
+                                <i class="glyphicon glyphicon-remove"></i>
+                            </button>
+                        </span>
+                    </div>
+                </div>
+                {@/if}
+
+
+                <!--有数据的三种情况-->
+                {@if postData!=undefined && postData.mimeType==="application/x-www-form-urlencoded"}
+                {@each postData.params as p}
+                <div class="form-group pair"  name="postData-params" style="display:block;">
+                    <div class="input-group multi">
+                        <input type="text" name="name" value="${p.name}" class="form-control no-border-input">
+                        <input type="text" name="value" value="${p.value}" class="form-control no-border-input">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-success">
+                                    <i class="glyphicon glyphicon-plus-sign"></i>
+                                </button>
+                                <button type="button" class="btn btn-danger">
+                                    <i class="glyphicon glyphicon-remove-sign"></i>
+                                </button>
+                            </span>
+                    </div>
+                </div>
+                {@/each}
+                <div class="form-group" name="postData-text" style="width:100%; display:none;">
+                    <textarea rows="5" class="form-control" style="width:100%;height:auto;"></textarea>
+                    <p style="width:100%;font-size:12px;">必须为严格的json格式，key需用双引号包裹</p>
+                </div>
+                <div class="form-group pair" name="postData-params" style="display:block;">
+                    <div class="input-group multi">
+                        <input type="text" name="name" placeholder="name" required="" class="form-control no-border-input">
+                        <input type="text" name="value" placeholder="value" class="form-control no-border-input">
+                            <span class="input-group-btn">
+                                <button type="button" tabindex="-1" class="btn btn-success">
+                                    <i class="glyphicon glyphicon-plus"></i>
+                                </button>
+                                <button type="button" tabindex="-1" class="btn btn-danger">
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                </button>
+                            </span>
+                    </div>
+                </div>
+                {@/if}
+
+                {@if postData!=undefined && postData.mimeType==="multipart/form-data"}
+                {@each postData.params as p}
+                <div class="form-group pair"  name="postData-params" style="display:block;">
+                    <div class="input-group multi">
+                        <input type="text" name="name" value="${p.name}" class="form-control no-border-input">
+                        <input type="text" name="value" value="${p.value}" class="form-control no-border-input">
+                            <span class="input-group-btn">
+                                <button type="button" class="btn btn-success">
+                                    <i class="glyphicon glyphicon-plus-sign"></i>
+                                </button>
+                                <button type="button" class="btn btn-danger">
+                                    <i class="glyphicon glyphicon-remove-sign"></i>
+                                </button>
+                            </span>
+                    </div>
+                </div>
+                {@/each}
+                <div class="form-group" name="postData-text" style="width:100%; display:none;">
+                    <textarea rows="5" class="form-control" style="width:100%;height:auto;"></textarea>
+                    <p style="width:100%;font-size:12px;">必须为严格的json格式，key需用双引号包裹</p>
+                </div>
+                <div class="form-group pair" name="postData-params" style="display:block;">
+                    <div class="input-group multi">
+                        <input type="text" name="name" placeholder="name" required="" class="form-control no-border-input">
+                        <input type="text" name="value" placeholder="value" class="form-control no-border-input">
+                            <span class="input-group-btn">
+                                <button type="button" tabindex="-1" class="btn btn-success">
+                                    <i class="glyphicon glyphicon-plus"></i>
+                                </button>
+                                <button type="button" tabindex="-1" class="btn btn-danger">
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                </button>
+                            </span>
+                    </div>
+                </div>
+                {@/if}
+
+                {@if postData!=undefined && postData.mimeType==="application/json"}
+                <div class="form-group" name="postData-text" style="width:100%;">
+                    <textarea rows="5" class="form-control" style="width:100%;height:auto;">${postData.text}</textarea>
+                    <p style="width:100%;font-size:12px;">必须为严格的json格式，key需用双引号包裹</p>
+                </div>
+                <div class="form-group pair" name="postData-params" style="display:none;">
+                    <div class="input-group multi">
+                        <input type="text" name="name" placeholder="name" required="" class="form-control no-border-input">
+                        <input type="text" name="value" placeholder="value" class="form-control no-border-input">
+                            <span class="input-group-btn">
+                                <button type="button" tabindex="-1" class="btn btn-success">
+                                    <i class="glyphicon glyphicon-plus"></i>
+                                </button>
+                                <button type="button" tabindex="-1" class="btn btn-danger">
+                                    <i class="glyphicon glyphicon-remove"></i>
+                                </button>
+                            </span>
+                    </div>
+                </div>
+                {@/if}
+
+
+            </form>
+
+            <div id="bottom-ops" class="row">
+                <a id="sendBtn"  style="width:100px;display: inline-block" class="btn btn-danger" href="javascript:void(0);">
+                    <i class="glyphicon glyphicon-link"></i>
+                    &nbsp;<span>Send</span>
+                </a>
+                <a id="saveBtn" style="width:100px;display: inline-block" class="btn btn-info" href="javascript:void(0);">
+                    <i class="glyphicon glyphicon-menu-hamburger"></i>
+                    &nbsp;<span>Save</span>
+                </a>
+                <a id="previewBtn" style="width:80px;display: inline-block" class="btn btn-info" href="javascript:void(0);">
+                    <span>Preview</span>
+                </a>
+                <a id="addToCollectionBtn" style="width:140px;display: inline-block" class="btn btn-info" href="javascript:void(0);">
+                    <span>Add to Collection</span>
+                </a>
+            </div>
+
         </div>
-        <div class="col-md-6" style="padding-left:0px;">
-            <input name="url" value="http://baidu.com" placeholder="输入url" class="form-control">
-        </div>
-        <div class="col-md-2" style="padding-left:0px;">
-            <a id="queryBtn"  class="btn btn-primary btn-block" href="javascript:void(0);">URL Params</a>
-        </div>
-        <div class="col-md-2" style="padding-left:0px;">
-            <a id="headerBtn" class="btn btn-primary btn-block" href="javascript:void(0);">Headers</a>
+        <div class="col-md-6" id="right-content">
+
+
+            <h5></h5>
+            <pre id="preview_code"  style="display:none;">
+                <code>
+                </code>
+            </pre>
+
+
         </div>
     </div>
 
 
-    <form name="queryString" class="form-inline">
-        <h4>QueryString</h4>
 
-        <div class="form-group pair">
-            <div class="input-group multi">
-                <input type="text" name="name" placeholder="name" required="" class="form-control">
-                <input type="text" name="value" placeholder="value" class="form-control">
-                                <span class="input-group-btn">
-                                    <button type="button" tabindex="-1" class="btn btn-success">
-                                        <i class="glyphicon glyphicon-plus"></i>
-                                    </button>
-                                    <button type="button" tabindex="-1" class="btn btn-danger">
-                                        <i class="glyphicon glyphicon-remove"></i>
-                                    </button>
-                                </span>
-            </div>
+</script>
+
+<script id="harform-input-query-tpl" type="text/template">
+    <div class="form-group pair">
+        <div class="input-group multi">
+            <input type="text" name="name" value="${name}"  class="form-control no-border-input">
+            <input type="text" name="value" value="${value}" class="form-control no-border-input">
+                <span class="input-group-btn">
+                    <button type="button" class="btn btn-success">
+                        <i class="glyphicon glyphicon-plus-sign"></i>
+                    </button>
+                    <button type="button" class="btn btn-danger">
+                        <i class="glyphicon glyphicon-remove-sign"></i>
+                    </button>
+                </span>
         </div>
-    </form>
+    </div>
+</script>
 
-    <form name="postData-params" class="form-inline">
-        <h4>PostData</h4>
-
-        <div class="form-group">
-            <select name="postData-mimeType" class="form-control" style="width:200px;">
-                <option value="application/x-www-form-urlencoded">x-www-form-urlencoded</option>
-                <option value="multipart/form-data">multipart/form-data</option>
-                <option value="application/json">application/json</option>
-            </select>
+<script id="harform-header-for-post-tpl" type="text/template">
+    <div class="form-group pair" id="for-post-header">
+        <div class="input-group multi">
+            <input type="text" name="name" value="Content-Type" class="form-control no-border-input">
+            <input type="text" name="value" value="application/x-www-form-urlencoded"  class="form-control no-border-input">
+            <span class="input-group-btn">
+                <button type="button" class="btn btn-success">
+                    <i class="glyphicon glyphicon-plus-sign"></i>
+                </button>
+                <button type="button" class="btn btn-danger">
+                    <i class="glyphicon glyphicon-remove-sign"></i>
+                </button>
+            </span>
         </div>
-        <div class="form-group" id="postData-text" style="width:100%; display:none;">
-            <textarea class="form-control" rows="5" style="width:100%;"></textarea>
-            <span>必须为严格的json格式，key需用双引号包裹</span>
-        </div>
-        <div class="form-group pair" id="postData-params" style="display:block;">
-            <div class="input-group multi">
-                <input type="text" name="name" placeholder="name" required="" class="form-control">
-                <input type="text" name="value" placeholder="value" class="form-control">
-                                <span class="input-group-btn">
-                                    <button type="button" tabindex="-1" class="btn btn-success">
-                                        <i class="glyphicon glyphicon-plus"></i>
-                                    </button>
-                                    <button type="button" tabindex="-1" class="btn btn-danger">
-                                        <i class="glyphicon glyphicon-remove"></i>
-                                    </button>
-                                </span>
-            </div>
-        </div>
-
-    </form>
-
-
-    <form name="headers" class="form-inline">
-        <h4>Headers</h4>
-
-        <div class="form-group pair">
-            <div class="input-group multi">
-                <input type="text" name="name" value="Accept" placeholder="name" required="" class="form-control">
-                <input type="text" name="value" value="*/*" placeholder="value" class="form-control">
-                                    <span class="input-group-btn">
-                                        <button type="button" tabindex="-1" class="btn btn-success">
-                                            <i class="glyphicon glyphicon-plus"></i>
-                                        </button>
-                                        <button type="button" tabindex="-1" class="btn btn-danger">
-                                            <i class="glyphicon glyphicon-remove"></i>
-                                        </button>
-                                    </span>
-            </div>
-        </div>
-
-        <div class="form-group pair">
-            <div class="input-group multi">
-                <input type="text" name="name" placeholder="name" required="" class="form-control">
-                <input type="text" name="value" placeholder="value" class="form-control">
-                                <span class="input-group-btn">
-                                    <button type="button" tabindex="-1" class="btn btn-success">
-                                        <i class="glyphicon glyphicon-plus"></i>
-                                    </button>
-                                    <button type="button" tabindex="-1" class="btn btn-danger">
-                                        <i class="glyphicon glyphicon-remove"></i>
-                                    </button>
-                                </span>
-            </div>
-        </div>
-    </form>
-
-
-    <form name="cookies" class="form-inline">
-        <h4>Cookies</h4>
-
-        <div class="form-group pair">
-            <div class="input-group multi">
-                <input type="text" name="name" placeholder="name" required="" class="form-control">
-                <input type="text" name="value" placeholder="value" class="form-control">
-                                <span class="input-group-btn">
-                                    <button type="button" tabindex="-1" class="btn btn-success">
-                                        <i class="glyphicon glyphicon-plus"></i>
-                                    </button>
-                                    <button type="button" tabindex="-1" class="btn btn-danger">
-                                        <i class="glyphicon glyphicon-remove"></i>
-                                    </button>
-                                </span>
-            </div>
-        </div>
-    </form>
+    </div>
 </script>

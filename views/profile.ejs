@@ -24,6 +24,9 @@
             padding-top:2px;
         }
 
+        #harform{
+            margin-left:15px;
+        }
         #harform .form-control{
             height:30px;
         }
@@ -32,6 +35,36 @@
             line-height: 30px;
             height: 30px;
             padding:0px;
+        }
+
+        #harform .no-border-input{
+            border-top: 1px #FFF solid;
+            border-left: 1px #FFF solid;
+            border-right: 2px #FFF solid;
+            margin-right:3px;
+        }
+
+        #harform .form-group.pair{
+            width:100%;
+        }
+
+        #header-form,#cookie-form{
+            display:none;
+        }
+
+        .row{
+            margin-left:0px;
+        }
+        pre code{
+            font-size:12px;
+        }
+
+        #top-ops{
+            margin-bottom: 20px;
+        }
+
+        #bottom-ops{
+            margin-top: 40px;
         }
     </style>
 </head>
@@ -45,8 +78,8 @@
 <div class="container" id="main-content">
     <div class="row">
         <div class="col-md-2" id="left-row">
-            Collections: <span class="badge"><%=collections.length%></span>
 
+            <h4 style="display:inline-block;margin-top:0px;">Collections:</h4> <span class="badge"><%=collections.length%></span>
             <ul class="list" id="my-collections">
                 <% for(var k in collections){
                     var c = collections[k];
@@ -65,7 +98,7 @@
         </div>
         <div class="col-md-10" id="right-row">
             <div id="harform" data-page="moklr"></div>
-            <pre><code id="selected_har_code"></code></pre>
+            <!--<pre><code id="selected_har_code"></code></pre>-->
 
         </div>
     </div>

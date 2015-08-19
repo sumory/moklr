@@ -184,14 +184,12 @@
                 _this.selectCode(k1,k2);
             });
 
-
+            //定时刷新har preview
             setInterval(function(){
                 _this.processFormData();
             },1000);
 
 
-            //var myURL = parseURL('http://sumory.com:80/test/index.xyz?name=s&age=18#abc');
-            //console.dir(myURL)
 
         },
 
@@ -444,6 +442,9 @@
                 relative: (a.href.match(/tps?:\/\/[^\/]+(.+)/) || [, ''])[1],
                 segments: a.pathname.replace(/^\//, '').split('/')
             };
+
+            //var myURL = parseURL('http://sumory.com:80/test/index.xyz?name=s&age=18#abc');
+            //console.dir(myURL)
         },
 
         rebuildUrl : function (){

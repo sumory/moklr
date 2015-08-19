@@ -142,7 +142,7 @@ div[data-page="moklr"] .form-inline .form-group {
 }
 
 div[data-page="moklr"] .input-group.multi > .form-control {
-    width: 50%;
+    width: 49%;
 }
 
 div[data-page="moklr"] .input-group.multi > .form-control:last-of-type {
@@ -189,7 +189,7 @@ div[data-page="moklr"] code {
 /**/
 
 span.input-group-btn button.btn{
-    height:34px;
+    height:30px;
 }
 
 

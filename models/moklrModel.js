@@ -8,7 +8,7 @@ var Schema = mongoose.Schema;
 
 var UserSchema = new Schema({
     userId: {type: String, index: true},
-    username:{type: String, index: true, unique:true},
+    username: {type: String, index: true, unique: true},
     pwd: String,
     date: {type: Date, default: Date.now}
 });
@@ -58,9 +58,9 @@ exports.createUser = function (user, callback) {
     var userId = genId();
     user.userId = userId;
     var u = new User(user);
-    u.save(function(err, u){
-        if(err) {
-            logger.error("创建用户失败", err,u );
+    u.save(function (err, u) {
+        if (err) {
+            logger.error("创建用户失败", err, u);
             return callback(new Error("创建用户失败"));
         }
 
@@ -169,16 +169,93 @@ function test() {
     //    console.log(err, result);
     //})
 
-    exports.createHar("db46161c-917a-40d8-b1fd-242e7cc8f4b3", "b240fa21-c5b7-4a51-8b54-336f6d2a2e5e", "har1111", {
-        method: 'GET',
-        url: 'http://sumory.com',
-        httpVersion: 'HTTP/1.1',
-        queryString: [],
-        headers: [{name: 'Content-Type', value: 'application/json'}],
-        cookies: []
+    //exports.createHar("db46161c-917a-40d8-b1fd-242e7cc8f4b3", "b240fa21-c5b7-4a51-8b54-336f6d2a2e5e", "get", {
+    //    "method": "GET",
+    //    "url": "http://192.168.100.122:8010/intersect?type=1&uid=2&targets=3",
+    //    "httpVersion": "HTTP/1.1",
+    //    "queryString": [
+    //        {
+    //            "name": "type",
+    //            "value": "1"
+    //        },
+    //        {
+    //            "name": "uid",
+    //            "value": "2"
+    //        },
+    //        {
+    //            "name": "targets",
+    //            "value": "3"
+    //        }
+    //    ],
+    //    "headers": [
+    //        {
+    //            "name": "Accept",
+    //            "value": "*/*"
+    //        }
+    //    ],
+    //    "cookies": []
+    //}, function (err, result) {
+    //    console.log(err, result);
+    //});
+
+
+    //exports.createHar("db46161c-917a-40d8-b1fd-242e7cc8f4b3", "b240fa21-c5b7-4a51-8b54-336f6d2a2e5e", "post", {
+    //    "method": "POST",
+    //    "headers": [
+    //        {
+    //            "name": "Content-type",
+    //            "value": "application/json"
+    //        },
+    //        {
+    //            "name": "Accept",
+    //            "value": "*/*"
+    //        }
+    //    ],
+    //    "cookies": [],
+    //    "url": "http://192.168.100.122:8001/user/save",
+    //    "httpVersion": "HTTP/1.1",
+    //    "queryString": [],
+    //   "postData": {
+    //        "mimeType": "application/json",
+    //        "text": "{\"name\":\"sumory\",\"sex\":\"男\",\"age\":12}"
+    //    }
+    //}, function (err, result) {
+    //    console.log(err, result);
+    //});
+
+
+    exports.createHar("db46161c-917a-40d8-b1fd-242e7cc8f4b3", "b240fa21-c5b7-4a51-8b54-336f6d2a2e5e", "post-form",{
+        "method": "POST",
+        "url": "http://192.168.100.122:8001/user/save",
+        "httpVersion": "HTTP/1.1",
+        "queryString": [],
+        "headers": [
+            {
+                "name": "Content-type",
+                "value": "application/x-www-form-urlencoded"
+            },
+            {
+                "name": "Accept",
+                "value": "*/*"
+            }
+        ],
+        "cookies": [],
+        "postData": {
+            "mimeType": "application/x-www-form-urlencoded",
+            "params": [
+                {
+                    "name": "name",
+                    "value": "ss"
+                },
+                {
+                    "name": "age",
+                    "value": "45"
+                }
+            ]
+        }
     }, function (err, result) {
         console.log(err, result);
-    })
+    });
 
     //exports.deleteCollection("1", "1", function (err, result) {
     //    console.log(err, result);
@@ -197,4 +274,4 @@ function test() {
 
 }
 
-test();
+//test();
