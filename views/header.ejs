@@ -6,24 +6,27 @@
                 <span class="icon-bar"></span>
                 <span class="icon-bar"></span>
             </button>
-            <div class="navbar-brand"><a href="/">Moklr</a>
+            <div class="navbar-brand logo"><a href="/">Moklr</a>
             </div>
         </div>
         <div id="navbar" class="collapse navbar-collapse">
             <ul class="nav navbar-nav navbar-right">
-                <li><a href="/mock/create">Create Moklr</a>
-                </li>
-                <li><a href="/help">help</a>
-                </li>
+                <li><a href="/mock/create">Simple Builder</a></li>
+
                 <% if(locals.isLogin){%>
-                <li>
-                    <a href="/user/profile"><i class="glyphicon glyphicon-user"  aria-hidden="true"></i>&nbsp;<%=locals.loginUsername%></a>
-                </li>
-                <%}else{%>
-                <li>
-                    <a href="/auth/login">Log in</a>
-                </li>
+                    <li><a href="/user/profile">My Profile</a></li>
                 <%}%>
+
+                <li><a href="/help">help</a></li>
+
+                <li>
+                    <% if(locals.isLogin){%>
+                        <a href="/user/profile"><i class="glyphicon glyphicon-user"  aria-hidden="true"></i>&nbsp;<%=locals.loginUsername%></a>
+                    <%}else{%>
+                        <a href="/auth/login">Login</a>
+                    <%}%>
+                </li>
+
             </ul>
         </div>
     </div>

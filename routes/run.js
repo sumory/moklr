@@ -8,7 +8,7 @@ module.exports = router;
 
 router.get('/exec', function(req, res, next) {
     var requestObj = req.query.r;
-    console.dir(requestObj)
+    console.dir(requestObj);
     if (!requestObj){
         return res.json({
             success:false,
@@ -121,8 +121,13 @@ function run(r, callback){
             }
             r.form = params||{};
         }else if(mimeType==='application/json'){
-            var textjson = JSON.parse(r.postData.text||{});
-            r.form = textjson;
+            try{
+                var textjson = JSON.parse(r.postData.text||{});
+                r.form = textjson;
+            }catch(e){
+                return callback && callback(new Error("postData[text] must be json format"));
+            }
+
         }
 
         //console.dir(r);

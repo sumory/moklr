@@ -52,6 +52,113 @@ router.get('/har', commonUtils.checkLoginAjax,  function(req, res, next) {
     });
 });
 
+router.post('/har/addHarToCollection', commonUtils.checkLoginAjax,  function(req, res, next) {
+    var collectionId = req.body.collectionId;
+    var har = req.body.har;
+    var name = req.body.name;
+    var uid = req.session.user.userId;
+
+    moklrModel.createHar(uid,collectionId, name,har, function(err,newHar){
+        if(err){
+            return res.json({
+                success:false,
+                msg:"创建collection出错"
+            });
+        }else{
+            return res.json({
+                success:true,
+                msg:"ok",
+                data: newHar
+            });
+        }
+    });
+});
+
+//修改har
+router.post('/har/save', commonUtils.checkLoginAjax,  function(req, res, next) {
+    var harName = req.body.harName;
+    var harId = req.body.harId;
+    var harContent = req.body.harContent;
+    var uid = req.session.user.userId;
+
+    moklrModel.updateHar(uid, harId,harName, harContent,  function(err,result){
+        if(err){
+            return res.json({
+                success:false,
+                msg:"修改har出错"
+            });
+        }else{
+            return res.json({
+                success:true,
+                msg:"ok",
+                data: result
+            });
+        }
+    });
+});
+
+router.post('/collection/create', commonUtils.checkLoginAjax,  function(req, res, next) {
+    var name = req.body.name;
+    var uid = req.session.user.userId;
+
+    moklrModel.createCollection(uid, name, function(err,result){
+        if(err){
+            return res.json({
+                success:false,
+                msg:"创建collection出错"
+            });
+        }else{
+            return res.json({
+                success:true,
+                msg:"ok",
+                data: result
+            });
+        }
+    });
+});
+
+
+router.post('/collection/edit', commonUtils.checkLoginAjax,  function(req, res, next) {
+    var cid = req.body.id;
+    var newName = req.body.name;
+    var uid = req.session.user.userId;
+
+    moklrModel.updateCollection(uid, cid, newName,  function(err,result){
+        if(err){
+            return res.json({
+                success:false,
+                msg:"修改collection名称出错"
+            });
+        }else{
+            return res.json({
+                success:true,
+                msg:"ok",
+                data: result
+            });
+        }
+    });
+});
+
+router.post('/collection/delete', commonUtils.checkLoginAjax,  function(req, res, next) {
+    var cid = req.body.id;
+    var uid = req.session.user.userId;
+
+    moklrModel.deleteCollection(uid, cid, function(err,result){
+        if(err){
+            return res.json({
+                success:false,
+                msg:"删除collection出错"
+            });
+        }else{
+            return res.json({
+                success:true,
+                msg:"ok",
+                data: result
+            });
+        }
+    });
+});
+
 
 router.post('/save', function(req, res, next){
     var name = req.body.name;

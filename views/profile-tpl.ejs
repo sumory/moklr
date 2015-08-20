@@ -1,5 +1,18 @@
 <script id="harform-tpl" type="text/template">
-
+    <div class="row">
+        <div class="col-md-12" id="left-content">
+            <form class="form-inline">
+                <div class="form-group">
+                    <label for="har_name">Har Name</label>
+                    <input  style="width:250px;" type="text" class="form-control" id="har_name" placeholder="Har Name" value="{@if har_name}${har_name}{@/if}">
+                </div>
+                <div class="form-group" style="margin-left:20px;"  >
+                    <label for="har_name">Har Id</label>
+                    <input readonly style="width:300px;"  type="text" class="form-control" id="har_id" placeholder="Har Id" value="{@if har_id}${har_id}{@/if}">
+                </div>
+            </form>
+        </div>
+    </div>
 
     <div id="top-ops" class="row">
             <select name="method" style="width:100px;display: inline-block" class="form-control">
@@ -10,21 +23,21 @@
             <input style="width:400px;max-width:500px;display: inline-block" name="url" value="${url}" placeholder="输入url" class="form-control">
             <a id="queryBtn"  style="width:140px;display: inline-block" class="btn btn-info" href="javascript:void(0);">
                 <i class="glyphicon glyphicon-link"></i>
-                &nbsp;<span>URL Params{@if queryString.length!=0}(${queryString.length}){@/if}</span>
+                &nbsp;<span>URL Params{@if queryString&&queryString.length!=0}(${queryString.length}){@/if}</span>
             </a>
             <a id="headerBtn" style="width:120px;display: inline-block" class="btn btn-info" href="javascript:void(0);">
                 <i class="glyphicon glyphicon-menu-hamburger"></i>
-                &nbsp;<span>Headers{@if headers.length!=0}(${headers.length}){@/if}</span>
+                &nbsp;<span>Headers{@if headers&&headers.length!=0}(${headers.length}){@/if}</span>
             </a>
             <a id="cookieBtn" style="width:120px;display: inline-block" class="btn btn-info" href="javascript:void(0);">
                 <i class="glyphicon glyphicon-menu-hamburger"></i>
-                &nbsp;<span>Cookies{@if cookies.length!=0}(${cookies.length}){@/if}</span>
+                &nbsp;<span>Cookies{@if cookies&&cookies.length!=0}(${cookies.length}){@/if}</span>
             </a>
     </div>
 
 
     <div class="row">
-        <div class="col-md-6">
+        <div class="col-md-6" id="left-content">
             <form id="query-form" name="queryString" class="form-inline">
                 <h5>QueryString</h5>
                 {@each queryString as q}
@@ -286,13 +299,13 @@
             </form>
 
             <div id="bottom-ops" class="row">
-                <a id="sendBtn"  style="width:100px;display: inline-block" class="btn btn-danger" href="javascript:void(0);">
-                    <i class="glyphicon glyphicon-link"></i>
+                <a id="sendBtn"  style="width:100px;display: inline-block" class="btn btn-primary" href="javascript:void(0);">
+                    <i class="glyphicon glyphicon-play-circle"></i>
                     &nbsp;<span>Send</span>
                 </a>
-                <a id="saveBtn" style="width:100px;display: inline-block" class="btn btn-info" href="javascript:void(0);">
-                    <i class="glyphicon glyphicon-menu-hamburger"></i>
-                    &nbsp;<span>Save</span>
+                <a id="updateBtn" style="width:100px;display: inline-block" class="btn btn-info" href="javascript:void(0);">
+                    <i class="glyphicon glyphicon-floppy-open"></i>
+                    &nbsp;<span>Update</span>
                 </a>
                 <a id="previewBtn" style="width:80px;display: inline-block" class="btn btn-info" href="javascript:void(0);">
                     <span>Preview</span>
@@ -320,6 +333,8 @@
 
 </script>
 
+
+<!-- query模板 -->
 <script id="harform-input-query-tpl" type="text/template">
     <div class="form-group pair">
         <div class="input-group multi">
@@ -337,6 +352,7 @@
     </div>
 </script>
 
+<!-- 默认的一个header -->
 <script id="harform-header-for-post-tpl" type="text/template">
     <div class="form-group pair" id="for-post-header">
         <div class="input-group multi">
@@ -352,4 +368,69 @@
             </span>
         </div>
     </div>
+</script>
+
+
+<!-- 左侧collections tree-->
+<script id="collection-tree-tpl" type="text/template">
+    <ul class="collection-hars">
+        {@if hars && hars.length>0 }
+            {@each hars as h}
+                <li  id="my-har-li-${h.harId}">
+                    <span class="badge">${h.content.method}</span>
+                    <a href="javascript:void(0);" data-id="${h.harId}" class="my-har-a">${h.name}</a>
+                </li>
+            {@/each}
+        {@else}
+            <span style="font-size:12px;">no hars</span>
+        {@/if}
+    </ul>
+</script>
+
+<!-- 左侧collections tree中一行har-->
+<script id="single-har-tpl" type="text/template">
+        <li id="my-har-li-${harId}">
+            <span class="badge">${method}</span>
+            <a href="javascript:void(0);" data-id="${harId}" class="my-har-a">${name}</a>
+        </li>
+</script>
+
+
+<!-- 一个collection行-->
+<script id="single-collection-tpl" type="text/template">
+    <li id="my-collection-li-${collectionId}"  class="my-collection-li" data-id="${collectionId}" data-name="${name}" >
+        <div class="collection-name">
+            <a data-id="${collectionId}" href="javascript:void(0);" class="my-collection-a">${name}</a>
+        </div>
+
+        <div class="collection-ops">
+            <button type="button" data-id="${collectionId}" class="btn btn-default btn-xs editCollection">
+                <span class="glyphicon glyphicon-pencil" aria-hidden="true" aria-label="edit"></span>
+            </button>
+
+            <button type="button" data-id="${collectionId}" data-name="${name}" class="btn btn-default btn-xs deleteCollection">
+                <span class="glyphicon glyphicon-remove" aria-hidden="true" aria-label="delete"> </span>
+            </button>
+        </div>
+    </li>
+</script>
+<!--包含最外面ul的一个collection行-->
+<script id="single-collection-with-ul-tpl" type="text/template">
+    <ul class="list" id="my-collections">
+        <li id="my-collection-li-${collectionId}" class="my-collection-li" data-id="${collectionId}" data-name="${name}" >
+            <div class="collection-name">
+                <a data-id="${collectionId}" href="javascript:void(0);" class="my-collection-a">${name}</a>
+            </div>
+
+            <div class="collection-ops">
+                <button type="button" data-id="${collectionId}" class="btn btn-default btn-xs editCollection">
+                    <span class="glyphicon glyphicon-pencil" aria-hidden="true" aria-label="edit"></span>
+                </button>
+
+                <button type="button" data-id="${collectionId}" data-name="${name}" class="btn btn-default btn-xs deleteCollection">
+                    <span class="glyphicon glyphicon-remove" aria-hidden="true" aria-label="delete"> </span>
+                </button>
+            </div>
+        </li>
+    </ul>
 </script>

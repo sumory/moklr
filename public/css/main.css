@@ -154,8 +154,19 @@ div[data-page="moklr"] .pair:last-of-type .btn-danger {
 }
 
 div[data-page="moklr"] .pair .btn-success {
-    border-top-right-radius: 4px !important;
-    border-bottom-right-radius: 4px !important;
+    border-radius: 0px;
+}
+
+div[data-page="moklr"] .pair .btn-danger {
+    border-radius: 0px;
+}
+
+#harform .btn-success i{
+    top:0px;
+}
+
+#harform .btn-danger i{
+    top:0px;
 }
 
 div[data-page="moklr"] .pair:not(:last-of-type) .btn-success {
@@ -187,6 +198,14 @@ div[data-page="moklr"] code {
 }
 
 /**/
+.logo a{
+    font-size:24px;
+}
+
+.container{
+    padding-left:0px;
+    padding-right:0px;
+}
 
 span.input-group-btn button.btn{
     height:30px;

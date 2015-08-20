@@ -12,15 +12,23 @@
 <%include header.ejs%>
 
 
-<div class="container" id="main-content">
-<h1>登录</h1>
+<div class="container" id="main-content" style="width:350px;">
+    <h1 style="margin-bottom:40px;">Login</h1>
 
-<form action="/auth/login" method="post">
-    用户名: <input type="text" name="username">
-    &nbsp;密码: <input type="text" name="password">
-    <input  name="type" value="1" type="hidden"><!--普通用户登录-->
-    <button type="submit">登录</button>
-</form>
+
+    <form action="/auth/login" method="post">
+        <div class="form-group">
+            <label for="username">User</label>
+            <input type="text" class="form-control" name="username" id="username" placeholder="username">
+        </div>
+        <div class="form-group">
+            <label for="password">Password</label>
+            <input type="password" class="form-control" name="password" id="password"  placeholder="Password">
+        </div>
+        <button type="submit" class="btn btn-info">Login</button>
+    </form>
+
+
 
 </div>
 <%include footer.ejs%>

@@ -10,6 +10,10 @@ module.exports = function (app) {
     app.use('/user', userRouter);
     app.use('/run', runRouter);
 
+    app.get('/help', function(req, res){
+       res.render('help');
+    });
+
     app.get("/", function (req, res, next) {
         res.end("welcome!");
     });

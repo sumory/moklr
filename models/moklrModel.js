@@ -23,7 +23,6 @@ var CollectionSchema = new Schema({
     collectionId: {type: String, index: true},
     userId: {type: String, index: true},
     name: String,
-    hars: [String],
     date: {type: Date, default: Date.now}
 });
 
@@ -78,8 +77,7 @@ exports.createCollection = function (uid, name, callback) {
     var collection = new Collection({
         collectionId: collectionId,
         userId: uid,
-        name: name,
-        hars: []
+        name: name
     });
     collection.save(callback);
 };
@@ -104,17 +102,7 @@ exports.createHar = function (uid, collectionId, name, har, callback) {
             return callback(new Error("无法找到collection"));
         }
 
-        har.save().then(function (har, numberAffected) {
-            c.hars = c.hars || [];
-            c.hars.push(harId);
-            c.save().then(function (c, numberAffected) {
-                callback(null);
-            }).reject(function (err) {
-                callback(err);
-            });
-        }).reject(function (err) {
-            callback(new Error("无法保存har"));
-        });
+        har.save(callback);
     });
 };
 
@@ -154,6 +142,23 @@ exports.deleteCollection = function (uid, cid, callback) {
 //删除har
 exports.deleteHar = function (uid, hid, callback) {
     Har.remove({userId: uid, harId: hid}, callback);
+};
+
+//更新har
+exports.updateHar = function(userId, harId, harName, harContent, callback){
+    var conditions = {harId : harId, userId:userId};
+    var update     = {$set : {content : harContent, name:harName, date : Date.now()}};
+    var options    = {upsert : false};
+    Har.update(conditions, update, options,callback);
+};
+
+
+//更collection name
+exports.updateCollection = function(userId, collectionId, newName, callback){
+    var conditions = {collectionId : collectionId, userId:userId};
+    var update     = {$set : {name:newName, date : Date.now()}};
+    var options    = {upsert : false};
+    Collection.update(conditions, update, options,callback);
 };
 
 function Callback(err, result) {

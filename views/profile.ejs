@@ -3,8 +3,12 @@
     <%include meta.ejs%>
 
     <style>
+
         #main-content{
             min-height:500px;
+        }
+        #left-content{
+            padding-left:0px;
         }
         #left-row{
             border-right:1px #dddddd dotted;
@@ -17,6 +21,53 @@
         #my-collections li {
             position: relative;
             padding-bottom: 0px;
+            font-size:16px;
+            margin-bottom:2px;
+        }
+
+        #my-collections li .collection-name{
+            width: 120px;
+            display: inline-block;
+        }
+
+        #my-collections li .collection-ops{
+            display: none;
+            width: 56px;
+            margin-right: 0px;
+            height:17px;
+        }
+
+        #my-collections li .collection-ops button span{
+            top:0px;
+
+        }
+
+        #my-collections .collection-hars{
+            list-style:none;
+            padding-left:0px;
+            margin: 8px 0;
+        }
+        #my-collections .collection-hars a{
+            font-size:14px;
+            font-family: "News Cycle","Arial Narrow Bold",sans-serif;
+            font-weight: 600;
+            line-height: 20px;
+            color: #000000;
+            padding-left:0;
+        }
+        #my-collections .collection-hars span.badge{
+            font-size:12px;
+            vertical-align: 0px;
+            background-color: #8C8A8A;
+        }
+
+        #my-collections a.my-collection-a {
+            font-family: "News Cycle","Arial Narrow Bold",sans-serif;
+            font-weight: 700;
+            line-height: 20px;
+            color: #000000;
+            padding-left:0;
+            display: block;
         }
         #my-collections li label{
             position: relative;
@@ -26,6 +77,10 @@
 
         #harform{
             margin-left:15px;
+        }
+
+        #harform .glyphicon{
+            top:3px;
         }
         #harform .form-control{
             height:30px;
@@ -48,7 +103,13 @@
             width:100%;
         }
 
-        #header-form,#cookie-form{
+        #harform div[name=postData-text] p{
+            width: 100%;
+            font-size: 12px;
+            margin-top: 6px;
+        }
+
+        #header-form, #cookie-form{
             display:none;
         }
 
@@ -79,19 +140,46 @@
     <div class="row">
         <div class="col-md-2" id="left-row">
 
-            <h4 style="display:inline-block;margin-top:0px;">Collections:</h4> <span class="badge"><%=collections.length%></span>
-            <ul class="list" id="my-collections">
-                <% for(var k in collections){
-                    var c = collections[k];
-                %>
+            <div class="row">
+                <div class="col-md-6" style="padding-left: 0px;padding-right: 0px;">
+                    <h4 style="margin-top:0px;">Collections </h4>
+                </div>
+                <div class="col-md-3" style="padding-left: 0px;">
+                    <span style="margin-top: 3px;" class="badge" id="collection-count-bage"><%=collections.length%></span>
+                </div>
+                <div class="col-md-1" style="padding-right: 0px;">
+                    <button type="button" class="btn btn-default btn-xs" data-toggle="modal" data-target="#createCollectionModal" style="margin-top: 3px;">
+                        <span class="glyphicon glyphicon-plus-sign" style="top:0px;" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
 
-                <li id="my-collection-li-<%=c.collectionId%>">
-                    <a data-id="<%=c.collectionId%>" href="javascript:void(0);" class="my-collection-a"><%=c.name %></a>
-                </li>
 
-                <%}%>
-            </ul>
+            <div class="row" id="my-collections-area">
+                <ul class="list" id="my-collections">
+                    <% for(var k in collections){
+                        var c = collections[k];
+                    %>
 
+                    <li id="my-collection-li-<%=c.collectionId%>" class="my-collection-li" data-id="<%=c.collectionId%>" data-name="<%=c.name%>">
+                        <div class="collection-name">
+                            <a data-id="<%=c.collectionId%>" href="javascript:void(0);" class="my-collection-a"><%=c.name||"-" %></a>
+                        </div>
+
+                        <div class="collection-ops">
+                            <button type="button" data-id="<%=c.collectionId%>" class="btn btn-default btn-xs editCollection">
+                                <span class="glyphicon glyphicon-pencil" aria-hidden="true" aria-label="edit"></span>
+                            </button>
+
+                            <button type="button" data-id="<%=c.collectionId%>" data-name="<%=c.name%>" class="btn btn-default btn-xs deleteCollection">
+                                <span class="glyphicon glyphicon-remove" aria-hidden="true" aria-label="delete"> </span>
+                            </button>
+                        </div>
+                    </li>
+
+                    <%}%>
+                </ul>
+            </div>
 
 
 
@@ -108,7 +196,8 @@
 
 
 <%include footer.ejs%>
-<%include harform.ejs%>
+<%include profile-tpl.ejs%>
+<%include modal-tpl.ejs%>
 
 <script type="text/javascript" src="/js/common.js"></script>
 <script type="text/javascript" src="/js/profile.js"></script>
@@ -123,13 +212,14 @@
 
 <script>
     $(document).ready(function(){
-//        $('input').iCheck({
-//            checkboxClass: 'icheckbox_minimal',
-//            radioClass: 'iradio_minimal',
-//            increaseArea: '20%' // optional
-//        });
+
+
     });
 </script>
+
+
+
+
 
 </body>
 </html>
