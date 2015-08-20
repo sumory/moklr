@@ -1,11 +1,33 @@
 <!DOCTYPE html>
 <html>
-  <head>
-    <title><%= title %></title>
-    <link rel='stylesheet' href='/css/style.css' />
-  </head>
-  <body>
-    <h1><%= title %></h1>
-    <p>Welcome to <%= title %></p>
-  </body>
+<head>
+  <title>Welcome to Moklr</title>
+
+  <%include meta.ejs%>
+
+</head>
+<body>
+
+
+<%include header.ejs%>
+
+
+<div class="container" id="main-content" style="width:350px;">
+  <h1 style="margin-bottom:40px;">Welcome to Moklr</h1>
+
+
+  You can take a look at <a href="/mock/create"><code>Request Builder</code></a>
+  <br/>
+  <h4 style="margin-bottom:0px;">or</h4>
+  <br/>
+  <a href="/auth/login" style="font-size:20px;"><code>Login</code></a> to have more fun.
+
+
+
+
+
+</div>
+<%include footer.ejs%>
+
+</body>
 </html>

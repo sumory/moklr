@@ -229,38 +229,38 @@ function test() {
     //});
 
 
-    exports.createHar("db46161c-917a-40d8-b1fd-242e7cc8f4b3", "b240fa21-c5b7-4a51-8b54-336f6d2a2e5e", "post-form",{
-        "method": "POST",
-        "url": "http://192.168.100.122:8001/user/save",
-        "httpVersion": "HTTP/1.1",
-        "queryString": [],
-        "headers": [
-            {
-                "name": "Content-type",
-                "value": "application/x-www-form-urlencoded"
-            },
-            {
-                "name": "Accept",
-                "value": "*/*"
-            }
-        ],
-        "cookies": [],
-        "postData": {
-            "mimeType": "application/x-www-form-urlencoded",
-            "params": [
-                {
-                    "name": "name",
-                    "value": "ss"
-                },
-                {
-                    "name": "age",
-                    "value": "45"
-                }
-            ]
-        }
-    }, function (err, result) {
-        console.log(err, result);
-    });
+    //exports.createHar("db46161c-917a-40d8-b1fd-242e7cc8f4b3", "b240fa21-c5b7-4a51-8b54-336f6d2a2e5e", "post-form",{
+    //    "method": "POST",
+    //    "url": "http://192.168.100.122:8001/user/save",
+    //    "httpVersion": "HTTP/1.1",
+    //    "queryString": [],
+    //    "headers": [
+    //        {
+    //            "name": "Content-type",
+    //            "value": "application/x-www-form-urlencoded"
+    //        },
+    //        {
+    //            "name": "Accept",
+    //            "value": "*/*"
+    //        }
+    //    ],
+    //    "cookies": [],
+    //    "postData": {
+    //        "mimeType": "application/x-www-form-urlencoded",
+    //        "params": [
+    //            {
+    //                "name": "name",
+    //                "value": "ss"
+    //            },
+    //            {
+    //                "name": "age",
+    //                "value": "45"
+    //            }
+    //        ]
+    //    }
+    //}, function (err, result) {
+    //    console.log(err, result);
+    //});
 
     //exports.deleteCollection("1", "1", function (err, result) {
     //    console.log(err, result);
