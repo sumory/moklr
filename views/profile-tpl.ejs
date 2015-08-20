@@ -1,6 +1,6 @@
 <script id="harform-tpl" type="text/template">
     <div class="row">
-        <div class="col-md-12" id="left-content">
+        <div class="col-md-12">
             <form class="form-inline">
                 <div class="form-group">
                     <label for="har_name">Har Name</label>
@@ -10,8 +10,16 @@
                     <label for="har_name">Har Id</label>
                     <input readonly style="width:300px;"  type="text" class="form-control" id="har_id" placeholder="Har Id" value="{@if har_id}${har_id}{@/if}">
                 </div>
+                {@if har_name}
+                <div  class="form-group" style="margin-left:20px">
+                    <a class="deleteHarBtn"  data-id="${har_id}">
+                        <span class="glyphicon glyphicon-trash"></span>
+                    </a>
+                </div>
+                {@/if}
             </form>
         </div>
+
     </div>
 
     <div id="top-ops" class="row">
@@ -21,18 +29,32 @@
             </select>
 
             <input style="width:400px;max-width:500px;display: inline-block" name="url" value="${url}" placeholder="输入url" class="form-control">
-            <a id="queryBtn"  style="width:140px;display: inline-block" class="btn btn-info" href="javascript:void(0);">
+
+            <a id="queryBtn"  style="width:140px;display: inline-block" class="btn btn-default" href="javascript:void(0);">
                 <i class="glyphicon glyphicon-link"></i>
-                &nbsp;<span>URL Params{@if queryString&&queryString.length!=0}(${queryString.length}){@/if}</span>
+                &nbsp;<span>URL Params</span>
             </a>
-            <a id="headerBtn" style="width:120px;display: inline-block" class="btn btn-info" href="javascript:void(0);">
+            <a id="headerBtn" style="width:120px;display: inline-block" class="btn btn-default" href="javascript:void(0);">
                 <i class="glyphicon glyphicon-menu-hamburger"></i>
-                &nbsp;<span>Headers{@if headers&&headers.length!=0}(${headers.length}){@/if}</span>
+                &nbsp;<span>Headers</span>
             </a>
-            <a id="cookieBtn" style="width:120px;display: inline-block" class="btn btn-info" href="javascript:void(0);">
+            <a id="cookieBtn" style="width:120px;display: inline-block" class="btn btn-default" href="javascript:void(0);">
                 <i class="glyphicon glyphicon-menu-hamburger"></i>
-                &nbsp;<span>Cookies{@if cookies&&cookies.length!=0}(${cookies.length}){@/if}</span>
+                &nbsp;<span>Cookies</span>
             </a>
+
+        <!--<a id="queryBtn"  style="width:140px;display: inline-block" class="btn btn-default" href="javascript:void(0);">-->
+            <!--<i class="glyphicon glyphicon-link"></i>-->
+            <!--&nbsp;<span>URL Params{@if queryString&&queryString.length!=0}(${queryString.length}){@/if}</span>-->
+        <!--</a>-->
+        <!--<a id="headerBtn" style="width:120px;display: inline-block" class="btn btn-default" href="javascript:void(0);">-->
+            <!--<i class="glyphicon glyphicon-menu-hamburger"></i>-->
+            <!--&nbsp;<span>Headers{@if headers&&headers.length!=0}(${headers.length}){@/if}</span>-->
+        <!--</a>-->
+        <!--<a id="cookieBtn" style="width:120px;display: inline-block" class="btn btn-default" href="javascript:void(0);">-->
+            <!--<i class="glyphicon glyphicon-menu-hamburger"></i>-->
+            <!--&nbsp;<span>Cookies{@if cookies&&cookies.length!=0}(${cookies.length}){@/if}</span>-->
+        <!--</a>-->
     </div>
 
 
@@ -373,7 +395,7 @@
 
 <!-- 左侧collections tree-->
 <script id="collection-tree-tpl" type="text/template">
-    <ul class="collection-hars">
+    <ul class="collection-hars" id="collection-hars-${collectionId}">
         {@if hars && hars.length>0 }
             {@each hars as h}
                 <li  id="my-har-li-${h.harId}">

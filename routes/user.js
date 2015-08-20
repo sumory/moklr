@@ -97,6 +97,26 @@ router.post('/har/save', commonUtils.checkLoginAjax,  function(req, res, next) {
     });
 });
 
+router.post('/har/delete', commonUtils.checkLoginAjax,  function(req, res, next) {
+    var harId = req.body.harId;
+    var uid = req.session.user.userId;
+
+    moklrModel.deleteHar(uid, harId,  function(err,result){
+        if(err){
+            return res.json({
+                success:false,
+                msg:"删除har出错"
+            });
+        }else{
+            return res.json({
+                success:true,
+                msg:"ok",
+                data: result
+            });
+        }
+    });
+});
+
 router.post('/collection/create', commonUtils.checkLoginAjax,  function(req, res, next) {
     var name = req.body.name;
     var uid = req.session.user.userId;

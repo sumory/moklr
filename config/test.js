@@ -25,7 +25,7 @@ module.exports = {
     "redis": {"address": "192.168.100.185", "port": "6379", "passwd": ""},
 
     "mongodb": {
-        "address":"mongodb://192.168.100.186:20301/moklr"
+        "address":"mongodb://192.168.100.186:20301/moklr_online"
     }
 
 };
