@@ -301,33 +301,50 @@
                     return;
                 }
 
-                $.ajax({
-                    type: "post",
-                    url: "/user/har/delete",
-                    data: {
-                        harId: harId
-                    },
-                    success: function (result) {
-                        if (result.success) {
-                            var ddd = dialog({
-                                title: 'Tip',
-                                content: 'Delete success'
-                            });
-                            ddd.show();
-                            setTimeout(function () {
-                                ddd.close().remove();
-                            }, 2000);
 
-                            $("#my-har-li-"+harId).remove();//删除左侧树中对应的har
-                            _this.initDefaultHar();//初始化一个默认的har
-                        } else {
-                            _this.showTipDialog("Error", "Delete har error: "+result.msg);
-                        }
+                var d = dialog({
+                    title: 'Warning',
+                    content: 'sure to delete this har?',
+                    okValue: 'Delete',
+                    ok: function () {
+                        this.title('Committing…');
+                        $.ajax({
+                            type: "post",
+                            url: "/user/har/delete",
+                            data: {
+                                harId: harId
+                            },
+                            success: function (result) {
+                                if (result.success) {
+                                    var ddd = dialog({
+                                        title: 'Tip',
+                                        content: 'Delete success'
+                                    });
+                                    ddd.show();
+                                    setTimeout(function () {
+                                        ddd.close().remove();
+                                    }, 2000);
+                                    d.close();
+                                    $("#my-har-li-"+harId).remove();//删除左侧树中对应的har
+                                    _this.initDefaultHar();//初始化一个默认的har
+                                } else {
+                                    d.close();
+                                    _this.showTipDialog("Error", "Delete har error: "+result.msg);
+                                }
+                            },
+                            error:function(error){
+                                d.close();
+                                _this.showTipDialog("Request Error", error);
+                            }
+                        });
                     },
-                    error:function(error){
-                        _this.showTipDialog("Request Error", error);
+                    cancelValue: 'Cancel',
+                    cancel: function () {
                     }
                 });
+                d.show();
+
+
             });
 
             //点击"send"按钮
