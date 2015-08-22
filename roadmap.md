@@ -11,11 +11,11 @@
 
 #### v0.7.0
 
-- 支持restful常用的请求方式v0.8.0
+- 支持restful常用的请求方式
 - 批量http请求测试
 
 
 #### v0.8.0
 
 - status服务设计和实现
-- web hook
+- web hook(集成jenkins和其他命令触发hook)
