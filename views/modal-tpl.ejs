@@ -78,3 +78,35 @@
         </div>
     </form>
 </script>
+
+<script id="import-collection-tpl" type="text/template">
+    <form class="form-horizontal">
+        <div class="form-group">
+            <label for="readonly_import_collection_id" class="col-sm-3 control-label">Collection Id</label>
+            <div class="col-sm-9">
+                <input type="text" readonly class="form-control" id="readonly_import_collection_id" value="${id}">
+            </div>
+        </div>
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Collection name</label>
+            <div class="col-sm-9">
+                <input type="text" readonly class="form-control" value="${name}" placeholder="input new collection name">
+            </div>
+        </div>
+
+        <div class="form-group">
+            <label class="col-sm-3 control-label">Import</label>
+            <div class="col-sm-9">
+                <textarea rows="8" class="form-control" id="to_import_content"></textarea>
+            </div>
+        </div>
+
+        <div class="form-group">
+            <div class="col-sm-offset-3 col-sm-9">
+                <div class="checkbox">
+                    <span id="import-collection-tip"></span>
+                </div>
+            </div>
+        </div>
+    </form>
+</script>

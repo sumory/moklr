@@ -44,7 +44,7 @@
             _this.initDefaultHar();
         },
 
-        initDefaultHar: function(){
+        initDefaultHar: function () {
             _this.renderForm({
                 "content": {
                     "method": "GET",
@@ -76,12 +76,12 @@
 
 
             $("#my-collections-area").on("click", "button.editCollection", function () {
-                var c={
-                    id:$(this).parent().parent().attr("data-id"),
-                    name:$(this).parent().parent().attr("data-name")
+                var c = {
+                    id: $(this).parent().parent().attr("data-id"),
+                    name: $(this).parent().parent().attr("data-name")
                 };
 
-                var tpl=$("#edit-collection-tpl").html();
+                var tpl = $("#edit-collection-tpl").html();
                 var html = juicer(tpl, c);
 
                 var d = dialog({
@@ -91,8 +91,8 @@
                     okValue: 'Modify',
                     ok: function () {
                         this.title('Committing…');
-                        var newName= $("#new_collection_name").val();
-                        if(!newName || !c.id){
+                        var newName = $("#new_collection_name").val();
+                        if (!newName || !c.id) {
                             $("#edit-collection-tip").text("null id or null name");
                             return false;
                         }
@@ -108,7 +108,7 @@
                                 if (result.success) {
                                     d.close();
                                     $("#my-collection-li-" + c.id).attr("data-name", newName);//更新li上的属性
-                                    $("#my-collection-li-" + c.id+" .collection-name a").text( newName);//更新a文字
+                                    $("#my-collection-li-" + c.id + " .collection-name a").text(newName);//更新a文字
                                 } else {
                                     d.close();
                                     _this.showTipDialog(result.msg);
@@ -126,6 +126,69 @@
                 });
                 d.show();
 
+            });
+
+            //导入collection按钮事件
+            $("#my-collections-area").on("click", "button.importCollection", function () {
+                var c = {
+                    id: $(this).parent().parent().attr("data-id"),
+                    name: $(this).parent().parent().attr("data-name")
+                };
+
+                var tpl = $("#import-collection-tpl").html();
+                var html = juicer(tpl, c);
+
+                var d = dialog({
+                    title: 'Import to Collection',
+                    content: html,
+                    width: 550,
+                    okValue: 'Modify',
+                    ok: function () {
+                        this.title('Committing…');
+                        var to_import_content = $("#to_import_content").val();
+                        if (!to_import_content || !c.id) {
+                            $("#import-collection-tip").text("input collection content to import.");
+                            return false;
+                        }
+
+                        try {
+                            JSON.parse(to_import_content);
+                        } catch (e) {
+                            $("#import-collection-tip").text("the content to import must be a json object.");
+                            return false;
+                        }
+
+                        $.ajax({
+                            type: "POST",
+                            url: "/user/collection/import",
+                            data: {
+                                id: c.id,
+                                content: to_import_content
+                            },
+                            success: function (result) {
+                                if (result.success) {
+                                    d.close();
+                                    //  setTimeout(function(){
+                                    _this.getHars(c.id);//重新获取该collection下的har列表
+                                    //},1000);
+
+
+                                } else {
+                                    d.close();
+                                    _this.showTipDialog(result.msg);
+                                }
+                            },
+                            error: function () {
+                                $("#import-collection-tip").text("import to collection error!");
+                            }
+                        });
+                        return false;
+                    },
+                    cancelValue: 'Cancel',
+                    cancel: function () {
+                    }
+                });
+                d.show();
             });
 
             //删除collection按钮
@@ -171,8 +234,8 @@
 
             $("#my-collections").on("click", "li a.my-collection-a", function () {
                 var collectionId = $(this).attr("data-id");
-                if ($("#my-collections #collection-hars-"+collectionId)[0]) {
-                    $("#my-collections #collection-hars-"+collectionId).remove();
+                if ($("#my-collections #collection-hars-" + collectionId)[0]) {
+                    $("#my-collections #collection-hars-" + collectionId).remove();
                 } else {
                     var cid = $(this).attr('data-id');
                     _this.getHars(cid);
@@ -294,9 +357,9 @@
             });
 
             //删除har按钮
-            $("#harform").on('click', ".deleteHarBtn", function(){
+            $("#harform").on('click', ".deleteHarBtn", function () {
                 var harId = $(this).attr("data-id");
-                if(!harId){
+                if (!harId) {
                     _this.showTipDialog("Warning", "No har to delete");
                     return;
                 }
@@ -325,14 +388,14 @@
                                         ddd.close().remove();
                                     }, 2000);
                                     d.close();
-                                    $("#my-har-li-"+harId).remove();//删除左侧树中对应的har
+                                    $("#my-har-li-" + harId).remove();//删除左侧树中对应的har
                                     _this.initDefaultHar();//初始化一个默认的har
                                 } else {
                                     d.close();
-                                    _this.showTipDialog("Error", "Delete har error: "+result.msg);
+                                    _this.showTipDialog("Error", "Delete har error: " + result.msg);
                                 }
                             },
-                            error:function(error){
+                            error: function (error) {
                                 d.close();
                                 _this.showTipDialog("Request Error", error);
                             }
@@ -348,7 +411,7 @@
             });
 
             //点击"send"按钮
-            $("#harform").on('click', '#sendBtn', function(){
+            $("#harform").on('click', '#sendBtn', function () {
                 var harObject = _this.getHarObject();
 
                 $.ajax({
@@ -360,53 +423,55 @@
                     success: function (result) {
                         if (result.success) {
                             var body = result.data.body;
-                            try{
+                            try {
                                 //if(typeof body === 'object')
                                 body = JSON.stringify(JSON.parse(body), null, 2);
-                            }catch(e){
+                            } catch (e) {
 
                             }
-                            var previewContent = "//Http StatusCode:"+result.data.responseStatus + " @" +_this.formatDate(new Date())+"\n\n"+body;
+                            var previewContent = "//Http StatusCode:" + result.data.responseStatus + " @" + _this.formatDate(new Date()) + "\n\n" + body;
                             _this.showPreview("Response OK", previewContent);
                             delete result.data.body
                         } else {
                             $("#codeArea").hide();
                             $("#execArea").show();
-                            if(result.errorCode==1)
-                                _this.showPreview("Response Error", "【构建的请求格式有误，请检查输入项】"+result.msg);
-                            else if(result.errorCode ==2)
-                                _this.showPreview("Response Error", "【执行代码发送http请求失败】"+result.msg);
+                            if (result.errorCode == 1)
+                                _this.showPreview("Response Error", "【构建的请求格式有误，请检查输入项】" + result.msg);
+                            else if (result.errorCode == 2)
+                                _this.showPreview("Response Error", "【执行代码发送http请求失败】" + result.msg);
                             else
-                                _this.showPreview("Response Error", "【其它错误】"+result.msg);
+                                _this.showPreview("Response Error", "【其它错误】" + result.msg);
                         }
                     },
-                    error:function(error){
+                    error: function (error) {
                         _this.showPreview("Response Error", JSON.stringify(error, null, 2));
                     }
                 });
             });
 
             //点击“save”按钮
-            $("#harform").on('click', '#updateBtn', function(){
+            $("#harform").on('click', '#updateBtn', function () {
                 var harContent = _this.getHarObject();
-                var harName = $("#har_name")[0]&&$("#har_name").val();
-                var harId =$("#har_id")[0]&& $("#har_id").val();
+                var harName = $("#har_name")[0] && $("#har_name").val();
+                var harId = $("#har_id")[0] && $("#har_id").val();
 
-                if(!harId){
+                if (!harId) {
                     dialog({
                         title: 'Warning',
                         content: 'No target to update. Use "Add to Collection" to create a new one',
-                        ok: function () {},
+                        ok: function () {
+                        },
                         cancel: false
                     }).show();
                     return;
                 }
 
-                if(!harName){
+                if (!harName) {
                     dialog({
                         title: 'Warning',
                         content: 'Name should not be empty',
-                        ok: function () {},
+                        ok: function () {
+                        },
                         cancel: false
                     }).show();
                     return;
@@ -432,34 +497,33 @@
                             }, 2000);
 
                             //在左侧collection树中更新这个har
-                            try{
-                                $("#my-har-li-"+harId+" span").text(harContent.method);
-                                $("#my-har-li-"+harId+" a").text(harName);
-                            }catch(e){
+                            try {
+                                $("#my-har-li-" + harId + " span").text(harContent.method);
+                                $("#my-har-li-" + harId + " a").text(harName);
+                            } catch (e) {
                                 console.error("更新左侧目录树出错");
                             }
 
                         } else {
-                            _this.showTipDialog("Error",result.msg);
+                            _this.showTipDialog("Error", result.msg);
                         }
                     },
-                    error:function(error){
+                    error: function (error) {
                         _this.showTipDialog("Error", error);
                     }
                 });
             });
 
             //点击"Add To Collection"按钮
-            $("#harform").on('click', '#addToCollectionBtn', function(){
+            $("#harform").on('click', '#addToCollectionBtn', function () {
                 var harObject = _this.getHarObject();
 
                 var currentCollections = _this.getCurrentCollections();
                 var tpl = $("#add-har-to-collection-tpl").html();
                 var html = juicer(tpl, {
-                    collections:currentCollections,
+                    collections: currentCollections,
                     harName: $("#har_name").val()
                 });
-
 
 
                 var d = dialog({
@@ -467,17 +531,17 @@
                     title: 'Add Har to Collection',
                     content: html,
                     okValue: 'Add',
-                    width:500,
+                    width: 500,
                     ok: function () {
                         this.title('Committing…');
                         var collectionId = $("#to_select_collection").val();
-                        if(!collectionId){
+                        if (!collectionId) {
                             $("#add-har-to-collection-tip").text("You must select one exsiting collection");
                             return false;
                         }
 
                         var new_har_name = $("#new_har_name").val();
-                        if(!new_har_name){
+                        if (!new_har_name) {
                             $("#add-har-to-collection-tip").text("You must input har name");
                             return false;
                         }
@@ -489,9 +553,9 @@
                             type: "POST",
                             url: "/user/har/addHarToCollection",
                             data: {
-                                collectionId:collectionId,
-                                har:harObject,
-                                name:new_har_name
+                                collectionId: collectionId,
+                                har: harObject,
+                                name: new_har_name
                             },
                             success: function (result) {
                                 if (result.success) {
@@ -519,7 +583,7 @@
                                     _this.getHar(result.data.harId);//成功添加到一个collection后重新初始化右侧harForm
                                     d.close();
                                 } else {
-                                    $("#add-har-to-collection-tip").text("add har to collection error!"+result.msg);
+                                    $("#add-har-to-collection-tip").text("add har to collection error!" + result.msg);
                                 }
                             },
                             error: function () {
@@ -547,11 +611,11 @@
 
         showTipDialog: function (title, content) {
             if (!content) {
-                title = "提示";
                 content = title;
+                title = "Tips";
             }
             var d = dialog({
-                title: title || '提示',
+                title: title || 'Tips',
                 content: content,
                 cancel: false,
                 ok: function () {
@@ -736,7 +800,7 @@
             //if (pCount > 0)
             //    $("#queryBtn span").text("URL Params(" + pCount + ")");
             //else
-                $("#queryBtn span").text("URL Params");
+            $("#queryBtn span").text("URL Params");
         },
 
         //重新构建QueryString的多个输入框
@@ -776,9 +840,8 @@
             //if (pCount > 0)
             //    $("#queryBtn span").text("URL Params(" + pCount + ")");
             //else
-                $("#queryBtn span").text("URL Params");
+            $("#queryBtn span").text("URL Params");
         },
-
 
 
         getHar: function (hid) {
@@ -814,7 +877,7 @@
             var tpl = $("#harform-tpl").html();
 
             //将两个属性直接放在content里，省去模板使用的麻烦
-            har.content = har.content ||{};
+            har.content = har.content || {};
             har.content.har_id = har.harId;
             har.content.har_name = har.name;
 
@@ -846,11 +909,11 @@
         },
 
         //获取左侧collection树列出的所有collection
-        getCurrentCollections: function(){
+        getCurrentCollections: function () {
             var result = [];
 
-            $("#my-collections li.my-collection-li").each(function(){
-                if($(this).attr("data-id") && $(this).attr("data-id")!=''){
+            $("#my-collections li.my-collection-li").each(function () {
+                if ($(this).attr("data-id") && $(this).attr("data-id") != '') {
                     result.push({
                         id: $(this).attr("data-id"),
                         name: $(this).attr("data-name")
@@ -887,7 +950,7 @@
             $("ul#collection-hars-" + cid).remove();
             var tpl = $("#collection-tree-tpl").html();
             var data = {
-                collectionId:cid,
+                collectionId: cid,
                 hars: hars
             };
             var html = juicer(tpl, data);
@@ -904,7 +967,7 @@
             if (second < 10) second = "0" + second;
             return year + "-" + month + "-" + date + " " + hour + ":" + minute + ":" + second;
         },
-        showPreview:function(title, content){
+        showPreview: function (title, content) {
             $('#right-content h5').text(title);
             $('#preview_code code').text(content);
             $('#preview_code').show();

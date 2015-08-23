@@ -4,14 +4,20 @@
 
     <style>
 
+
         #main-content{
             min-height:500px;
+            min-width:1200px;
         }
         #left-content{
             padding-left:0px;
         }
         #left-row{
             border-right:1px #dddddd dotted;
+            width:18%;
+        }
+        #right-row{
+            width:82%;
         }
         #my-collections{
             margin: 10px 0 0 0;
@@ -26,13 +32,13 @@
         }
 
         #my-collections li .collection-name{
-            width: 120px;
+            width: 100px;
             display: inline-block;
         }
 
         #my-collections li .collection-ops{
             display: none;
-            width: 56px;
+            width: 90px;
             margin-right: 0px;
             height:17px;
         }
@@ -170,6 +176,11 @@
                             <button type="button" data-id="<%=c.collectionId%>" class="btn btn-default btn-xs editCollection">
                                 <span class="glyphicon glyphicon-pencil" aria-hidden="true" aria-label="edit"></span>
                             </button>
+                            <button type="button" data-id="<%=c.collectionId%>" class="btn btn-default btn-xs importCollection">
+                                <span class="glyphicon glyphicon-import" aria-hidden="true" aria-label="import"></span>
+                            </button>
+
+
 
                             <button type="button" data-id="<%=c.collectionId%>" data-name="<%=c.name%>" class="btn btn-default btn-xs deleteCollection">
                                 <span class="glyphicon glyphicon-remove" aria-hidden="true" aria-label="delete"> </span>
