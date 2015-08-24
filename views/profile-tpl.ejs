@@ -67,14 +67,14 @@
                     <div class="input-group multi">
                         <input type="text" name="name" value="${q.name}" class="form-control no-border-input">
                         <input type="text" name="value" value="${q.value}"  class="form-control no-border-input">
-                    <span class="input-group-btn">
-                        <button type="button" class="btn btn-success">
-                            <i class="glyphicon glyphicon-plus-sign"></i>
-                        </button>
-                        <button type="button" class="btn btn-danger">
-                            <i class="glyphicon glyphicon-remove-sign"></i>
-                        </button>
-                    </span>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-success">
+                                <i class="glyphicon glyphicon-plus-sign"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger">
+                                <i class="glyphicon glyphicon-remove-sign"></i>
+                            </button>
+                        </span>
                     </div>
                 </div>
                 {@/each}
@@ -82,14 +82,14 @@
                     <div class="input-group multi">
                         <input type="text" name="name" placeholder="name"  class="form-control no-border-input">
                         <input type="text" name="value" placeholder="value" class="form-control no-border-input">
-                <span class="input-group-btn">
-                    <button type="button" class="btn btn-success">
-                        <i class="glyphicon glyphicon-plus-sign"></i>
-                    </button>
-                    <button type="button" class="btn btn-danger">
-                        <i class="glyphicon glyphicon-remove-sign"></i>
-                    </button>
-                </span>
+                        <span class="input-group-btn">
+                            <button type="button" class="btn btn-success">
+                                <i class="glyphicon glyphicon-plus-sign"></i>
+                            </button>
+                            <button type="button" class="btn btn-danger">
+                                <i class="glyphicon glyphicon-remove-sign"></i>
+                            </button>
+                        </span>
                     </div>
                 </div>
             </form>
@@ -124,10 +124,10 @@
                         <input type="text" name="value" value="*/*" placeholder="value" class="form-control no-border-input">
                             <span class="input-group-btn">
                                 <button type="button" class="btn btn-success">
-                                    <i class="glyphicon glyphicon-plus"></i>
+                                    <i class="glyphicon glyphicon-plus-sign"></i>
                                 </button>
                                 <button type="button" class="btn btn-danger">
-                                    <i class="glyphicon glyphicon-remove"></i>
+                                    <i class="glyphicon glyphicon-remove-sign"></i>
                                 </button>
                             </span>
                     </div>
@@ -210,10 +210,10 @@
                         <input type="text" name="value" placeholder="value" class="form-control no-border-input">
                         <span class="input-group-btn">
                             <button type="button" tabindex="-1" class="btn btn-success">
-                                <i class="glyphicon glyphicon-plus"></i>
+                                <i class="glyphicon glyphicon-plus-sign"></i>
                             </button>
                             <button type="button" tabindex="-1" class="btn btn-danger">
-                                <i class="glyphicon glyphicon-remove"></i>
+                                <i class="glyphicon glyphicon-remove-sign"></i>
                             </button>
                         </span>
                     </div>
@@ -249,10 +249,10 @@
                         <input type="text" name="value" placeholder="value" class="form-control no-border-input">
                             <span class="input-group-btn">
                                 <button type="button" tabindex="-1" class="btn btn-success">
-                                    <i class="glyphicon glyphicon-plus"></i>
+                                    <i class="glyphicon glyphicon-plus-sign"></i>
                                 </button>
                                 <button type="button" tabindex="-1" class="btn btn-danger">
-                                    <i class="glyphicon glyphicon-remove"></i>
+                                    <i class="glyphicon glyphicon-remove-sign"></i>
                                 </button>
                             </span>
                     </div>
@@ -286,10 +286,10 @@
                         <input type="text" name="value" placeholder="value" class="form-control no-border-input">
                             <span class="input-group-btn">
                                 <button type="button" tabindex="-1" class="btn btn-success">
-                                    <i class="glyphicon glyphicon-plus"></i>
+                                    <i class="glyphicon glyphicon-plus-sign"></i>
                                 </button>
                                 <button type="button" tabindex="-1" class="btn btn-danger">
-                                    <i class="glyphicon glyphicon-remove"></i>
+                                    <i class="glyphicon glyphicon-remove-sign"></i>
                                 </button>
                             </span>
                     </div>
@@ -307,10 +307,10 @@
                         <input type="text" name="value" placeholder="value" class="form-control no-border-input">
                             <span class="input-group-btn">
                                 <button type="button" tabindex="-1" class="btn btn-success">
-                                    <i class="glyphicon glyphicon-plus"></i>
+                                    <i class="glyphicon glyphicon-plus-sign"></i>
                                 </button>
                                 <button type="button" tabindex="-1" class="btn btn-danger">
-                                    <i class="glyphicon glyphicon-remove"></i>
+                                    <i class="glyphicon glyphicon-remove-sign"></i>
                                 </button>
                             </span>
                     </div>
@@ -393,7 +393,7 @@
 </script>
 
 
-<!-- 左侧collections tree-->
+<!-- 左侧collections tree一个collection下的hars-->
 <script id="collection-tree-tpl" type="text/template">
     <ul class="collection-hars" id="collection-hars-${collectionId}">
         {@if hars && hars.length>0 }
@@ -418,6 +418,31 @@
 </script>
 
 
+<!-- N个collection行-->
+<script id="all-collections-tpl" type="text/template">
+    <ul class="list" id="my-collections">
+        {@each collections as c}
+            <li id="my-collection-li-${c.collectionId}"  class="my-collection-li" data-id="${c.collectionId}" data-name="${c.name}" >
+                <div class="collection-name">
+                    <a data-id="${c.collectionId}" href="javascript:void(0);" class="my-collection-a">${c.name}</a>
+                </div>
+
+                <div class="collection-ops">
+                    <button type="button" data-id="${c.collectionId}" class="btn btn-default btn-xs editCollection">
+                        <span class="glyphicon glyphicon-pencil" aria-hidden="true" aria-label="edit"></span>
+                    </button>
+                    <button type="button" data-id="${c.collectionId}" class="btn btn-default btn-xs importCollection">
+                        <span class="glyphicon glyphicon-import" aria-hidden="true" aria-label="import"></span>
+                    </button>
+                    <button type="button" data-id="${c.collectionId}" data-name="${c.name}" class="btn btn-default btn-xs deleteCollection">
+                        <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" aria-label="delete"></span>
+                    </button>
+                </div>
+            </li>
+        {@/each}
+    </ul>
+</script>
+
 <!-- 一个collection行-->
 <script id="single-collection-tpl" type="text/template">
     <li id="my-collection-li-${collectionId}"  class="my-collection-li" data-id="${collectionId}" data-name="${name}" >
@@ -429,13 +454,16 @@
             <button type="button" data-id="${collectionId}" class="btn btn-default btn-xs editCollection">
                 <span class="glyphicon glyphicon-pencil" aria-hidden="true" aria-label="edit"></span>
             </button>
-
+            <button type="button" data-id="${collectionId}" class="btn btn-default btn-xs importCollection">
+                <span class="glyphicon glyphicon-import" aria-hidden="true" aria-label="import"></span>
+            </button>
             <button type="button" data-id="${collectionId}" data-name="${name}" class="btn btn-default btn-xs deleteCollection">
-                <span class="glyphicon glyphicon-remove" aria-hidden="true" aria-label="delete"> </span>
+                <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" aria-label="delete"></span>
             </button>
         </div>
     </li>
 </script>
+
 <!--包含最外面ul的一个collection行-->
 <script id="single-collection-with-ul-tpl" type="text/template">
     <ul class="list" id="my-collections">
@@ -448,9 +476,11 @@
                 <button type="button" data-id="${collectionId}" class="btn btn-default btn-xs editCollection">
                     <span class="glyphicon glyphicon-pencil" aria-hidden="true" aria-label="edit"></span>
                 </button>
-
+                <button type="button" data-id="${collectionId}" class="btn btn-default btn-xs importCollection">
+                    <span class="glyphicon glyphicon-import" aria-hidden="true" aria-label="import"></span>
+                </button>
                 <button type="button" data-id="${collectionId}" data-name="${name}" class="btn btn-default btn-xs deleteCollection">
-                    <span class="glyphicon glyphicon-remove" aria-hidden="true" aria-label="delete"> </span>
+                    <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" aria-label="delete"></span>
                 </button>
             </div>
         </li>

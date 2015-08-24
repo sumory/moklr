@@ -1,0 +1,181 @@
+#main-content{
+    min-height:500px;
+    min-width:1200px;
+}
+#left-content{
+    padding-left:0px;
+}
+#left-row{
+    border-right:1px #dddddd dotted;
+    width:18%;
+}
+#right-row{
+    width:82%;
+}
+#my-collections{
+    margin: 10px 0 0 0;
+    padding: 0;
+    list-style: none;
+}
+#my-collections li {
+    position: relative;
+    padding-bottom: 0px;
+    font-size:16px;
+    margin-bottom:2px;
+}
+
+#my-collections li .collection-name{
+    width: 100px;
+    display: inline-block;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAFVBMVEX///9wcHBwcHBwcHBwcHBwcHBwcHA3RenHAAAABnRSTlMAZoiZzN091q78AAAAH0lEQVQIW2NgIA44wxhqAlAGcyJMKAxdBK7GCUoTDwCd9gIQsibF/QAAAABJRU5ErkJggg==);
+    background-repeat: no-repeat;
+    background-position-y: 4px;
+    background-position-x: -2px;
+}
+
+#my-collections li .collection-ops{
+    display: none;
+    width: 90px;
+    margin-right: 0px;
+    height:17px;
+}
+
+#my-collections li .collection-ops button span{
+    top:0px;
+
+}
+
+#my-collections .collection-hars{
+    list-style:none;
+    padding-left:0px;
+    margin: 8px 0;
+}
+#my-collections .collection-hars a{
+    font-size:14px;
+    font-family: "News Cycle","Arial Narrow Bold",sans-serif;
+    font-weight: 600;
+    line-height: 20px;
+    color: #000000;
+    padding-left:0;
+}
+#my-collections .collection-hars span.badge{
+    font-size:12px;
+    vertical-align: 0px;
+    background-color: #8C8A8A;
+}
+
+#my-collections a.my-collection-a {
+    font-family: "News Cycle","Arial Narrow Bold",sans-serif;
+    font-weight: 700;
+    line-height: 20px;
+    color: #000000;
+    padding-left:0;
+    display: block;
+    margin-left:14px;
+}
+#my-collections li label{
+    position: relative;
+    margin-bottom:5px;
+    padding-top:2px;
+}
+
+#harform{
+    margin-left:15px;
+}
+
+#harform .glyphicon{
+    top:3px;
+}
+#harform .form-control{
+    height:30px;
+}
+
+#harform a{
+    line-height: 30px;
+    height: 30px;
+    padding:0px;
+}
+
+#harform .no-border-input{
+    border-top: 1px #FFF solid;
+    border-left: 1px #FFF solid;
+    border-right: 2px #FFF solid;
+    margin-right:3px;
+}
+
+#harform .form-group.pair{
+    width:100%;
+}
+
+#harform div[name=postData-text] p{
+    width: 100%;
+    font-size: 12px;
+    margin-top: 6px;
+}
+
+#header-form, #cookie-form{
+    display:none;
+}
+
+.row{
+    margin-left:0px;
+}
+pre code{
+    font-size:12px;
+}
+
+#top-ops{
+    margin-bottom: 20px;
+}
+
+#bottom-ops{
+    margin-top: 40px;
+}
+
+.op-a{
+    font-size:14px;
+}
+
+.input-group-btn .btn-danger{
+    color: #151414;
+    background-color: #FFFFFF;
+    border-color: #FFFFFF;
+}
+
+.input-group-btn .btn-success{
+    color: #151414;
+    background-color: #FFFFFF;
+    border-color: #FFFFFF;
+}
+
+.input-group-btn .btn-success:active,.input-group-btn .btn-success.active {
+    color: #111111;
+    background-color: #FFFFFF;
+    border-color: #ffffff
+}
+
+.input-group-btn .btn-success:active:hover,.input-group-btn .btn-success.active:hover {
+    color: #111111;
+    background-color: #FFFFFF;
+    border-color: #ffffff
+}
+
+.input-group-btn .btn-success:active,.input-group-btn .btn-success.active {
+    background-image: none
+}
+
+.input-group-btn .btn-danger:active,.input-group-btn .btn-danger.active {
+    color: #111111;
+    background-color: #FFFFFF;
+    border-color: #ffffff
+}
+
+.input-group-btn .btn-danger:active:hover,.input-group-btn .btn-danger.active:hover {
+    color: #111111;
+    background-color: #FFFFFF;
+    border-color: #ffffff
+}
+
+.input-group-btn .btn-danger:active,.input-group-btn .btn-danger.active {
+    background-image: none
+}

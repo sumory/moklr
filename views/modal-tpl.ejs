@@ -1,27 +1,22 @@
 <!--添加新的collection模板-->
-<div class="modal fade" id="createCollectionModal" tabindex="-1" role="dialog" aria-labelledby="exampleModalLabel">
-    <div class="modal-dialog" role="document">
-        <div class="modal-content">
-            <div class="modal-header">
-                <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
-                <h4 class="modal-title" id="exampleModalLabel">New Collection</h4>
+<script id="create-collection-tpl" type="text/template">
+        <form class="form-horizontal">
+            <div class="form-group">
+                <label for="exist_collections" class="col-sm-4 control-label">Collection Name</label>
+                <div class="col-sm-8">
+                    <input type="text" class="form-control" id="new-collection-name">
+                </div>
             </div>
-            <div class="modal-body">
-                <form>
-                    <div class="form-group">
-                        <label for="new-collection-name" class="control-label">name:</label>
-                        <input type="text" class="form-control" id="new-collection-name">
-                        <p id="create-collection-tip"></p>
+
+            <div class="form-group">
+                <div class="col-sm-offset-4 col-sm-8">
+                    <div class="checkbox">
+                        <span id="create-collection-tip"></span>
                     </div>
-                </form>
+                </div>
             </div>
-            <div class="modal-footer">
-                <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
-                <button type="button" class="btn btn-primary" id="createCollectionBtn">Save</button>
-            </div>
-        </div>
-    </div>
-</div>
+        </form>
+</script>
 
 <!--Add to Collection模板-->
 <script id="add-har-to-collection-tpl" type="text/template">

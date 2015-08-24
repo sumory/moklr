@@ -8,35 +8,10 @@
             collections: []
         },
         init: function () {
+            //初始化collection树
+            _this.getCollections();
 
-            juicer.set({
-                'cache': false
-            });
-
-            $("#harform").on('click', 'a#queryBtn', function () {
-                $("#query-form").show();
-                $("#header-form").hide();
-                $("#cookie-form").hide();
-            });
-            $("#harform").on('click', 'a#headerBtn', function () {
-                $("#query-form").hide();
-                $("#header-form").show();
-                $("#cookie-form").hide();
-            });
-
-            $("#harform").on('click', 'a#cookieBtn', function () {
-                $("#query-form").hide();
-                $("#header-form").hide();
-                $("#cookie-form").show();
-            });
-
-            $("#harform").on('click', 'a#previewBtn', function () {
-                var har = _this.getHarObject();
-                har = JSON.stringify(har, null, 2);
-                _this.showPreview("Preview Har", har);
-
-            });
-
+            //绑定事件
             _this.initHarOpsEnvent();
             _this.initCollectionOpsEnvent();
 
@@ -62,14 +37,13 @@
             });
         },
 
-
         initCollectionOpsEnvent: function () {
-            $("#my-collections-area #my-collections").on("mouseenter", ".my-collection-li", function () {
+            $("#my-collections-area").on("mouseenter", " #my-collections .my-collection-li", function () {
                 $(this).css("background-color", "#eee");
                 $(this).find(".collection-ops").css("display", "inline-block").show();
             });
 
-            $("#my-collections-area #my-collections").on("mouseleave", ".my-collection-li", function () {
+            $("#my-collections-area").on("mouseleave", " #my-collections .my-collection-li", function () {
                 $(this).css("background-color", "#fff");
                 $(this).find(".collection-ops").hide();
             });
@@ -142,7 +116,7 @@
                     title: 'Import to Collection',
                     content: html,
                     width: 550,
-                    okValue: 'Modify',
+                    okValue: 'Import',
                     ok: function () {
                         this.title('Committing…');
                         var to_import_content = $("#to_import_content").val();
@@ -188,7 +162,7 @@
                     cancel: function () {
                     }
                 });
-                d.show();
+                d.showModal();
             });
 
             //删除collection按钮
@@ -232,65 +206,107 @@
             });
 
 
-            $("#my-collections").on("click", "li a.my-collection-a", function () {
+            //点击每个collection连接
+            $("#my-collections-area").on("click", "#my-collections li a.my-collection-a", function () {
                 var collectionId = $(this).attr("data-id");
                 if ($("#my-collections #collection-hars-" + collectionId)[0]) {
                     $("#my-collections #collection-hars-" + collectionId).remove();
+
+
+                    $(this).parent().css("background-image", "url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAFVBMVEX///9wcHBwcHBwcHBwcHBwcHBwcHA3RenHAAAABnRSTlMAZoiZzN091q78AAAAH0lEQVQIW2NgIA44wxhqAlAGcyJMKAxdBK7GCUoTDwCd9gIQsibF/QAAAABJRU5ErkJggg==)");
+
+
                 } else {
+                    $(this).parent().css("background-image", "url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAFVBMVEX///9wcHBwcHBwcHBwcHBwcHBwcHA3RenHAAAABnRSTlMAZoiZzN091q78AAAAIUlEQVQImWNgIBOwKDCogBlMyczJECGxMAEIgzGRXFMZAItzAfJQpekuAAAAAElFTkSuQmCC)");
                     var cid = $(this).attr('data-id');
                     _this.getHars(cid);
                 }
             });
 
-
-            $('#createCollectionModal').on('show.bs.modal', function (event) {
-                var button = $(event.relatedTarget);
-                var modal = $(this);
+            //点击每个har连接
+            $("#my-collections-area").on("click", "#my-collections a.my-har-a", function () {
+                var hid = $(this).attr('data-id');
+                _this.getHar(hid);
             });
 
+            //创建collection按钮事件
             $('#createCollectionBtn').click(function () {
-                var newName = $("#new-collection-name").val();
-                if (!newName) {
-                    $("#create-collection-tip").text('input the name of collection!');
-                    return;
-                }
-
-                $.ajax({
-                    type: "POST",
-                    url: "/user/collection/create",
-                    data: {
-                        name: newName
-                    },
-                    success: function (result) {
-                        if (result.success) {
-                            $('#createCollectionModal').modal('hide');
-
-                            if ($("#my-collections")[0]) {//已存在collection tree
-                                var tpl = $("#single-collection-tpl").html();
-                                var html = juicer(tpl, result.data);
-                                $("#my-collections").prepend(html);
-                                _this.resetCollectionCount();
-                            } else {
-                                var tpl = $("#single-collection-with-ul-tpl").html();
-                                var html = juicer(tpl, result.data);
-                                $("#my-collections-area").html(html);
-                                $("#collection-count-bage").text("1");
-                            }
-
-                        } else {
-                            $("#create-collection-tip").text(result.msg);
+                console.log("fsafd")
+                var d = dialog({
+                    title: 'Create New Collection',
+                    content: $("#create-collection-tpl").html(),
+                    okValue: 'Create',
+                    width: 450,
+                    ok: function () {
+                        this.title('Committing…');
+                        var newName = $("#new-collection-name").val();
+                        if (!newName) {
+                            $("#create-collection-tip").text('input the name of collection!');
+                            return;
                         }
+                        $.ajax({
+                            type: "POST",
+                            url: "/user/collection/create",
+                            data: {
+                                name: newName
+                            },
+                            success: function (result) {
+                                if (result.success) {
+                                    d.close();
+
+                                    if ($("#my-collections")[0]) {//已存在collection tree
+                                        var tpl = $("#single-collection-tpl").html();
+                                        var html = juicer(tpl, result.data);
+                                        $("#my-collections").prepend(html);
+                                        _this.resetCollectionCount();
+                                    } else {
+                                        var tpl = $("#single-collection-with-ul-tpl").html();
+                                        var html = juicer(tpl, result.data);
+                                        $("#my-collections-area").html(html);
+                                        $("#collection-count-bage").text("1");
+                                    }
+
+                                } else {
+                                    $("#create-collection-tip").text(result.msg);
+                                }
+                            },
+                            error: function () {
+                                $("#create-collection-tip").text("create collection error!");
+                            }
+                        });
                     },
-                    error: function () {
-                        $("#create-collection-tip").text("create collection error!");
+                    cancelValue: 'Cancel',
+                    cancel: function () {
                     }
                 });
-
-
+                d.showModal();
             });
         },
 
         initHarOpsEnvent: function () {
+            $("#harform").on('click', 'a#queryBtn', function () {
+                $("#query-form").show();
+                $("#header-form").hide();
+                $("#cookie-form").hide();
+            });
+            $("#harform").on('click', 'a#headerBtn', function () {
+                $("#query-form").hide();
+                $("#header-form").show();
+                $("#cookie-form").hide();
+            });
+
+            $("#harform").on('click', 'a#cookieBtn', function () {
+                $("#query-form").hide();
+                $("#header-form").hide();
+                $("#cookie-form").show();
+            });
+
+            $("#harform").on('click', 'a#previewBtn', function () {
+                var har = _this.getHarObject();
+                har = JSON.stringify(har, null, 2);
+                _this.showPreview("Preview Har", har);
+            });
+
             //点击“加号“添加新的输入行
             $('#harform').on('click', '.form-group.pair:last-of-type .btn-success', _this.addKeyPair);
 
@@ -350,11 +366,6 @@
                 _this.rebuildQueryString();
             });
 
-            //点击每个har连接
-            $("#my-collections").on("click", "a.my-har-a", function () {
-                var hid = $(this).attr('data-id');
-                _this.getHar(hid);
-            });
 
             //删除har按钮
             $("#harform").on('click', ".deleteHarBtn", function () {
@@ -617,6 +628,7 @@
             var d = dialog({
                 title: title || 'Tips',
                 content: content,
+                width: 350,
                 cancel: false,
                 ok: function () {
                 }
@@ -889,7 +901,7 @@
             }
         },
 
-        getCollections: function (callback) {
+        getCollections: function () {
             $.ajax({
                 type: "GET",
                 url: "/user/collections",
@@ -897,7 +909,14 @@
                 success: function (result) {
                     if (result.success) {
                         _this.data.collections = result.data;
-                        callback && callback();
+                        var tpl = $("#all-collections-tpl").html();
+                        var data = {
+                            collections: result.data
+                        };
+
+                        var html = juicer(tpl, data);
+                        $("#my-collections-area").html(html);
+                        $("#collection-count-bage").text(result.data && (result.data.length || 0));
                     } else {
                         alert("获取collections数据出错：" + result.msg);
                     }

@@ -5,8 +5,8 @@ moklr定位于http请求代码生成，自动化测试等test/development辅助�
 
 ### features
 
-- [X] postman替代品
-- [X] http请求代码生成
+- [X] postman替代品，支持postaman数据直接导入
+- [X] http请求代码生成，支持常见的多种语言(js/java/go/python/shell/ruby等等)
 - [ ] 批量测试case
 - [ ] API status检查
 - [ ] 测试文档和API文档生成
@@ -22,7 +22,7 @@ moklr定位于http请求代码生成，自动化测试等test/development辅助�
 	cd moklr
 	npm install .
 	#根据具体情况修改config配置
-	node app.js
+	NODE_ENV=test node app.js
 	#访问http://localhost:8001
 	```
 

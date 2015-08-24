@@ -3,11 +3,11 @@ var router = express.Router();
 var moklrModel = require('../models/moklrModel.js');
 var logger = require('../lib/log.js').logger('authRouter');
 
-router.get('/login', function(req, res, next) {
+router.get('/login', function (req, res, next) {
     res.render('login');
 });
 
-router.post('/login', function(req, res, next) {
+router.post('/login', function (req, res, next) {
     try {
         var password = req.body.password.trim();
         var username = req.body.username.trim();
@@ -25,10 +25,10 @@ router.post('/login', function(req, res, next) {
             return;
         }
 
-        moklrModel.findUser(username, password, function(err, user){
-            if(err || !user){
+        moklrModel.findUser(username, password, function (err, user) {
+            if (err || !user) {
                 logger.error(err);
-                return  res.render('error', {
+                return res.render('error', {
                     msg: "查找用户出错或用户不存在"
                 });
             }

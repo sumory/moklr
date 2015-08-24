@@ -13,129 +13,6 @@ code, kbd, pre, samp {
     font-family: 'Source Code Pro', Menlo, Monaco, Consolas, 'Courier New', monospace;
 }
 
-#preview {
-    position: relative;
-
-    border-radius: 4px;
-    border: 1px solid #C7C7C7;
-    border: 1px solid rgba(0, 0, 0, .22);
-    background-color: #FFFFFF;
-
-    box-shadow: 1px 0px 3px rgba(0, 0, 0, .15);
-
-    -moz-background-clip: padding;
-    -webkit-background-clip: padding-box;
-    background-clip: padding-box;
-}
-
-#preview header {
-    height: 50px;
-    border-bottom: 1px solid #EAEAEA;
-    background-color: #FCFCFC;
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-}
-
-#preview .nav-tabs {
-    border: 0;
-    height: 51px;
-    position: absolute;
-}
-
-#preview .nav-tabs > li {
-    margin-bottom: 0;
-}
-
-#preview .nav-tabs > li a,
-#preview .nav-tabs > li a:focus {
-    border-top: none;
-    border-bottom: none;
-    border-radius: 0;
-
-    color: #8C9093;
-    font-size: 13px;
-    font-weight: 600;
-
-    padding: 16px;
-    margin-right: 0;
-}
-
-#preview .nav-tabs > li:not(.active) a:hover {
-    color: #41484C;
-    background-color: #FCFCFC;
-}
-
-#preview .nav-tabs .open > a {
-    border-color: #E6E6E6;
-    background-color: #FCFCFC;
-}
-
-#preview .nav-tabs {
-    border-top-left-radius: 4px;
-    border-top-right-radius: 4px;
-}
-
-#preview .nav-tabs > li:first-of-type > a {
-    border-left: none;
-    border-top-left-radius: 4px;
-}
-
-#preview .nav-tabs > li.active > a,
-#preview .nav-tabs > li.active > a:focus,
-#preview .nav-tabs > li.active > a:hover {
-    color: #216FA6;
-    border-color: #E6E6E6;
-}
-
-
-#preview .tab-content .tab-pane,
-#preview .tab-content .tab-pane pre,
-#preview .tab-content .tab-pane pre code {
-    height: 100%;
-
-    white-space: pre;
-    word-break: normal;
-    word-wrap: normal;
-}
-
-#preview .tab-content .tab-pane .btn-clipboard {
-    position: absolute;
-    top: 13px;
-    right: 12px;
-
-    border-color: #D7D9DB;
-
-    color: #399ee5;
-    font-size: 11px;
-    font-weight: 600;
-
-    padding: 3px 7px;
-
-    background: #F7F7F7;
-    background: -moz-linear-gradient(0deg, #F7F7F7 0%, #FFFFFF 100%);
-    background: -webkit-linear-gradient(0deg, #F7F7F7 0%, #FFFFFF 100%);
-    background: -o-linear-gradient(0deg, #F7F7F7 0%, #FFFFFF 100%);
-    background: -ms-linear-gradient(0deg, #F7F7F7 0%, #FFFFFF 100%);
-    background: linear-gradient(0deg, #F7F7F7 0%, #FFFFFF 100%);
-}
-
-#preview pre {
-    margin: 0;
-    padding: 0;
-
-    max-height: 800px;
-
-    border: none;
-    border-radius: 4px;
-
-    background-color: #FFFFFF;
-}
-
-#preview .hljs {
-    padding: 15px;
-    border-radius: 4px;
-    background-color: #FFFFFF;
-}
 
 div[data-page="moklr"] .form-inline .form-group {
     margin-bottom: 15px;
@@ -161,12 +38,12 @@ div[data-page="moklr"] .pair .btn-danger {
     border-radius: 0px;
 }
 
-#harform .btn-success i{
-    top:0px;
+#harform .btn-success i {
+    top: 0px;
 }
 
-#harform .btn-danger i{
-    top:0px;
+#harform .btn-danger i {
+    top: 0px;
 }
 
 div[data-page="moklr"] .pair:not(:last-of-type) .btn-success {
@@ -176,8 +53,6 @@ div[data-page="moklr"] .pair:not(:last-of-type) .btn-success {
 div[data-page="moklr"] code {
     min-height: 400px;
 }
-
-
 
 .table {
     table-layout: fixed;
@@ -193,39 +68,38 @@ div[data-page="moklr"] code {
 .badge {
     padding-bottom: 2px;
     padding-top: 4px;
-     vertical-align: 2px;
+    vertical-align: 2px;
     font-size: 10px;
 }
 
 /**/
-.logo a{
-    font-size:24px;
+.logo a {
+    font-size: 24px;
 }
 
-.container{
-    padding-left:0px;
-    padding-right:0px;
+.container {
+    padding-left: 0px;
+    padding-right: 0px;
 }
 
-span.input-group-btn button.btn{
-    height:30px;
+span.input-group-btn button.btn {
+    height: 30px;
 }
 
-
-#preview_code{
-    margin-top:20px;
+#preview_code {
+    margin-top: 20px;
 }
 
-#codeArea{
-    display:none;
+#codeArea {
+    display: none;
 }
 
-#execArea{
-    display:none;
+#execArea {
+    display: none;
 }
 
-form[name=postData-params]{
-    display:none;
+form[name=postData-params] {
+    display: none;
 }
 
 .btn-default {
@@ -234,7 +108,7 @@ form[name=postData-params]{
     border-color: #ccc;
 }
 
-.btn-default.focus,.btn-default:focus {
+.btn-default.focus, .btn-default:focus {
     color: #333;
     background-color: #e6e6e6;
     border-color: #8c8c8c
@@ -246,23 +120,23 @@ form[name=postData-params]{
     border-color: #adadad
 }
 
-.btn-default.active,.btn-default:active {
+.btn-default.active, .btn-default:active {
     color: #333;
     background-color: #e6e6e6;
     border-color: #adadad
 }
 
-.btn-default.active.focus,.btn-default.active:focus,.btn-default.active:hover,.btn-default:active.focus,.btn-default:active:focus,.btn-default:active:hover {
+.btn-default.active.focus, .btn-default.active:focus, .btn-default.active:hover, .btn-default:active.focus, .btn-default:active:focus, .btn-default:active:hover {
     color: #333;
     background-color: #d4d4d4;
     border-color: #8c8c8c
 }
 
-.btn-default.active,.btn-default:active,.open>.dropdown-toggle.btn-default {
+.btn-default.active, .btn-default:active, .open > .dropdown-toggle.btn-default {
     background-image: none
 }
 
-.btn-default.disabled,.btn-default.disabled.active,.btn-default.disabled.focus,.btn-default.disabled:active,.btn-default.disabled:focus,.btn-default.disabled:hover,.btn-default[disabled],.btn-default[disabled].active,.btn-default[disabled].focus,.btn-default[disabled]:active,.btn-default[disabled]:focus,.btn-default[disabled]:hover,fieldset[disabled] .btn-default,fieldset[disabled] .btn-default.active,fieldset[disabled] .btn-default.focus,fieldset[disabled] .btn-default:active,fieldset[disabled] .btn-default:focus,fieldset[disabled] .btn-default:hover {
+.btn-default.disabled, .btn-default.disabled.active, .btn-default.disabled.focus, .btn-default.disabled:active, .btn-default.disabled:focus, .btn-default.disabled:hover, .btn-default[disabled], .btn-default[disabled].active, .btn-default[disabled].focus, .btn-default[disabled]:active, .btn-default[disabled]:focus, .btn-default[disabled]:hover, fieldset[disabled] .btn-default, fieldset[disabled] .btn-default.active, fieldset[disabled] .btn-default.focus, fieldset[disabled] .btn-default:active, fieldset[disabled] .btn-default:focus, fieldset[disabled] .btn-default:hover {
     background-color: #fff;
     border-color: #ccc
 }
@@ -272,7 +146,21 @@ form[name=postData-params]{
     background-color: #333
 }
 
+.col-md-12 {
+    padding-left: 0px;
+}
 
-.col-md-12{
-    padding-left:0px;
+.control-label {
+    font-size: 14px;
+}
+
+.navbar-default {
+    background-color: #F4F4F4;
+    border-color: #eeeeee;
+    border-radius: 0px;
+}
+
+.form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
+    background-color: #F9F9F9;
+    opacity: 1;
 }

@@ -6,32 +6,32 @@ var util = require("util");
 
 module.exports = router;
 
-router.get('/exec', function(req, res, next) {
+router.get('/exec', function (req, res, next) {
     var requestObj = req.query.r;
     console.dir(requestObj);
-    if (!requestObj){
+    if (!requestObj) {
         return res.json({
-            success:false,
+            success: false,
             errorCode: 1,
-            msg:"缺少请求描述参数：r"
+            msg: "缺少请求描述参数：r"
         });
     }
 
-    if(requestObj){
-        run(requestObj, function(err, response, body){
-            if(err){
+    if (requestObj) {
+        run(requestObj, function (err, response, body) {
+            if (err) {
                 return res.json({
-                    success:false,
+                    success: false,
                     errorCode: 2,
                     msg: err.toString()
                 });
-            }else{
+            } else {
                 return res.json({
-                    success:true,
+                    success: true,
                     errorCode: 0,
-                    msg:"ok",
+                    msg: "ok",
                     data: {
-                        responseStatus: response.statusCode||'nil',
+                        responseStatus: response.statusCode || 'nil',
                         body: body
                     }
                 });
@@ -41,47 +41,46 @@ router.get('/exec', function(req, res, next) {
 });
 
 
-
-router.get('/execById', function(req, res, next) {
+router.get('/execById', function (req, res, next) {
     var rid = req.params.rid;
-    if(!rid){
+    if (!rid) {
         return res.json({
-            success:false,
+            success: false,
             errorCode: 1,
-            msg:"缺少参数：request id"
+            msg: "缺少参数：request id"
         });
     }
 
     redis.get('bin:' + rid, function (err, value) {
         if (err) {
-            return res.json('error',{
-                success:false,
+            return res.json('error', {
+                success: false,
                 errorCode: 1,
-                msg:"无法找到构建的请求"
+                msg: "无法找到构建的请求"
             });
         }
 
         if (!util.isObject(value)) {
-            return res.json('error',{
-                success:false,
+            return res.json('error', {
+                success: false,
                 errorCode: 1,
-                msg:"构建的请求不是合法的格式"
+                msg: "构建的请求不是合法的格式"
             });
         }
 
 
-        run(value, function(err, response, body){
-            if(err){
+        run(value, function (err, response, body) {
+            if (err) {
                 return res.json({
-                    success:false,
+                    success: false,
                     errorCode: 2,
                     msg: err.toString()
                 });
-            }else{
+            } else {
                 return res.json({
-                    success:true,
+                    success: true,
                     errorCode: 0,
-                    msg:"ok",
+                    msg: "ok",
                     data: {
                         responseStatus: response.statusCode,
                         body: body
@@ -93,8 +92,8 @@ router.get('/execById', function(req, res, next) {
 
 });
 
-function run(r, callback){
-    if(r.method=="GET"){
+function run(r, callback) {
+    if (r.method == "GET") {
         var options = r;
         request(options, function (error, response, body) {
             console.log("========");
@@ -107,24 +106,24 @@ function run(r, callback){
 
         });
 
-    }else if(r.method=="POST") {
-        r.form ={};
+    } else if (r.method == "POST") {
+        r.form = {};
         var mimeType = r.postData.mimeType;
-        if(mimeType ==='application/x-www-form-urlencoded' || mimeType==='multipart/form-data'){
-            var params ={};
+        if (mimeType === 'application/x-www-form-urlencoded' || mimeType === 'multipart/form-data') {
+            var params = {};
             var toParseParams = r.postData.params;
-            if(toParseParams&& toParseParams.length>0){
-                for (var o= 0,p= toParseParams.length; o<p;o++){
+            if (toParseParams && toParseParams.length > 0) {
+                for (var o = 0, p = toParseParams.length; o < p; o++) {
                     var f = toParseParams[o];
-                    params[f.name]= f.value;
+                    params[f.name] = f.value;
                 }
             }
-            r.form = params||{};
-        }else if(mimeType==='application/json'){
-            try{
-                var textjson = JSON.parse(r.postData.text||{});
+            r.form = params || {};
+        } else if (mimeType === 'application/json') {
+            try {
+                var textjson = JSON.parse(r.postData.text || {});
                 r.form = textjson;
-            }catch(e){
+            } catch (e) {
                 return callback && callback(new Error("postData[text] must be json format"));
             }
 
@@ -142,12 +141,10 @@ function run(r, callback){
 
         });
     }
-    else{
-        callback &&  callback(new Error("request method is illegal"));
+    else {
+        callback && callback(new Error("request method is illegal"));
     }
 }
-
-
 
 
 //run({

@@ -99,39 +99,27 @@
                     alert("url不能为空");
                     return;
                 }
-                $("#codeArea").hide();
                 $("#preview_code pre code").empty();
                 $("#selectedLanguage").text("");
 
                 var har = _this.getHar();
+
                 $.ajax({
-                    type: "POST",  //提交方式
-                    url: "/mock/create",//路径
-                    dataType: "json",
+                    type: "GET",  //提交方式
+                    url: "/mock/gen",//路径
                     data: {
-                        "response": JSON.stringify(har)
+                        har: har
                     },
                     success: function (result) {//返回数据根据结果进行相应的处理
-                        if (result.success) {
-                            $("#codeArea").show();
-                            $.ajax({
-                                type: "GET",  //提交方式
-                                url: "/mock/gen",//路径
-                                data: {
-                                    "uuid": result.data.id
-                                },
-                                success: function (result) {//返回数据根据结果进行相应的处理
-                                    _this.data.codes = result.output;
-                                    _this.initCodes(result.output);
-                                }
-                            });
-
-                        } else {
-                            $("#codeArea").hide();
-                            alert("提交失败");
-                        }
+                        _this.data.codes = result.output;
+                        _this.initCodes(result.output);
+                    },
+                    error:function(){
+                        alert("生成代码过程出错");
                     }
                 });
+
+
                 return false;
             });
 

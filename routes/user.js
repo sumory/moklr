@@ -3,21 +3,22 @@ var router = express.Router();
 var moklrModel = require('../models/moklrModel.js');
 var commonUtils = require('../lib/utils.js');
 var util = require('util');
-var queryString  = require('querystring');
+var queryString = require('querystring');
 var urlUtil = require('url');
-var async=require('async');
+var async = require('async');
 
 var logger = require('../lib/log.js').logger('userRouter');
 
 //去往用户首页
 router.get('/profile', commonUtils.checkLogin, function (req, res, next) {
     var uid = req.session.user.userId;
+    res.render("profile");
 
-    moklrModel.findCollections(uid, function (err, cs) {
-        res.render('profile', {
-            collections: cs
-        });
-    });
+    //moklrModel.findCollections(uid, function (err, cs) {
+    //    res.render('profile', {
+    //        collections: cs
+    //    });
+    //});
 });
 
 router.get('/hars', commonUtils.checkLoginAjax, function (req, res, next) {
@@ -123,6 +124,26 @@ router.post('/har/delete', commonUtils.checkLoginAjax, function (req, res, next)
     });
 });
 
+router.get('/collections', commonUtils.checkLoginAjax, function (req, res, next) {
+    var uid = req.session.user.userId;
+
+    moklrModel.findCollections(uid, function (err, cs) {
+        if (err) {
+            return res.json({
+                success: false,
+                msg: "获取collections出错"
+            });
+        } else {
+            return res.json({
+                success: true,
+                msg: "ok",
+                data: cs
+            });
+        }
+    });
+
+});
+
 router.post('/collection/create', commonUtils.checkLoginAjax, function (req, res, next) {
     var name = req.body.name;
     var uid = req.session.user.userId;
@@ -179,19 +200,19 @@ router.post('/collection/import', commonUtils.checkLoginAjax, function (req, res
 
     logger.info("导入collection:", content);
     var requests = content.requests;
-    var hars =[];
+    var hars = [];
 
     for (var i in requests) {
         var toImport = false;
         var r = requests[i];
         var name = r.name;
 
-        try{
-            var queryString=[];
-            var urlObject = urlUtil.parse(r.url,true);
-            if(urlObject&& urlObject.query){
-                for(var q in urlObject.query){
-                    if(q){
+        try {
+            var queryString = [];
+            var urlObject = urlUtil.parse(r.url, true);
+            if (urlObject && urlObject.query) {
+                for (var q in urlObject.query) {
+                    if (q) {
                         queryString.push({
                             name: q,
                             value: urlObject.query[q]
@@ -202,19 +223,19 @@ router.post('/collection/import', commonUtils.checkLoginAjax, function (req, res
 
             var headers = [];
             var headersArray = r.headers.split("\n");
-            for(var h in headersArray){
+            for (var h in headersArray) {
                 var h = headersArray[h];
-                if(h){
+                if (h) {
                     var ha = h.split(":");
-                    if(ha&&ha.length>1&&ha[0]){
+                    if (ha && ha.length > 1 && ha[0]) {
                         headers.push({
                             name: ha[0],
-                            value:ha[1]||""
+                            value: ha[1] || ""
                         });
                     }
                 }
             }
-            var har ={};
+            var har = {};
 
             if (r.method === "GET") {
                 har = {
@@ -225,14 +246,14 @@ router.post('/collection/import', commonUtils.checkLoginAjax, function (req, res
                     "headers": headers,
                     "cookies": []
                 };
-                toImport=true;
+                toImport = true;
             }
-            else if (r.method === "POST" && r.dataMode==="raw") {
+            else if (r.method === "POST" && r.dataMode === "raw") {
                 har = {
                     "method": "POST",
                     "url": r.url,
                     "httpVersion": "HTTP/1.1",
-                    "queryString":queryString,
+                    "queryString": queryString,
                     "headers": headers,
                     "postData": {
                         "mimeType": "application/json",
@@ -240,11 +261,11 @@ router.post('/collection/import', commonUtils.checkLoginAjax, function (req, res
                     },
                     "cookies": []
                 };
-                toImport=true;
+                toImport = true;
             }
-            else if (r.method === "POST" && r.dataMode==="urlencoded") {
+            else if (r.method === "POST" && r.dataMode === "urlencoded") {
                 var params = [];
-                for(var j in r.data){
+                for (var j in r.data) {
                     params.push({
                         name: r.data[j].key,
                         value: r.data[j].value
@@ -263,31 +284,31 @@ router.post('/collection/import', commonUtils.checkLoginAjax, function (req, res
                     },
                     "cookies": []
                 };
-                toImport=true;
-            }else{
+                toImport = true;
+            } else {
                 log.error("要导入的某个request格式错误", r);
-                toImport=false;
+                toImport = false;
             }
 
-            if(toImport){
+            if (toImport) {
                 hars.push({
-                    name:name,
-                    har:har
+                    name: name,
+                    har: har
                 });
             }
-        }catch(e){
+        } catch (e) {
             logger.error("处理导入出错", name, r);
         }
     }
 
 
-    async.map(hars, function(har, callback){
-        moklrModel.createHar(uid,cid, har.name, har.har, function(err, result ){
-            callback(err,result);
+    async.map(hars, function (har, callback) {
+        moklrModel.createHar(uid, cid, har.name, har.har, function (err, result) {
+            callback(err, result);
         });
-    }, function(err, results){
-        if(err){
-            return  res.json({
+    }, function (err, results) {
+        if (err) {
+            return res.json({
                 success: false,
                 msg: err
             });
