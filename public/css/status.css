@@ -1,0 +1,125 @@
+#main-content{
+    min-height:500px;
+    min-width:1200px;
+}
+#left-content{
+    padding-left:0px;
+}
+#left-row{
+    border-right:1px #dddddd dotted;
+    width:18%;
+}
+#right-row{
+    width:82%;
+}
+#status-apis{
+    margin: 10px 0 0 0;
+    padding: 0;
+    list-style: none;
+}
+#status-apis li {
+    position: relative;
+    padding-bottom: 0px;
+    font-size:16px;
+    margin-bottom:2px;
+}
+
+#status-apis li .status-api-name{
+    width: 140px;
+    display: inline-block;
+    background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAFVBMVEX///9wcHBwcHBwcHBwcHBwcHBwcHA3RenHAAAABnRSTlMAZoiZzN091q78AAAAH0lEQVQIW2NgIA44wxhqAlAGcyJMKAxdBK7GCUoTDwCd9gIQsibF/QAAAABJRU5ErkJggg==);
+    background-repeat: no-repeat;
+    background-position-y: 4px;
+    background-position-x: -2px;
+}
+
+#status-apis li .status-api-ops{
+    display: none;
+    height:17px;
+    position: absolute;
+    top:2px;
+    right:4px;
+}
+
+#status-apis li .status-api-ops button span{
+    top:0px;
+}
+
+#status-apis a.status-api-a {
+    font-family: "News Cycle","Arial Narrow Bold",sans-serif;
+    font-weight: 700;
+    line-height: 20px;
+    color: #000000;
+    padding-left:0;
+    display: block;
+    margin-left:14px;
+}
+#status-apis li label{
+    position: relative;
+    margin-bottom:5px;
+    padding-top:2px;
+}
+
+
+.row{
+    margin-left:0px;
+}
+pre code{
+    font-size:12px;
+}
+
+#top-ops{
+    margin-bottom: 20px;
+}
+
+#bottom-ops{
+    margin-top: 40px;
+}
+
+.op-a{
+    font-size:14px;
+}
+
+.input-group-btn .btn-danger{
+    color: #151414;
+    background-color: #FFFFFF;
+    border-color: #FFFFFF;
+}
+
+.input-group-btn .btn-success{
+    color: #151414;
+    background-color: #FFFFFF;
+    border-color: #FFFFFF;
+}
+
+.input-group-btn .btn-success:active,.input-group-btn .btn-success.active {
+    color: #111111;
+    background-color: #FFFFFF;
+    border-color: #ffffff
+}
+
+.input-group-btn .btn-success:active:hover,.input-group-btn .btn-success.active:hover {
+    color: #111111;
+    background-color: #FFFFFF;
+    border-color: #ffffff
+}
+
+.input-group-btn .btn-success:active,.input-group-btn .btn-success.active {
+    background-image: none
+}
+
+.input-group-btn .btn-danger:active,.input-group-btn .btn-danger.active {
+    color: #111111;
+    background-color: #FFFFFF;
+    border-color: #ffffff
+}
+
+.input-group-btn .btn-danger:active:hover,.input-group-btn .btn-danger.active:hover {
+    color: #111111;
+    background-color: #FFFFFF;
+    border-color: #ffffff
+}
+
+.input-group-btn .btn-danger:active,.input-group-btn .btn-danger.active {
+    background-image: none
+}

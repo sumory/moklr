@@ -186,7 +186,7 @@
                                     d.close();
                                     $("#my-collection-li-" + toDeleteCollectionId).remove();//删除li
                                     $("ul#collection-hars-" + toDeleteCollectionId).remove();//删除li下属的ul
-                                    _this.resetCollectionCount();//重置badge计数
+                                    _this.resetStatusAPICount();//重置badge计数
                                 } else {
                                     d.close();
                                     _this.showTipDialog(result.msg);
@@ -258,7 +258,7 @@
                                         var tpl = $("#single-collection-tpl").html();
                                         var html = juicer(tpl, result.data);
                                         $("#my-collections").prepend(html);
-                                        _this.resetCollectionCount();
+                                        _this.resetStatusAPICount();
                                     } else {
                                         var tpl = $("#single-collection-with-ul-tpl").html();
                                         var html = juicer(tpl, result.data);
@@ -613,7 +613,7 @@
             });
         },
 
-        resetCollectionCount: function () {
+        resetStatusAPICount: function () {
             if ($("#my-collections li.my-collection-li") && $("#my-collections li.my-collection-li").length > 0)
                 $("#collection-count-bage").text($("#my-collections li.my-collection-li").length);
             else
@@ -719,7 +719,8 @@
                     });
 
                     if (postDataParams.length == 0) {
-                        delete response.postData;
+                        response['postData'].mimeType = mimeType;
+                        response['postData'].params = [];
                     } else {
                         response['postData'].mimeType = mimeType;
                         response['postData'].params = postDataParams;

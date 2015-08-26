@@ -22,7 +22,7 @@ module.exports = {
     },
 
     //redis config
-    "redis": {"address": "localhost", "port": "6379", "passwd": ""},
+    "redis": {"address": "192.168.100.185", "port": "6379", "passwd": ""},
 
     "mongodb": {
         "address": "mongodb://192.168.100.186:20301/moklr"

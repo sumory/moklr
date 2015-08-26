@@ -1,0 +1,67 @@
+<html>
+<head>
+    <%include meta.ejs%>
+    <title>status monitor</title>
+    <link rel="stylesheet" type="text/css" href="/css/status.css" media="all">
+</head>
+
+<body>
+<%include header.ejs%>
+
+<div class="container" id="main-content">
+    <div class="row">
+        <div class="col-md-2" id="left-row">
+
+            <div class="row">
+                <div class="col-md-6" style="padding-left: 0px;padding-right: 0px;">
+                    <h4 style="margin-top:0px;">Status APIs </h4>
+                </div>
+                <div class="col-md-3" style="padding-left: 0px;">
+                    <span style="margin-top: 3px;" class="badge" id="status-api-count-bage"></span>
+                </div>
+                <div class="col-md-1" style="padding-right: 0px;">
+                    <button type="button" class="btn btn-default btn-xs" id="createStatusAPIBtn" style="margin-top: 3px;">
+                        <span class="glyphicon glyphicon-plus-sign" style="top:0px;" aria-hidden="true"></span>
+                    </button>
+                </div>
+            </div>
+
+
+            <div class="row" id="status-apis-area">
+                <ul class="list" id="status-apis">
+
+                </ul>
+            </div>
+
+
+
+        </div>
+        <div class="col-md-10" id="right-row">
+            <div class="row">
+                <div id="content-left" class="col-md-6">
+
+                </div>
+
+                <div id="content-right" class="col-md-6">
+
+                </div>
+
+            </div>
+
+        </div>
+    </div>
+</div>
+
+
+<%include footer.ejs%>
+<%include status-tpl.ejs%>
+
+<script type="text/javascript" src="/js/common.js"></script>
+<script type="text/javascript" src="/js/status.js"></script>
+<script>
+    $(document).ready(function() {
+        Moklr.Status.init();
+    });
+</script>
+</body>
+</html>
