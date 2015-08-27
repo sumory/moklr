@@ -6,6 +6,8 @@ var util = require('util');
 var queryString = require('querystring');
 var urlUtil = require('url');
 var async = require('async');
+var request = require("request");
+var config = require("../config");
 
 var logger = require('../lib/log.js').logger('statusRouter');
 
@@ -117,6 +119,11 @@ router.post('/api/modify', commonUtils.checkLoginAjax, function (req, res, next)
     var uid = req.session.user.userId;
     var cron = req.body.cron;
     var monitor = req.body.monitor;
+    if(monitor==true || monitor=='true'){
+        monitor=true;
+    }else{
+        monitor=false;
+    }
 
     try {
         if(isNaN(cron)){
@@ -141,11 +148,41 @@ router.post('/api/modify', commonUtils.checkLoginAjax, function (req, res, next)
                 msg: "修改出错"
             });
         } else {
-            return res.json({
-                success: true,
-                msg: "ok",
-                data: result
+            console.log("开始触发runbot命令", (monitor===true?"start":"stop"), statusAPIId);
+            var options ={
+                "method": "GET",
+                "url": config.runbot+"/" + (monitor===true?"start":"stop") + "?statusAPIId="+statusAPIId
+            };
+
+            request(options, function (error, response, body) {
+                console.log("========");
+                console.dir(error);
+                console.dir(response && (response.statusCode || ""));
+                console.dir(body);
+                console.log("++++++++");
+
+                if(!error&&response && response.statusCode==200){
+                    var r = JSON.parse(body);
+                    if (r.success){
+                        return res.json({
+                            success: true,
+                            msg: "ok",
+                            data: result
+                        });
+                    }else{
+                        return res.json({
+                            success: false,
+                            msg: r.msg
+                        });
+                    }
+                }else{
+                    return res.json({
+                        success: false,
+                        msg: "修改status api成功，但触发执行runbot失败，请检查"
+                    });
+                }
             });
+
         }
     });
 });
@@ -159,6 +196,48 @@ router.post('/api/delete', commonUtils.checkLoginAjax, function (req, res, next)
             return res.json({
                 success: false,
                 msg: "删除status api出错"
+            });
+        } else {
+            return res.json({
+                success: true,
+                msg: "ok",
+                data: result
+            });
+        }
+    });
+});
+
+
+router.get('/api/logs', commonUtils.checkLoginAjax, function (req, res, next) {
+    var statusAPIId = req.query.statusAPIId;
+    var uid = req.session.user.userId;
+    var limit = 100;
+
+    moklrModel.findStatusAPILogs(statusAPIId, limit, function (err, result) {
+        if (err) {
+            return res.json({
+                success: false,
+                msg: "获取status api logs出错"
+            });
+        } else {
+            return res.json({
+                success: true,
+                msg: "ok",
+                data: result
+            });
+        }
+    });
+});
+
+router.post('/api/logs/delete', commonUtils.checkLoginAjax, function (req, res, next) {
+    var statusAPIId = req.body.statusAPIId;
+    var uid = req.session.user.userId;
+
+    moklrModel.deleteStatusAPILogs(uid, statusAPIId, function (err, result) {
+        if (err) {
+            return res.json({
+                success: false,
+                msg: "删除status api logs出错"
             });
         } else {
             return res.json({

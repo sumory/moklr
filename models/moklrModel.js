@@ -51,12 +51,22 @@ var StatusAPISchema = new Schema({
     date: {type: Date, default: Date.now}
 });
 
+//status api 请求响应日志
+var StatusAPILogSchema = new Schema({
+    statusAPIId: {type: String, index: true},
+    userId: {type: String, index: true},
+    statusCode: Number,
+    spent: Number,//耗时
+    response: String,
+    date: {type: Date, default: Date.now}
+});
+
 
 var User = mongoose.model('User', UserSchema, "user");
 var Collection = mongoose.model('Collection', CollectionSchema, "collection");
 var Har = mongoose.model('Har', HarSchema, "har");
 var StatusAPI = mongoose.model('StatusAPI', StatusAPISchema, "status_api");
-
+var StatusAPILog = mongoose.model('StatusAPILog', StatusAPILogSchema, "status_api_log");
 
 //~========== methods =================
 function genId() {
@@ -160,6 +170,9 @@ exports.findHarsOfUser = function (uid, callback) {
     Har.find({userId: uid}).sort({'_id': -1}).exec(callback);
 };
 
+exports.findHar = function (hid, callback) {
+    Har.findOne({harId: hid}).exec(callback);
+};
 
 //查询一个用户的所有status api
 exports.findStatusAPIs = function (uid, callback) {
@@ -168,17 +181,28 @@ exports.findStatusAPIs = function (uid, callback) {
 
 //查找属于某个用户的某个status api
 exports.findStatusAPI = function (uid, statusAPIId, callback) {
-    StatusAPI.findOne({id:statusAPIId, userId: uid}).exec(callback);
+    StatusAPI.findOne({id: statusAPIId, userId: uid}).exec(callback);
 };
 
-exports.findHar = function (hid, callback) {
-    Har.findOne({harId: hid}).exec(callback);
+//查询某个status api的请求响应日志
+exports.findStatusAPILogs = function (apiId, callback) {
+    StatusAPILog.find({statusAPIId: apiId}).sort({'_id': -1}).exec(callback);
+};
+
+//查询某个status api的请求响应日志
+exports.findStatusAPILogs = function (apiId,limit, callback) {
+    StatusAPILog.find({statusAPIId: apiId}).sort({'_id': -1}).limit(limit).exec(callback);
+};
+
+
+//依据时间间隔查询log
+exports.findStatusAPILogsByTime = function (apiId, startTime, stopTime, callback) {
+    StatusAPILog.find({statusAPIId: apiId, date: {"$gte": startTime, "$lte": stopTime}}).sort({'_id': -1}).exec(callback);
 };
 
 
 //删除collection
 exports.deleteCollection = function (uid, cid, callback) {
-
     Collection.remove({userId: uid, collectionId: cid}, function (err, result) {
         if (err) {
             return callback(new Error("删除collection失败"));
@@ -198,6 +222,13 @@ exports.deleteHar = function (uid, hid, callback) {
 exports.deleteStatusAPI = function (uid, statusAPIId, callback) {
     StatusAPI.remove({userId: uid, id: statusAPIId}, callback);
 };
+
+//删除status api logs
+exports.deleteStatusAPILogs = function (uid, statusAPIId, callback) {
+    StatusAPILog.remove({userId: uid, statusAPIId: statusAPIId}, callback);
+};
+
+
 
 //更新har
 exports.updateHar = function (userId, harId, harName, harContent, callback) {
@@ -226,7 +257,7 @@ exports.updateCollection = function (userId, collectionId, newName, callback) {
 //更新status api
 exports.modifyStatusAPI = function (uid, statusAPIId, name, monitor, cron, callback) {
     var conditions = {id: statusAPIId, userId: uid};
-    var update = {$set: {name:name, monitor: monitor,cron:cron, date: Date.now()}};
+    var update = {$set: {name: name, monitor: monitor, cron: cron, date: Date.now()}};
     var options = {upsert: false};
     StatusAPI.update(conditions, update, options, callback);
 };
@@ -347,6 +378,10 @@ function test() {
     //exports.createCollection("db46161c-917a-40d8-b1fd-242e7cc8f4b3", "/test/");
     //exports.createCollection("db46161c-917a-40d8-b1fd-242e7cc8f4b3", "/db/test/");
     //exports.createCollection("db46161c-917a-40d8-b1fd-242e7cc8f4b3", "/lmg/");
+
+    exports.findStatusAPILogsByTime("868c8567-4126-4341-ae8f-50e232fe8602",new Date("2015-08-27 14:20:39"),new Date("2015-08-27 14:40:39"),function(err, result){
+       console.log(err, result);
+    });
 
 }
 

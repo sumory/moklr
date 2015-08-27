@@ -1,12 +1,12 @@
 <html>
 <head>
-    <%include meta.ejs%>
+    <% include meta.ejs %>
     <title>status monitor</title>
     <link rel="stylesheet" type="text/css" href="/css/status.css" media="all">
 </head>
 
 <body>
-<%include header.ejs%>
+<% include header.ejs %>
 
 <div class="container" id="main-content">
     <div class="row">
@@ -20,7 +20,8 @@
                     <span style="margin-top: 3px;" class="badge" id="status-api-count-bage"></span>
                 </div>
                 <div class="col-md-1" style="padding-right: 0px;">
-                    <button type="button" class="btn btn-default btn-xs" id="createStatusAPIBtn" style="margin-top: 3px;">
+                    <button type="button" class="btn btn-default btn-xs" id="createStatusAPIBtn"
+                            style="margin-top: 3px;">
                         <span class="glyphicon glyphicon-plus-sign" style="top:0px;" aria-hidden="true"></span>
                     </button>
                 </div>
@@ -34,17 +35,32 @@
             </div>
 
 
-
         </div>
         <div class="col-md-10" id="right-row">
             <div class="row">
-                <div id="content-left" class="col-md-6">
+                <div id="content-left" class="col-md-10">
 
                 </div>
+            </div>
+            <div class="row" id="logs_row" style="display: none;">
+                <div id="content-right" class="col-md-12">
+                    <div class="container-fluid report-table-container">
+                        <table class="table table-striped table-bordered table-hover datatable" style="font-size:14px;">
+                            <thead>
+                                <tr>
+                                    <th style="width:60px;text-align:center;">Code</th>
+                                    <th style="width:130px;text-align:center;">Spent Time</th>
+                                    <th style="width:220px;text-align:center;">Request Time</th>
+                                    <th>Response</th>
+                                </tr>
+                            </thead>
+                            <tbody id="logs_body">
 
-                <div id="content-right" class="col-md-6">
-
+                            </tbody>
+                        </table>
+                    </div>
                 </div>
+                <!--content-right end-->
 
             </div>
 
@@ -52,14 +68,13 @@
     </div>
 </div>
 
-
-<%include footer.ejs%>
-<%include status-tpl.ejs%>
+<% include footer.ejs %>
+<% include status-tpl.ejs %>
 
 <script type="text/javascript" src="/js/common.js"></script>
 <script type="text/javascript" src="/js/status.js"></script>
 <script>
-    $(document).ready(function() {
+    $(document).ready(function () {
         Moklr.Status.init();
     });
 </script>

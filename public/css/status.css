@@ -61,6 +61,13 @@
 }
 
 
+#right-row a {
+    line-height: 30px;
+    height: 30px;
+    padding: 0 8px;
+}
+
+
 .row{
     margin-left:0px;
 }
@@ -122,4 +129,9 @@ pre code{
 
 .input-group-btn .btn-danger:active,.input-group-btn .btn-danger.active {
     background-image: none
+}
+
+.form-group input, .form-group select{
+    height:30px;
+    line-height:30px;
 }

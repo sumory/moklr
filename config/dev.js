@@ -22,10 +22,13 @@ module.exports = {
     },
 
     //redis config
-    "redis": {"address": "192.168.100.185", "port": "6379", "passwd": ""},
+    //"redis": {"address": "192.168.100.185", "port": "6379", "passwd": ""},
 
     "mongodb": {
         "address": "mongodb://192.168.100.186:20301/moklr"
-    }
+    },
+
+    //请求执行程序地址
+    "runbot": "http://localhost:8002"
 
 };

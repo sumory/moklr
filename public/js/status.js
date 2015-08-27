@@ -11,6 +11,14 @@
 
             //绑定事件
             _this.initStatuAPIOpsEnvent();
+
+            juicer.register("momentFormat", _this.momentFormat);
+
+            $("body").on("click", ".api_response", function(){
+               // console.log("fsdfs")
+            });
+
+            $('[data-toggle="tooltip"]').tooltip();
         },
 
         initStatuAPIOpsEnvent: function () {
@@ -76,6 +84,94 @@
 
             });
 
+            //是否显示har
+            $("body").on("click", "#showHarBtn", function () {
+                if($("#previewHar").css("display")=="none"){
+                    $("#previewHar").css("display","block");
+                }else{
+                    $("#previewHar").css("display", "none");
+                }
+
+            });
+
+            //显示log
+            $("body").on("click", "#logsStatusAPIBtn", function () {
+                var statusAPIId = $("#edit_status_api_id").val();
+                if(!statusAPIId){
+                    _this.showTipDialog("Waning", "cannot find status api!");
+                    return;
+                }
+
+                $.ajax({
+                    type: "get",
+                    url: "/status/api/logs",
+                    data: {
+                        statusAPIId: statusAPIId
+                    },
+                    success: function (result) {
+                        if (result.success) {
+                            var tpl = $("#log-body-tpl").html();
+                            var data ={
+                                logs:result.data
+                            };
+                            var html = juicer(tpl, data);
+                            $("#logs_body").html(html);
+                            $("#logs_row").show();
+                        } else {
+                            _this.showTipDialog("Error", result.msg);
+                        }
+                    },
+                    error: function () {
+                        _this.showTipDialog("Error", "get status api logs request exception");
+                    }
+                });
+            });
+
+
+            //删除所有日志记录
+            $("body").on("click", "#deleteStatusAPILogsBtn", function () {
+                var statusAPIId = $("#edit_status_api_id").val();
+                if(!statusAPIId){
+                    _this.showTipDialog("Waning", "cannot find status api to delete!");
+                    return;
+                }
+
+                var d = dialog({
+                    title: 'Warning',
+                    fixed:true,
+                    content: 'Sure to delete all logs of this status api?',
+                    okValue: 'Delete',
+                    ok: function () {
+                        this.title('Committing…');
+                        $.ajax({
+                            type: "post",
+                            url: "/status/api/logs/delete",
+                            data: {
+                                statusAPIId: statusAPIId
+                            },
+                            success: function (result) {
+                                d.close();
+                                if (result.success) {
+                                    $("#logs_body").html("");
+                                } else {
+                                    _this.showTipDialog("Error", result.msg);
+                                }
+                            },
+                            error: function () {
+                                d.close();
+                                _this.showTipDialog("Error", "delete logs request exception");
+                            }
+                        });
+                        return false;
+                    },
+                    cancelValue: 'Cancel',
+                    cancel: function () {
+                    }
+                });
+                d.showModal();
+                $("div[role=alertdialog").css("top","260px");
+            });
+
 
             //删除status api按钮
             $("#status-apis-area").on("click", "button.deleteStatusAPI", function () {
@@ -120,6 +216,7 @@
 
             //点击每个status api连接
             $("#status-apis-area").on("click", "#status-apis li a.status-api-a", function () {
+                $("#logs_body").html("");
                 var statusAPIId = $(this).attr("data-id");
                 $.ajax({
                     type: "GET",
@@ -350,6 +447,10 @@
             var second = now.getSeconds();
             if (second < 10) second = "0" + second;
             return year + "-" + month + "-" + date + " " + hour + ":" + minute + ":" + second;
+        },
+
+        momentFormat: function(originDate){
+            return moment(originDate).format("YYYY-MM-DD HH:mm:ss");
         }
 
     };
