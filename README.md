@@ -14,7 +14,7 @@ moklr定位于http请求代码生成，自动化测试，API status服务等test
 
 ### usage
 
-1. 依赖于mongodb和redis(在下一小版本中将去除redis依赖)
+1. 依赖于mongodb
 2. checkout代码并运行
 
 	```
