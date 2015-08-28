@@ -51,7 +51,7 @@
     margin: 8px 0;
 }
 #my-collections .collection-hars a{
-    font-size:14px;
+    font-size:13px;
     font-family: "News Cycle","Arial Narrow Bold",sans-serif;
     font-weight: 600;
     line-height: 20px;
@@ -67,6 +67,7 @@
 #my-collections a.my-collection-a {
     font-family: "News Cycle","Arial Narrow Bold",sans-serif;
     font-weight: 700;
+    font-size:14px;
     line-height: 20px;
     color: #000000;
     padding-left:0;
