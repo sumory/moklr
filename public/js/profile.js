@@ -49,10 +49,10 @@
             });
 
 
-            $("#my-collections-area").on("click", "button.editCollection", function () {
+            $("#my-collections-area").on("click", "a.editCollection", function () {
                 var c = {
-                    id: $(this).parent().parent().attr("data-id"),
-                    name: $(this).parent().parent().attr("data-name")
+                    id: $(this).parent().parent().parent().parent().parent().attr("data-id"),
+                    name: $(this).parent().parent().parent().parent().parent().attr("data-name")
                 };
 
                 var tpl = $("#edit-collection-tpl").html();
@@ -103,10 +103,10 @@
             });
 
             //导入collection按钮事件
-            $("#my-collections-area").on("click", "button.importCollection", function () {
+            $("#my-collections-area").on("click", "a.importCollection", function () {
                 var c = {
-                    id: $(this).parent().parent().attr("data-id"),
-                    name: $(this).parent().parent().attr("data-name")
+                    id: $(this).parent().parent().parent().parent().parent().attr("data-id"),
+                    name: $(this).parent().parent().parent().parent().parent().attr("data-name")
                 };
 
                 var tpl = $("#import-collection-tpl").html();
@@ -166,9 +166,9 @@
             });
 
             //删除collection按钮
-            $("#my-collections-area").on("click", "button.deleteCollection", function () {
+            $("#my-collections-area").on("click", "a.deleteCollection", function () {
                 var thisBtn = $(this);
-                var toDeleteCollectionId = $(this).attr("data-id");
+                var toDeleteCollectionId =   $(this).parent().parent().parent().parent().parent().attr("data-id");
                 var d = dialog({
                     title: 'Warning',
                     content: 'sure to delete this collection?',

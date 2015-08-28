@@ -88,6 +88,7 @@ span.input-group-btn button.btn {
 
 #preview_code {
     margin-top: 20px;
+    max-height:600px;
 }
 
 #codeArea {
@@ -163,4 +164,15 @@ form[name=postData-params] {
 .form-control[disabled], .form-control[readonly], fieldset[disabled] .form-control {
     background-color: #F9F9F9;
     opacity: 1;
+}
+
+.form-control{
+    font-size:14px;
+}
+.btn{
+    font-size:14px;
+}
+.dropdown-menu{
+    font-size:12px;
+    min-width:50px;
 }

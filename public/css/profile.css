@@ -20,12 +20,12 @@
 #my-collections li {
     position: relative;
     padding-bottom: 0px;
-    font-size:16px;
+    /*font-size:16px;*/
     margin-bottom:2px;
 }
 
 #my-collections li .collection-name{
-    width: 100px;
+    width: 180px;
     display: inline-block;
     background-image: url(data:image/png;base64,iVBORw0KGgoAAAANSUhEUgAAABAAAAAQBAMAAADt3eJSAAAAFVBMVEX///9wcHBwcHBwcHBwcHBwcHBwcHA3RenHAAAABnRSTlMAZoiZzN091q78AAAAH0lEQVQIW2NgIA44wxhqAlAGcyJMKAxdBK7GCUoTDwCd9gIQsibF/QAAAABJRU5ErkJggg==);
     background-repeat: no-repeat;
@@ -35,9 +35,12 @@
 
 #my-collections li .collection-ops{
     display: none;
-    width: 90px;
-    margin-right: 0px;
+    /*width: 90px;*/
+    /*margin-right: 0px;*/
     height:17px;
+    right: 3px;
+    top: 2px;
+    position: absolute;
 }
 
 #my-collections li .collection-ops button span{

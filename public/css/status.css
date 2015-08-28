@@ -37,8 +37,8 @@
     display: none;
     height:17px;
     position: absolute;
-    top:2px;
-    right:4px;
+    top:3px;
+    right:3px;
 }
 
 #status-apis li .status-api-ops button span{

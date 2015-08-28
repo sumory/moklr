@@ -7,6 +7,11 @@ router.get('/login', function (req, res, next) {
     res.render('login');
 });
 
+router.get('/logout', function (req, res, next) {
+    req.session.destroy();
+    res.render('login');
+});
+
 router.post('/login', function (req, res, next) {
     try {
         var password = req.body.password.trim();

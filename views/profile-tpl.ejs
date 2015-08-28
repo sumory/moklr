@@ -428,15 +428,19 @@
                 </div>
 
                 <div class="collection-ops">
-                    <button type="button" data-id="${c.collectionId}" class="btn btn-default btn-xs editCollection">
-                        <span class="glyphicon glyphicon-pencil" aria-hidden="true" aria-label="edit"></span>
-                    </button>
-                    <button type="button" data-id="${c.collectionId}" class="btn btn-default btn-xs importCollection">
-                        <span class="glyphicon glyphicon-import" aria-hidden="true" aria-label="import"></span>
-                    </button>
-                    <button type="button" data-id="${c.collectionId}" data-name="${c.name}" class="btn btn-default btn-xs deleteCollection">
-                        <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" aria-label="delete"></span>
-                    </button>
+
+                    <div class="dropdown" style="display:inline-block;">
+                        <button id="dropdown-button-${c.collectionId}"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" type="button" class="btn btn-default btn-xs">
+                            <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                        </button>
+
+                        <ul class="dropdown-menu" aria-labelledby="dropdown-button-${c.collectionId}">
+                            <li><a href="javascript:void(0);" data-id="${c.collectionId}" class="editCollection">Edit</a></li>
+                            <li><a href="javascript:void(0);" data-id="${c.collectionId}" class="importCollection">Import</a></li>
+                            <li><a href="javascript:void(0);" data-id="${c.collectionId}" class="deleteCollection">Delete</a></li>
+                        </ul>
+                    </div>
+
                 </div>
             </li>
         {@/each}
@@ -451,15 +455,26 @@
         </div>
 
         <div class="collection-ops">
-            <button type="button" data-id="${collectionId}" class="btn btn-default btn-xs editCollection">
-                <span class="glyphicon glyphicon-pencil" aria-hidden="true" aria-label="edit"></span>
-            </button>
-            <button type="button" data-id="${collectionId}" class="btn btn-default btn-xs importCollection">
-                <span class="glyphicon glyphicon-import" aria-hidden="true" aria-label="import"></span>
-            </button>
-            <button type="button" data-id="${collectionId}" data-name="${name}" class="btn btn-default btn-xs deleteCollection">
-                <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" aria-label="delete"></span>
-            </button>
+            <div class="dropdown" style="display:inline-block;">
+                <button id="dropdown-button-${collectionId}"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" type="button" class="btn btn-default btn-xs">
+                    <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                </button>
+
+                <ul class="dropdown-menu" aria-labelledby="dropdown-button-${collectionId}">
+                    <li><a href="javascript:void(0);" data-id="${collectionId}" class="editCollection">Edit</a></li>
+                    <li><a href="javascript:void(0);" data-id="${collectionId}" class="importCollection">Import</a></li>
+                    <li><a href="javascript:void(0);" data-id="${collectionId}" class="deleteCollection">Delete</a></li>
+                </ul>
+            </div>
+            <!--<button type="button" data-id="${collectionId}" class="btn btn-default btn-xs editCollection">-->
+                <!--<span class="glyphicon glyphicon-pencil" aria-hidden="true" aria-label="edit"></span>-->
+            <!--</button>-->
+            <!--<button type="button" data-id="${collectionId}" class="btn btn-default btn-xs importCollection">-->
+                <!--<span class="glyphicon glyphicon-import" aria-hidden="true" aria-label="import"></span>-->
+            <!--</button>-->
+            <!--<button type="button" data-id="${collectionId}" data-name="${name}" class="btn btn-default btn-xs deleteCollection">-->
+                <!--<span class="glyphicon glyphicon-remove-sign" aria-hidden="true" aria-label="delete"></span>-->
+            <!--</button>-->
         </div>
     </li>
 </script>
@@ -473,15 +488,17 @@
             </div>
 
             <div class="collection-ops">
-                <button type="button" data-id="${collectionId}" class="btn btn-default btn-xs editCollection">
-                    <span class="glyphicon glyphicon-pencil" aria-hidden="true" aria-label="edit"></span>
-                </button>
-                <button type="button" data-id="${collectionId}" class="btn btn-default btn-xs importCollection">
-                    <span class="glyphicon glyphicon-import" aria-hidden="true" aria-label="import"></span>
-                </button>
-                <button type="button" data-id="${collectionId}" data-name="${name}" class="btn btn-default btn-xs deleteCollection">
-                    <span class="glyphicon glyphicon-remove-sign" aria-hidden="true" aria-label="delete"></span>
-                </button>
+                <div class="dropdown" style="display:inline-block;">
+                    <button id="dropdown-button-${collectionId}"  data-toggle="dropdown" aria-haspopup="true" aria-expanded="false" type="button" class="btn btn-default btn-xs">
+                        <span class="glyphicon glyphicon-cog" aria-hidden="true"></span>
+                    </button>
+
+                    <ul class="dropdown-menu" aria-labelledby="dropdown-button-${collectionId}">
+                        <li><a href="javascript:void(0);" data-id="${collectionId}" class="editCollection">Edit</a></li>
+                        <li><a href="javascript:void(0);" data-id="${collectionId}" class="importCollection">Import</a></li>
+                        <li><a href="javascript:void(0);" data-id="${collectionId}" class="deleteCollection">Delete</a></li>
+                    </ul>
+                </div>
             </div>
         </li>
     </ul>

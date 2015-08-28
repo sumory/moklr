@@ -1,6 +1,9 @@
 var path = require('path');
 
 // 通过NODE_ENV设置环境变量，默认为dev环境
+if(process.env.NODE_ENV && process.env.NODE_ENV=="development"){
+	process.env.NODE_ENV = 'dev';
+}
 var env = process.env.NODE_ENV || 'dev';
 env = env.toLowerCase();
 
