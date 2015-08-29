@@ -179,6 +179,7 @@
                 var toDeleteStatusAPIId = $(this).attr("data-id");
                 var d = dialog({
                     title: 'Warning',
+                    fixed:true,
                     content: 'Sure to delete this status api?',
                     okValue: 'Delete',
                     ok: function () {
@@ -280,6 +281,7 @@
 
             var d = dialog({
                 title: 'Create New Status API',
+                fixed:true,
                 content: html,
                 okValue: 'Create',
                 width: 450,
