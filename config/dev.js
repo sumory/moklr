@@ -29,13 +29,13 @@ module.exports = {
     //redis config
     //"redis": {"address": "192.168.100.185", "port": "6379", "passwd": ""},
 
-    "mongodb": {
-        "address": "mongodb://192.168.100.186:20301/moklr"
+    mongodb: {
+        address: "mongodb://192.168.100.186:20301/moklr"
     },
 
     //moklr的status服务需要runbot来做指定http api的定期check，若不需要status服务可不开启此功能
     //runbot服务需单独部署，详见https://github.com/sumory/runbot
-    "runbot": {
+    runbot: {
         on: true,//是否开启runbot支持
         address:"http://localhost:8002"//若on为true，即开启runbot服务，这里配置runbot服务的http地址
     }
