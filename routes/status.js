@@ -84,7 +84,7 @@ router.post('/api/create', commonUtils.checkLoginAjax, function (req, res, next)
     var monitor = req.body.monitor;
 
     try {
-        if(isNaN(cron)){
+        if (isNaN(cron)) {
             return res.json({
                 success: false,
                 msg: "cron must be number"
@@ -119,14 +119,14 @@ router.post('/api/modify', commonUtils.checkLoginAjax, function (req, res, next)
     var uid = req.session.user.userId;
     var cron = req.body.cron;
     var monitor = req.body.monitor;
-    if(monitor==true || monitor=='true'){
-        monitor=true;
-    }else{
-        monitor=false;
+    if (monitor == true || monitor == 'true') {
+        monitor = true;
+    } else {
+        monitor = false;
     }
 
     try {
-        if(isNaN(cron)){
+        if (isNaN(cron)) {
             return res.json({
                 success: false,
                 msg: "cron must be number"
@@ -148,41 +148,47 @@ router.post('/api/modify', commonUtils.checkLoginAjax, function (req, res, next)
                 msg: "修改出错"
             });
         } else {
-            console.log("开始触发runbot命令", (monitor===true?"start":"stop"), statusAPIId);
-            var options ={
-                "method": "GET",
-                "url": config.runbot+"/" + (monitor===true?"start":"stop") + "?statusAPIId="+statusAPIId
-            };
+            if (config.runbot.on) {//开启了status服务（定期请求并记录日志）
+                console.log("开始触发runbot命令", (monitor === true ? "start" : "stop"), statusAPIId);
+                var options = {
+                    "method": "GET",
+                    "url": config.runbot.address + "/" + (monitor === true ? "start" : "stop") + "?statusAPIId=" + statusAPIId
+                };
 
-            request(options, function (error, response, body) {
-                console.log("========");
-                console.dir(error);
-                console.dir(response && (response.statusCode || ""));
-                console.dir(body);
-                console.log("++++++++");
+                request(options, function (error, response, body) {
+                    console.log("========");
+                    console.log("error: ", error);
+                    console.log("response: ", response && (response.statusCode || ""));
+                    console.log("++++++++");
 
-                if(!error&&response && response.statusCode==200){
-                    var r = JSON.parse(body);
-                    if (r.success){
-                        return res.json({
-                            success: true,
-                            msg: "ok",
-                            data: result
-                        });
-                    }else{
+                    if (!error && response && response.statusCode == 200) {
+                        var r = JSON.parse(body);
+                        if (r.success) {
+                            return res.json({
+                                success: true,
+                                msg: "ok",
+                                data: result
+                            });
+                        } else {
+                            return res.json({
+                                success: false,
+                                msg: r.msg
+                            });
+                        }
+                    } else {
                         return res.json({
                             success: false,
-                            msg: r.msg
+                            msg: "修改status api成功，但触发执行runbot失败，请检查"
                         });
                     }
-                }else{
-                    return res.json({
-                        success: false,
-                        msg: "修改status api成功，但触发执行runbot失败，请检查"
-                    });
-                }
-            });
-
+                });
+            } else {
+                return res.json({
+                    success: true,
+                    msg: "ok",
+                    data: result
+                });
+            }
         }
     });
 });

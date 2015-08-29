@@ -113,7 +113,7 @@
                 var html = juicer(tpl, c);
 
                 var d = dialog({
-                    title: 'Import to Collection',
+                    title: 'Import to Collection from Postman(a Chrome extension)',
                     content: html,
                     width: 550,
                     okValue: 'Import',

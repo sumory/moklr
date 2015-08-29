@@ -7,12 +7,12 @@ var queryString = require('querystring');
 var urlUtil = require('url');
 var async = require('async');
 
-var logger = require('../lib/log.js').logger('userRouter');
+var logger = require('../lib/log.js').logger('postmanRouter');
 
 //去往用户首页
 router.get('/profile', commonUtils.checkLogin, function (req, res, next) {
     var uid = req.session.user.userId;
-    res.render("profile");
+    res.render("postman");
 
     //moklrModel.findCollections(uid, function (err, cs) {
     //    res.render('profile', {
@@ -340,13 +340,13 @@ router.post('/collection/delete', commonUtils.checkLoginAjax, function (req, res
     });
 });
 
-
+//test api
 router.post('/save', function (req, res, next) {
     var name = req.body.name;
     var age = req.body.age;
     var sex = req.body.sex;
 
-    console.log(name, age, sex)
+    console.log(name, age, sex);
 
     return res.json({
         name: name,

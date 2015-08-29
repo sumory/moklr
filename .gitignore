@@ -1,3 +1,4 @@
 *.log
 .idea
 node_modules
+config/heroku.js

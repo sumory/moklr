@@ -11,7 +11,7 @@ var config = require('./config');
 
 var app = express();
 app.set('env', config.env);
-app.set('port', config.port);
+app.set('port', process.env.PORT||config.port);
 app.set('views', config.views);
 app.set('view engine', config.viewEngine);
 app.use(expressSession({

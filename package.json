@@ -4,7 +4,7 @@
   "author": "sumory.wu",
   "private": true,
   "scripts": {
-    "start": "node app.js"
+    "start": "node index.js"
   },
   "dependencies": {
     "express": "4.13.3",

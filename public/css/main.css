@@ -172,7 +172,21 @@ form[name=postData-params] {
 .btn{
     font-size:14px;
 }
-.dropdown-menu{
+
+#main-content .dropdown-menu{
     font-size:12px;
     min-width:50px;
+}
+
+.logo{
+ padding-top:10px;
+}
+.logo .logo-a{
+    line-height: 40px;
+    height: 40px;
+    color: #272636;
+}
+.logo .logo-a img{
+    height: 40px;
+    vertical-align: top;
 }
