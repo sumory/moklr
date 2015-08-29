@@ -5,7 +5,7 @@ moklr定位于http请求代码生成，自动化测试，API status服务等test
 
 ### Demo
 
-[heroku moklr](https://still-peak-9538.herokuapp.com)
+[heroku moklr](https://still-peak-9538.herokuapp.com),  账号：test/123456
 
 ### Features
 
