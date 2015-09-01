@@ -1,0 +1,88 @@
+<!doctype html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <meta http-equiv="X-UA-Compatible" content="chrome=1">
+    <title>Moklr by sumory</title>
+
+    <link rel="stylesheet" href="stylesheets/styles.css">
+    <link rel="stylesheet" href="stylesheets/github-light.css">
+    <meta name="viewport" content="width=device-width, initial-scale=1, user-scalable=no">
+    <!--[if lt IE 9]>
+    <script src="//html5shiv.googlecode.com/svn/trunk/html5.js"></script>
+    <![endif]-->
+  </head>
+  <body>
+    <div class="wrapper">
+      <header>
+        <h1>Moklr</h1>
+        <p>another &quot;postman&quot;, status server, http request mock</p>
+
+        <p class="view"><a href="https://github.com/sumory/moklr">View the Project on GitHub <small>sumory/moklr</small></a></p>
+
+
+        <ul>
+          <li><a href="https://github.com/sumory/moklr/zipball/master">Download <strong>ZIP File</strong></a></li>
+          <li><a href="https://github.com/sumory/moklr/tarball/master">Download <strong>TAR Ball</strong></a></li>
+          <li><a href="https://github.com/sumory/moklr">View On <strong>GitHub</strong></a></li>
+        </ul>
+      </header>
+      <section>
+        <h2>
+<a id="moklr" class="anchor" href="#moklr" aria-hidden="true"><span class="octicon octicon-link"></span></a>Moklr</h2>
+
+<p>moklr定位于http请求代码生成，自动化测试，API status服务等test/development辅助功能，此外还可能集成文档服务，目前仍在持续开发中。</p>
+
+<h3>
+<a id="demo" class="anchor" href="#demo" aria-hidden="true"><span class="octicon octicon-link"></span></a>Demo</h3>
+
+<p><a href="https://still-peak-9538.herokuapp.com">heroku moklr</a></p>
+
+<h3>
+<a id="features" class="anchor" href="#features" aria-hidden="true"><span class="octicon octicon-link"></span></a>Features</h3>
+
+<ul>
+<li>[X] postman替代品，支持postaman数据(collection级别)直接导入</li>
+<li>[X] http请求代码生成，支持常见的多种语言(js/java/go/python/shell/ruby等等)</li>
+<li>[X] API status检查(需<a href="https://github.com/sumory/runbot">runbot</a>支持)</li>
+<li>[ ] 批量测试case</li>
+<li>[ ] 测试文档和API文档生成</li>
+</ul>
+
+<h3>
+<a id="usage" class="anchor" href="#usage" aria-hidden="true"><span class="octicon octicon-link"></span></a>Usage</h3>
+
+<ol>
+<li>依赖于mongodb，需提前安装</li>
+<li>
+<p>运行</p>
+
+<pre><code>git clone https://github.com/sumory/moklr.git
+cd moklr
+npm install .
+
+#根据具体情况修改config配置,配置位于config目录下
+
+#选择config目录下的test.js这个配置启动
+NODE_ENV=test node index.js
+
+#访问http://localhost:8001
+</code></pre>
+</li>
+</ol>
+
+<h3>
+<a id="screenshots" class="anchor" href="#screenshots" aria-hidden="true"><span class="octicon octicon-link"></span></a>Screenshots</h3>
+
+<p><img src="https://github.com/sumory/moklr/raw/master/assets/postman.png" alt="">
+<img src="https://github.com/sumory/moklr/raw/master/assets/status.png" alt=""></p>
+      </section>
+      <footer>
+        <p>This project is maintained by <a href="https://github.com/sumory">sumory</a></p>
+        <p><small>Hosted on GitHub Pages &mdash; Theme by <a href="https://github.com/orderedlist">orderedlist</a></small></p>
+      </footer>
+    </div>
+    <script src="javascripts/scale.fix.js"></script>
+    
+  </body>
+</html>
